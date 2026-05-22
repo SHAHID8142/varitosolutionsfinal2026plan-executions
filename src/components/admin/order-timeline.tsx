@@ -2,13 +2,26 @@
  * @file order-timeline.tsx
  * @description Vertical timeline showing the history of an order.
  *              Displays status changes, timestamps, and optional admin notes.
+ *              Updated with granular e-commerce workflow icons.
  *
  * @owner    Gemini Design Agent
  * @updated  2026-05-22
  */
 
 import * as React from "react"
-import { CheckCircle2, Clock, Truck, Package, XCircle, RotateCcw, User } from "lucide-react"
+import { 
+  CheckCircle2, 
+  Clock, 
+  Truck, 
+  Package, 
+  XCircle, 
+  RotateCcw, 
+  User, 
+  ClipboardCheck,
+  MapPin,
+  AlertCircle,
+  CircleDollarSign
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 import { type OrderStatus } from "./order-status-badge"
 
@@ -29,23 +42,31 @@ interface OrderTimelineProps {
   className?: string
 }
 
-const STATUS_ICONS = {
+const STATUS_ICONS: Record<string, React.ElementType> = {
   pending: Clock,
-  confirmed: CheckCircle2,
-  shipped: Truck,
-  delivered: Package,
+  approved: CheckCircle2,
+  packing: Package,
+  shipping: Truck,
+  handover: MapPin,
+  delivered: ClipboardCheck,
+  not_received: AlertCircle,
   cancelled: XCircle,
   returned: RotateCcw,
+  refunded: CircleDollarSign,
   note: User,
 }
 
-const STATUS_COLORS = {
+const STATUS_COLORS: Record<string, string> = {
   pending: "text-amber-500 bg-amber-50 border-amber-100",
-  confirmed: "text-blue-500 bg-blue-50 border-blue-100",
-  shipped: "text-purple-500 bg-purple-50 border-purple-100",
+  approved: "text-blue-500 bg-blue-50 border-blue-100",
+  packing: "text-cyan-500 bg-cyan-50 border-cyan-100",
+  shipping: "text-purple-500 bg-purple-50 border-purple-100",
+  handover: "text-indigo-500 bg-indigo-50 border-indigo-100",
   delivered: "text-emerald-500 bg-emerald-50 border-emerald-100",
+  not_received: "text-orange-500 bg-orange-50 border-orange-100",
   cancelled: "text-red-500 bg-red-50 border-red-100",
   returned: "text-gray-500 bg-gray-50 border-gray-100",
+  refunded: "text-pink-500 bg-pink-50 border-pink-100",
   note: "text-gray-900 bg-gray-100 border-gray-200",
 }
 

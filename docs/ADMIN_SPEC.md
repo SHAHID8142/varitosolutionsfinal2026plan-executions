@@ -56,16 +56,28 @@ Two roles. All permissions enforced server-side — never trust the client.
 ---
 
 ### 2. Orders (`/admin/orders`)
-**Purpose:** Manage the full order lifecycle
+**Purpose:** Manage the full order lifecycle with granular logistics pipeline
+
+**Workflow Pipeline (Tabs):**
+- **All Orders:** Complete database view
+- **Pending:** New orders awaiting initial verification
+- **Approved:** Verified orders moved to warehouse queue
+- **Packing:** Currently being picked/packed/labelled
+- **Shipping:** Handed over to courier, in-transit
+- **Handover:** Out for final delivery with local agent
+- **Delivered:** Successfully completed deliveries
+- **Not Received:** Failed delivery attempts (customer unreachable/absent)
+- **Cancelled:** Voided or customer-requested cancellations
+- **Return:** Items returned to origin (RTO processing)
+- **Refund:** Processed monetary refunds
 
 **List view features:**
-- Filter by: status, payment method, payment status, date range, district
-- Search by: order number, customer phone, customer name
-- Sort by: newest, oldest, amount high/low
-- Bulk actions: mark as confirmed, mark as shipped, print selected
-- Quick status update (dropdown inline — no page reload)
-- Export to CSV (date range)
-- Pagination (20 per page, cursor-based)
+- **Tab-based Navigation:** Switch between workflow stages instantly
+- **Contextual Actions:** Three-dot menu changes items based on the active tab (e.g., "Approve" in Pending, "Handover" in Packing)
+- **Courier Trust Scorecard:** Integration with courier partner APIs (RedX/Pathao) to show customer's delivery success rate and trust level before approving
+- **Search by:** Order number, customer phone, customer name
+- **Export to CSV:** Stage-specific or bulk export
+- **Pagination:** 20 per page, responsive table with sticky headers
 
 **Order detail (`/admin/orders/[id]`):**
 - Full order info: items, prices, address, payment

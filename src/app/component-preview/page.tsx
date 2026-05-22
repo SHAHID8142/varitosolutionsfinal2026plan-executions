@@ -442,8 +442,8 @@ export default function ComponentPreviewPage() {
               <span className="text-xs text-gray-400 mb-4 block">Order Status Badges</span>
               <div className="flex flex-wrap gap-4">
                 <OrderStatusBadge status="pending" />
-                <OrderStatusBadge status="confirmed" />
-                <OrderStatusBadge status="shipped" />
+                <OrderStatusBadge status="approved" />
+                <OrderStatusBadge status="shipping" />
                 <OrderStatusBadge status="delivered" />
                 <OrderStatusBadge status="cancelled" />
                 <OrderStatusBadge status="returned" />
@@ -456,7 +456,7 @@ export default function ComponentPreviewPage() {
                 <OrderTimeline 
                   events={[
                     { status: "pending", title: "Order Placed", description: "Customer placed the order.", timestamp: "10:30 AM", user: "System" },
-                    { status: "confirmed", title: "Confirmed", description: "Order confirmed by staff.", timestamp: "11:15 AM", user: "Staff" },
+                    { status: "approved", title: "Confirmed", description: "Order confirmed by staff.", timestamp: "11:15 AM", user: "Staff" },
                     { status: "note", title: "Staff Note", description: "Customer requested extra packaging.", timestamp: "11:20 AM", user: "Staff" }
                   ]} 
                 />

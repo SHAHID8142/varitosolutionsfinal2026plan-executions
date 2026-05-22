@@ -28,6 +28,7 @@
 | `[x]` | EmptyState | `empty-state.tsx` | States | Icon + title + description + CTA |
 | `[x]` | Toast | `toast.tsx` | Feedback | success, error, info (using sonner) |
 | `[x]` | Breadcrumb | `breadcrumb.tsx` | Navigation | Standard breadcrumb trail |
+| `[x]` | Tabs | `tabs.tsx` | Navigation | Granular workflow navigation |
 
 ## Shop Components (`src/components/shop/`)
 
