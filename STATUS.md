@@ -9,16 +9,16 @@
 
 ## 🔴 Current Phase
 
-**PHASE: 1 — PLANNING COMPLETE, BUILD NOT STARTED**  
-**Next Action: Register domain → Set up Next.js project → Gemini agent builds component library**
+**PHASE: 1 → 2 — NEXT.JS PROJECT INITIALIZED, READY TO BUILD**  
+**Next Action: Connect repo to Cloudflare Pages → Fill .env.local → Gemini agent builds component library**
 
 ---
 
 ## 📅 Last Updated
 
 - **Date:** 2026-05-22
-- **Updated by:** Initial setup (human + Antigravity AI)
-- **Session summary:** All planning docs created, GitHub repo live
+- **Updated by:** Antigravity (Inspector)
+- **Session summary:** Next.js 16 project initialized and pushed to GitHub. TypeScript ✅ Lint ✅
 
 ---
 
@@ -63,6 +63,7 @@
 - [x] All free accounts created (GitHub, Cloudflare, Neon, Brevo, aamarPay, PostHog, Supabase, R2)
 - [x] Social media accounts created
 - [x] Legal documentation collected (Trade License, e-TIN)
+- [x] **Next.js 16.2.6 project initialized** (React 19, Tailwind v4, TypeScript strict, App Router, src/dir)
 
 ---
 
@@ -71,7 +72,10 @@
 ### Immediate (This Week)
 - [ ] Register domain (Namecheap/Porkbun)
 - [ ] Point domain to Cloudflare nameservers
-- [ ] Initialize Next.js project in the repo
+- [x] ~~Initialize Next.js project in the repo~~ ✅ Done
+- [ ] Connect GitHub repo to Cloudflare Pages (auto-deploy on push)
+- [ ] Create `.env.local` with all API keys (see docs/ENV_VARS.md)
+- [ ] Create Neon DB project named `varito-production`
 
 ### Phase 2 — Build (After Domain)
 - [ ] Next.js project setup with all dependencies
@@ -102,7 +106,9 @@
 | Blocker | Impact | Owner |
 |---------|--------|-------|
 | Domain not registered | Can't set up Cloudflare/SSL | Human (user) |
-| Next.js project not initialized | Agents can't start building | Human (user) |
+| Cloudflare Pages not connected | No auto-deploy on push | Human (user) |
+| `.env.local` not filled | Agents can't connect to DB/auth/payments | Human (user) |
+| Neon DB not created | Claude can't run migrations | Human (user) |
 
 ---
 
