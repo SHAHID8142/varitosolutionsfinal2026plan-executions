@@ -74,6 +74,7 @@
 - [ ] `[GEMINI]` Admin dashboard (`/admin`) — stats cards, revenue overview, pending orders, low stock alerts
 - [ ] `[GEMINI]` Admin orders list (`/admin/orders`) — table with filter, search, sort, inline status update
 - [ ] `[GEMINI]` Admin order detail (`/admin/orders/[id]`) — full details, timeline, notes, print invoice
+- [ ] `[GEMINI]` **Invoice & Label Printing** — A4 Customer Invoice component + Thermal Courier Barcode component
 - [ ] `[GEMINI]` Admin products list (`/admin/products`) — table with quick stock/price edit, low stock highlight
 - [ ] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
 - [ ] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
@@ -126,7 +127,7 @@
 - [ ] `[CLAUDE]` `GET/PATCH/DELETE /api/admin/products/[id]` — get + update + soft delete
 - [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/restore` — restore deleted product
 - [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/stock` — quick stock adjustment
-- [ ] `[CLAUDE]` `POST /api/admin/upload` — R2 image upload (max 5MB, JPEG/PNG/WebP)
+- [ ] `[CLAUDE]` `POST /api/admin/upload` — R2 image upload WITH `sharp` compression (WebP, max 1200px)
 - [ ] `[CLAUDE]` `GET/POST/PATCH/DELETE /api/admin/categories` — category CRUD + reorder
 - [ ] `[CLAUDE]` `GET /api/admin/customers` — list customers
 - [ ] `[CLAUDE]` `GET /api/admin/customers/[id]` — customer detail + order history
