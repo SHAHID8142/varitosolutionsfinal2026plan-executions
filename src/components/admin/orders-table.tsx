@@ -2,6 +2,7 @@
  * @file orders-table.tsx
  * @description Advanced tab-based order management system with contextual actions.
  *              Includes courier partner customer scorecard for trust verification.
+ *              Optimized for high-volume processing with advanced filters and sorting.
  *
  * @owner    Gemini Design Agent
  * @updated  2026-05-22
@@ -32,7 +33,9 @@ import {
   ExternalLink,
   ShieldCheck,
   ShieldAlert,
-  History
+  History,
+  Filter,
+  Check
 } from "lucide-react"
 import { 
   OrderStatusBadge, 
@@ -80,45 +83,34 @@ interface Order {
   courierTrust?: CourierTrust
 }
 
-const MOCK_ORDERS: Order[] = [
-  { 
-    id: "VR-2026-0001", 
-    customer: "Karim Ahmed", 
-    phone: "01711122233", 
-    date: "2026-05-22 10:30", 
-    total: 4500, 
-    status: "pending", 
-    paymentMethod: "COD", 
-    paymentStatus: "unpaid",
-    courierTrust: { successRate: 98, totalOrders: 42, cancellationRate: 2, trustLevel: "high" }
-  },
-  { 
-    id: "VR-2026-0002", 
-    customer: "Sultana Begum", 
-    phone: "01822233344", 
-    date: "2026-05-22 09:15", 
-    total: 3200, 
-    status: "approved", 
-    paymentMethod: "bKash", 
-    paymentStatus: "paid",
-    courierTrust: { successRate: 85, totalOrders: 12, cancellationRate: 15, trustLevel: "medium" }
-  },
-  { id: "VR-2026-0003", customer: "Tanvir Hasan", phone: "01933344455", date: "2026-05-21 18:45", total: 1250, status: "packing", paymentMethod: "Nagad", paymentStatus: "paid" },
-  { id: "VR-2026-0004", customer: "Nabila Tabassum", phone: "01544455566", date: "2026-05-21 14:20", total: 5800, status: "shipping", paymentMethod: "Card", paymentStatus: "paid" },
-  { 
-    id: "VR-2026-0005", 
-    customer: "Rafiqul Islam", 
-    phone: "01355566677", 
-    date: "2026-05-21 11:05", 
-    total: 850, 
-    status: "not_received", 
-    paymentMethod: "COD", 
-    paymentStatus: "unpaid",
-    courierTrust: { successRate: 40, totalOrders: 5, cancellationRate: 60, trustLevel: "low" }
-  },
-  { id: "VR-2026-0006", customer: "Moushumi Akter", phone: "01666677788", date: "2026-05-20 16:30", total: 2750, status: "delivered", paymentMethod: "COD", paymentStatus: "unpaid" },
-  { id: "VR-2026-0007", customer: "Jasim Uddin", phone: "01777788899", date: "2026-05-20 13:10", total: 9400, status: "refunded", paymentMethod: "bKash", paymentStatus: "paid" },
-]
+/** Generates 25 mock orders to demonstrate high-volume processing. */
+const MOCK_ORDERS: Order[] = Array.from({ length: 25 }).map((_, i) => {
+  const statuses: OrderStatus[] = ["pending", "approved", "packing", "shipping", "handover", "delivered", "not_received", "cancelled", "returned", "refunded"];
+  const methods = ["COD", "bKash", "Nagad", "Card"] as const;
+  const payStatuses = ["paid", "unpaid"] as const;
+  const trustLevels = ["high", "medium", "low"] as const;
+  
+  const id = `VR-2026-${(1001 + i).toString().padStart(4, '0')}`;
+  const status = statuses[i % statuses.length];
+  const total = 500 + (Math.floor(Math.random() * 20) * 250);
+  
+  return {
+    id,
+    customer: ["Karim Ahmed", "Sultana Begum", "Tanvir Hasan", "Nabila Tabassum", "Rafiqul Islam", "Moushumi Akter", "Jasim Uddin"][i % 7],
+    phone: `01${Math.floor(100000000 + Math.random() * 900000000)}`,
+    date: `2026-05-${(22 - Math.floor(i / 5)).toString().padStart(2, '0')} ${10 + (i % 8)}:${(i * 7) % 60}`,
+    total,
+    status,
+    paymentMethod: methods[i % methods.length],
+    paymentStatus: payStatuses[i % 2],
+    courierTrust: i % 3 === 0 ? {
+      successRate: 40 + (Math.random() * 59),
+      totalOrders: 5 + Math.floor(Math.random() * 50),
+      cancellationRate: Math.random() * 30,
+      trustLevel: trustLevels[i % 3]
+    } : undefined
+  }
+});
 
 const WORKFLOW_TABS = [
   { id: "all", label: "All Orders" },
@@ -151,8 +143,8 @@ function CourierScorecard({ trust }: { trust: CourierTrust }) {
     )}>
       {isHigh ? <ShieldCheck className="size-4 shrink-0" /> : isLow ? <ShieldAlert className="size-4 shrink-0" /> : <AlertCircle className="size-4 shrink-0" />}
       <div className="flex flex-col leading-none">
-        <span className="text-[10px] font-black uppercase tracking-tighter">Courier Score</span>
-        <span className="text-[9px] font-bold opacity-80">{trust.successRate}% Success ({trust.totalOrders} total)</span>
+        <span className="text-[10px] font-black uppercase tracking-tighter text-inherit">Courier Score</span>
+        <span className="text-[9px] font-bold opacity-80 whitespace-nowrap">{Math.floor(trust.successRate)}% Success ({trust.totalOrders} total)</span>
       </div>
     </div>
   )
@@ -165,17 +157,35 @@ function CourierScorecard({ trust }: { trust: CourierTrust }) {
 export function OrdersTable() {
   const [search, setSearch] = React.useState("")
   const [activeTab, setActiveTab] = React.useState<string>("all")
+  
+  // Advanced Filters
+  const [sortOrder, setSortOrder] = React.useState<"newest" | "oldest" | "amount_desc" | "amount_asc">("newest")
+  const [paymentFilter, setPaymentFilter] = React.useState<string>("all")
+  const [payStatusFilter, setPayStatusFilter] = React.useState<string>("all")
 
-  const filteredOrders = MOCK_ORDERS.filter(order => {
-    const matchesSearch = 
-      order.id.toLowerCase().includes(search.toLowerCase()) || 
-      order.customer.toLowerCase().includes(search.toLowerCase()) ||
-      order.phone.includes(search)
-    
-    const matchesTab = activeTab === "all" || order.status === activeTab
+  // Filtering Logic
+  const filteredOrders = React.useMemo(() => {
+    return MOCK_ORDERS
+      .filter(order => {
+        const matchesSearch = 
+          order.id.toLowerCase().includes(search.toLowerCase()) || 
+          order.customer.toLowerCase().includes(search.toLowerCase()) ||
+          order.phone.includes(search)
+        
+        const matchesTab = activeTab === "all" || order.status === activeTab
+        const matchesPayment = paymentFilter === "all" || order.paymentMethod === paymentFilter
+        const matchesPayStatus = payStatusFilter === "all" || order.paymentStatus === payStatusFilter
 
-    return matchesSearch && matchesTab
-  })
+        return matchesSearch && matchesTab && matchesPayment && matchesPayStatus
+      })
+      .sort((a, b) => {
+        if (sortOrder === "newest") return new Date(b.date).getTime() - new Date(a.date).getTime()
+        if (sortOrder === "oldest") return new Date(a.date).getTime() - new Date(b.date).getTime()
+        if (sortOrder === "amount_desc") return b.total - a.total
+        if (sortOrder === "amount_asc") return a.total - b.total
+        return 0
+      })
+  }, [search, activeTab, sortOrder, paymentFilter, payStatusFilter])
 
   /** Returns contextual menu items based on order status. */
   const getContextualActions = (order: Order) => {
@@ -275,12 +285,50 @@ export function OrdersTable() {
               <Search className="absolute left-4 size-4 text-gray-400" />
               <Input 
                 placeholder="ID, Name or Phone..." 
-                className="pl-11 h-12 w-[300px] rounded-xl border-gray-100 bg-white shadow-sm"
+                className="pl-11 h-12 w-[240px] md:w-[300px] rounded-xl border-gray-100 bg-white shadow-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <Button variant="outline" className="h-12 px-5 rounded-xl gap-2 font-bold border-gray-100 bg-white shadow-sm">
+            
+            {/* Global Filters Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger render={
+                <Button variant="outline" className="h-12 px-5 rounded-xl gap-2 font-bold border-gray-100 bg-white shadow-sm">
+                  <Filter className="size-4" />
+                  Filters
+                </Button>
+              } />
+              <DropdownMenuContent align="end" className="w-64 p-3 rounded-[24px] shadow-2xl border-gray-100">
+                <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Sort By</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => setSortOrder("newest")} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
+                  Newest First {sortOrder === "newest" && <Check className="size-4 text-emerald-600" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortOrder("amount_desc")} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
+                  Highest Amount {sortOrder === "amount_desc" && <Check className="size-4 text-emerald-600" />}
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="my-2" />
+                
+                <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Payment Method</DropdownMenuLabel>
+                {["all", "COD", "bKash", "Nagad", "Card"].map(m => (
+                  <DropdownMenuItem key={m} onClick={() => setPaymentFilter(m)} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
+                    {m === "all" ? "All Methods" : m} {paymentFilter === m && <Check className="size-4 text-emerald-600" />}
+                  </DropdownMenuItem>
+                ))}
+
+                <DropdownMenuSeparator className="my-2" />
+
+                <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Payment Status</DropdownMenuLabel>
+                {["all", "paid", "unpaid"].map(s => (
+                  <DropdownMenuItem key={s} onClick={() => setPayStatusFilter(s)} className="rounded-lg h-9 font-bold cursor-pointer justify-between capitalize">
+                    {s === "all" ? "All Status" : s} {payStatusFilter === s && <Check className="size-4 text-emerald-600" />}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Button variant="outline" className="h-12 px-5 rounded-xl gap-2 font-bold border-gray-100 bg-white shadow-sm hidden sm:flex">
               <Download className="size-4" />
               Export
             </Button>
@@ -311,27 +359,27 @@ export function OrdersTable() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-50 bg-gray-50/30">
-                <th className="px-6 py-5">
+                <th className="px-6 py-5 whitespace-nowrap">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Order Details <ArrowUpDown className="size-3" />
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-6 py-5 whitespace-nowrap">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Courier Insights
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-6 py-5 whitespace-nowrap">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Amount & Pay
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-6 py-5 whitespace-nowrap">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Workflow
                   </div>
                 </th>
-                <th className="px-6 py-5 text-right">
+                <th className="px-6 py-5 text-right whitespace-nowrap">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</span>
                 </th>
               </tr>
@@ -376,9 +424,11 @@ export function OrdersTable() {
                   <td className="px-6 py-5 text-right">
                     <div className="flex justify-end gap-1">
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="h-10 px-4 rounded-xl border border-gray-100 hover:bg-gray-50 flex items-center justify-center gap-2 outline-none transition-all font-black text-[10px] uppercase tracking-widest text-gray-500">
-                            Options <MoreHorizontal className="size-4" />
-                        </DropdownMenuTrigger>
+                        <DropdownMenuTrigger render={
+                          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl border border-transparent hover:border-gray-100 hover:bg-white flex items-center justify-center outline-none transition-all text-gray-400 hover:text-gray-900">
+                              <MoreHorizontal className="size-5" />
+                          </Button>
+                        } />
                         <DropdownMenuContent align="end" className="w-64 p-2 rounded-[24px] shadow-2xl border-gray-100">
                           {getContextualActions(order)}
                         </DropdownMenuContent>
@@ -395,15 +445,20 @@ export function OrdersTable() {
                         <Package className="size-10" />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <p className="text-lg font-black text-gray-900 uppercase">Empty Workflow</p>
-                        <p className="text-sm font-bold text-gray-400">No orders found in the &quot;{activeTab}&quot; stage.</p>
+                        <p className="text-lg font-black text-gray-900 uppercase">Empty Pipeline</p>
+                        <p className="text-sm font-bold text-gray-400">No orders match your current filters.</p>
                       </div>
                       <Button 
-                        variant="primary" 
-                        onClick={() => setActiveTab("all")} 
-                        className="rounded-full px-8 font-black uppercase tracking-widest shadow-xl shadow-emerald-200"
+                        variant="accent" 
+                        onClick={() => {
+                          setSearch(""); 
+                          setActiveTab("all");
+                          setPaymentFilter("all");
+                          setPayStatusFilter("all");
+                        }} 
+                        className="rounded-full px-8 font-black uppercase tracking-widest shadow-xl shadow-orange-200"
                       >
-                        Show All Orders
+                        Reset All Filters
                       </Button>
                     </div>
                   </td>
@@ -416,7 +471,7 @@ export function OrdersTable() {
         {/* Pagination Footer */}
         <div className="px-6 py-6 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-            Logistics Pipeline: <span className="text-gray-900">{filteredOrders.length}</span> active tasks in this view
+            Showing <span className="text-gray-900">{filteredOrders.length}</span> results in current view
           </p>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-gray-100" disabled>
@@ -424,6 +479,9 @@ export function OrdersTable() {
             </Button>
             <Button variant="outline" size="sm" className="h-10 px-5 rounded-xl border-emerald-200 bg-emerald-50 text-emerald-700 font-black">
               1
+            </Button>
+            <Button variant="outline" size="sm" className="h-10 px-5 rounded-xl border-gray-100 text-gray-500 font-bold hover:bg-gray-50">
+              2
             </Button>
             <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-gray-100">
               <ChevronRight className="size-4" />
