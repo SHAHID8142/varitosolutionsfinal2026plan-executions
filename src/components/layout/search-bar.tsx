@@ -13,6 +13,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { Search, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -29,17 +30,35 @@ export function SearchBar({
 }: SearchBarProps) {
   const [query, setQuery] = React.useState("")
   const [isFocused, setIsFocused] = React.useState(false)
+  const router = useRouter()
 
   const handleClear = () => {
     setQuery("")
-    onSearch?.("")
+    if (onSearch) {
+      onSearch("")
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
-      onSearch?.(query)
+      if (onSearch) {
+        onSearch(query.trim())
+      } else {
+        router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+      }
+      setIsFocused(false)
     }
+  }
+
+  const handleSuggestionClick = (s: string) => {
+    setQuery(s)
+    if (onSearch) {
+      onSearch(s)
+    } else {
+      router.push(`/search?q=${encodeURIComponent(s)}`)
+    }
+    setIsFocused(false)
   }
 
   return (
@@ -58,7 +77,7 @@ export function SearchBar({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         placeholder={placeholder}
         className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-gray-400"
       />
@@ -84,7 +103,9 @@ export function SearchBar({
             {["Sanitary Ware", "Packaging Tape", "Luxury Faucets"].map((s) => (
               <button
                 key={s}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                type="button"
+                onClick={() => handleSuggestionClick(s)}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors w-full text-left font-bold"
               >
                 <Search className="size-3.5 text-gray-400" />
                 {s}

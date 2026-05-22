@@ -38,6 +38,8 @@ import { PriceTag } from "@/components/ui/price-tag"
 import { QuantitySelector } from "@/components/ui/quantity-selector"
 import { Separator } from "@/components/ui/separator"
 import { ProductSchema } from "@/components/shop/product-schema"
+import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -138,6 +140,40 @@ function TrustBadge({ icon: Icon, title, description }: TrustBadgeProps) {
 
 export default function ProductDetailPage() {
   const [quantity, setQuantity] = React.useState(1)
+  const [activeTab, setActiveTab] = React.useState<"description" | "specs" | "reviews">("description")
+  const [isWishlisted, setIsWishlisted] = React.useState(false)
+
+  const handleAddToCart = () => {
+    toast.success(`${PRODUCT.name} (${quantity} ${PRODUCT.unit}${quantity > 1 ? 's' : ''}) added to cart!`)
+  }
+
+  const handleOrderNow = () => {
+    toast.info("Redirecting to checkout...")
+    window.location.href = "/checkout"
+  }
+
+  const toggleWishlist = () => {
+    setIsWishlisted(!isWishlisted)
+    if (!isWishlisted) {
+      toast.success("Added to wishlist!")
+    } else {
+      toast.info("Removed from wishlist")
+    }
+  }
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: PRODUCT.name,
+        url: window.location.href
+      }).catch(() => {
+        toast.info("Share link copied to clipboard!")
+      })
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      toast.success("Link copied to clipboard!")
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -215,20 +251,29 @@ export default function ProductDetailPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                  <Button size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-emerald-500/20 gap-3 font-black">
+                  <Button onClick={handleAddToCart} size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-emerald-500/20 gap-3 font-black">
                     <ShoppingCart className="size-6" /> Add to Cart
                   </Button>
-                  <Button variant="accent" size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-orange-500/20 gap-3 font-black">
+                  <Button onClick={handleOrderNow} variant="accent" size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-orange-500/20 gap-3 font-black">
                     <Zap className="size-6" /> Order Now
                   </Button>
                 </div>
 
                 <div className="flex items-center justify-between gap-4 mt-2">
                   <div className="flex gap-4">
-                    <button className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
-                      <Heart className="size-5" /> Wishlist
+                    <button 
+                      onClick={toggleWishlist}
+                      className={cn(
+                        "flex items-center gap-2 text-sm font-bold transition-colors",
+                        isWishlisted ? "text-danger-500" : "text-gray-500 hover:text-primary"
+                      )}
+                    >
+                      <Heart className={cn("size-5", isWishlisted && "fill-current")} /> Wishlist
                     </button>
-                    <button className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
+                    <button 
+                      onClick={handleShare}
+                      className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors"
+                    >
                       <Share2 className="size-5" /> Share
                     </button>
                   </div>
@@ -263,49 +308,94 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Product Details Tabs (Visual only for now) */}
+          {/* Product Details Tabs */}
           <section className="mt-20">
             <div className="flex border-b border-gray-100 gap-8 mb-10 overflow-x-auto no-scrollbar">
-              <button className="pb-4 text-sm font-black uppercase tracking-widest text-primary border-b-2 border-primary whitespace-nowrap">
+              <button 
+                onClick={() => setActiveTab("description")}
+                className={cn(
+                  "pb-4 text-sm font-black uppercase tracking-widest whitespace-nowrap transition-all border-b-2",
+                  activeTab === "description" ? "text-primary border-primary" : "text-gray-400 border-transparent hover:text-gray-900"
+                )}
+              >
                 Full Description
               </button>
-              <button className="pb-4 text-sm font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors whitespace-nowrap">
+              <button 
+                onClick={() => setActiveTab("specs")}
+                className={cn(
+                  "pb-4 text-sm font-black uppercase tracking-widest whitespace-nowrap transition-all border-b-2",
+                  activeTab === "specs" ? "text-primary border-primary" : "text-gray-400 border-transparent hover:text-gray-900"
+                )}
+              >
                 Specifications
               </button>
-              <button className="pb-4 text-sm font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors whitespace-nowrap">
+              <button 
+                onClick={() => setActiveTab("reviews")}
+                className={cn(
+                  "pb-4 text-sm font-black uppercase tracking-widest whitespace-nowrap transition-all border-b-2",
+                  activeTab === "reviews" ? "text-primary border-primary" : "text-gray-400 border-transparent hover:text-gray-900"
+                )}
+              >
                 Customer Reviews ({PRODUCT.reviewsCount})
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-8">
-                <div className="prose prose-emerald max-w-none">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-tight flex items-center gap-2">
-                    <Package className="text-primary size-5" /> Detailed Features
-                  </h3>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 list-none p-0">
-                    {PRODUCT.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-600 font-medium bg-gray-50/50 p-4 rounded-xl border border-gray-50">
-                        <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Specifications Table */}
-              <div className="lg:col-span-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-tight">Technical Specs</h3>
-                <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-                  {PRODUCT.specs.map((spec, i) => (
-                    <div key={i} className="flex justify-between p-4 border-b border-gray-50 last:border-0 bg-white even:bg-gray-50/30">
-                      <span className="text-sm font-bold text-gray-400">{spec.label}</span>
-                      <span className="text-sm font-black text-gray-900">{spec.value}</span>
+            <div className="min-h-[400px]">
+              {activeTab === "description" && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 animate-in fade-in duration-500">
+                  <div className="lg:col-span-8">
+                    <div className="prose prose-emerald max-w-none">
+                      <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-tight flex items-center gap-2">
+                        <Package className="text-primary size-5" /> Detailed Features
+                      </h3>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 list-none p-0">
+                        {PRODUCT.features.map((feature, i) => (
+                          <li key={i} className="flex items-start gap-3 text-gray-600 font-medium bg-gray-50/50 p-4 rounded-xl border border-gray-50">
+                            <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  ))}
+                  </div>
+                  <div className="lg:col-span-4">
+                    <div className="p-8 rounded-3xl bg-gray-900 text-white flex flex-col gap-6 relative overflow-hidden">
+                      <div className="relative z-10">
+                        <h4 className="text-xl font-black uppercase tracking-tight mb-2">Quality Guarantee</h4>
+                        <p className="text-gray-400 text-sm font-medium leading-relaxed">
+                          Every product undergoes a 12-point quality check before dispatch. We guarantee authentic premium finish.
+                        </p>
+                      </div>
+                      <ShieldCheck className="absolute -bottom-6 -right-6 size-32 text-white/5" />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {activeTab === "specs" && (
+                <div className="max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-tight">Technical Specs</h3>
+                  <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+                    {PRODUCT.specs.map((spec, i) => (
+                      <div key={i} className="flex justify-between p-4 border-b border-gray-50 last:border-0 bg-white even:bg-gray-50/30">
+                        <span className="text-sm font-bold text-gray-400">{spec.label}</span>
+                        <span className="text-sm font-black text-gray-900">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "reviews" && (
+                <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-500">
+                  <div className="size-16 rounded-full bg-gray-50 flex items-center justify-center text-gray-300 mb-6">
+                    <MessageSquare className="size-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">No Verified Reviews Yet</h3>
+                  <p className="text-gray-500 max-w-xs mx-auto mb-8 font-medium">Be the first to share your experience with this product!</p>
+                  <Button variant="outline" className="font-black uppercase tracking-widest rounded-xl px-8">Write a Review</Button>
+                </div>
+              )}
             </div>
           </section>
 
@@ -344,3 +434,5 @@ export default function ProductDetailPage() {
     </div>
   )
 }
+
+import { MessageSquare } from "lucide-react"

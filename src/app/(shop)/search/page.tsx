@@ -11,8 +11,8 @@
 "use client"
 
 import * as React from "react"
-import { useSearchParams } from "next/navigation"
-import { Search, SlidersHorizontal, LayoutGrid, List } from "lucide-react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { Search, SlidersHorizontal, LayoutGrid, List, X } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { BottomNav } from "@/components/layout/bottom-nav"
 import { Footer } from "@/components/layout/footer"
@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/shop/product-card"
 import { EmptyState } from "@/components/ui/empty-state"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
+import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 import {
   Select,
   SelectContent,
@@ -75,6 +77,10 @@ const MOCK_RESULTS = [
 // ─────────────────────────────────────────────
 
 function FilterSidebar() {
+  const handleApply = () => {
+    toast.success("Filters applied successfully!")
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
@@ -92,10 +98,10 @@ function FilterSidebar() {
       <div className="flex flex-col gap-4">
         <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Price Range</h3>
         <div className="grid grid-cols-2 gap-2">
-          <input type="number" placeholder="Min" className="h-10 px-3 rounded-lg border border-gray-100 text-sm" />
-          <input type="number" placeholder="Max" className="h-10 px-3 rounded-lg border border-gray-100 text-sm" />
+          <input type="number" placeholder="Min" className="h-11 px-4 rounded-xl border border-gray-100 text-sm font-bold bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all outline-none" />
+          <input type="number" placeholder="Max" className="h-11 px-4 rounded-xl border border-gray-100 text-sm font-bold bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all outline-none" />
         </div>
-        <Button size="sm" className="w-full">Apply</Button>
+        <Button onClick={handleApply} size="lg" className="w-full rounded-xl font-black uppercase tracking-wider">Apply</Button>
       </div>
     </div>
   )
@@ -107,31 +113,47 @@ function FilterSidebar() {
 
 export default function SearchPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const query = searchParams.get("q") || ""
+  const [view, setView] = React.useState<"grid" | "list">("grid")
   
-  const hasResults = query.toLowerCase() !== "empty" // Mocking no results
+  const hasResults = query.toLowerCase() !== "empty" && query.trim() !== "" 
   const results = hasResults ? MOCK_RESULTS : []
+
+  const handleClearSearch = () => {
+    router.push("/search")
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       
-      <main className="flex-1 bg-gray-50/50">
+      <main className="flex-1 bg-gray-50/50 pb-24">
         <div className="container mx-auto px-4 py-8">
           
           {/* Search Header */}
           <div className="flex flex-col gap-6 mb-10">
             <div className="flex flex-col gap-2">
-              <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">
+              <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight flex items-center flex-wrap gap-x-3">
                 {query ? (
-                  <>Search Results for &quot;<span className="text-primary">{query}</span>&quot;</>
+                  <>
+                    <span className="opacity-40 uppercase">Search Results:</span>
+                    <span className="text-primary">&quot;{query}&quot;</span>
+                    <button 
+                      onClick={handleClearSearch}
+                      className="inline-flex size-8 rounded-full bg-gray-200 text-gray-500 hover:bg-danger-50 hover:text-danger-600 items-center justify-center transition-all ml-2"
+                      title="Clear Search"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </>
                 ) : (
                   "Explore All Products"
                 )}
               </h1>
               {hasResults && (
-                <p className="text-sm text-gray-500 font-medium">
-                  We found {results.length} items matching your search
+                <p className="text-sm text-gray-500 font-bold uppercase tracking-widest opacity-60">
+                  {results.length} items found
                 </p>
               )}
             </div>
@@ -139,17 +161,31 @@ export default function SearchPage() {
             {hasResults && (
               <div className="flex items-center justify-between gap-4">
                 {/* View Options */}
-                <div className="hidden sm:flex items-center bg-white border border-gray-100 rounded-xl p-1 gap-1">
-                  <Button variant="ghost" size="icon" className="size-9 bg-gray-50 text-primary rounded-lg shadow-sm">
+                <div className="hidden sm:flex items-center bg-white border border-gray-100 rounded-xl p-1 gap-1 shadow-sm">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setView("grid")}
+                    className={cn("size-9 rounded-lg transition-all", view === "grid" ? "bg-primary text-white shadow-md shadow-primary/20" : "text-gray-400")}
+                  >
                     <LayoutGrid className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="size-9 text-gray-400 rounded-lg">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => {
+                      setView("list")
+                      toast.info("List view is under optimization. Using Grid for best experience.")
+                      setView("grid")
+                    }}
+                    className={cn("size-9 rounded-lg transition-all text-gray-400")}
+                  >
                     <List className="size-4" />
                   </Button>
                 </div>
 
                 <div className="flex items-center gap-3 ml-auto">
-                  <Select defaultValue="relevance">
+                  <Select defaultValue="relevance" onValueChange={(v) => toast.info(`Sorting by ${v}...`)}>
                     <SelectTrigger className="w-[180px] h-11 bg-white border-gray-100 rounded-xl shadow-sm font-bold text-gray-700">
                       <div className="flex items-center gap-2">
                         <span className="text-gray-400 font-normal">Sort:</span>
@@ -166,14 +202,14 @@ export default function SearchPage() {
 
                   <Sheet>
                     <SheetTrigger render={
-                      <Button variant="outline" className="lg:hidden h-11 rounded-xl bg-white border-gray-100 shadow-sm gap-2">
+                      <Button variant="outline" className="lg:hidden h-11 rounded-xl bg-white border-gray-100 shadow-sm gap-2 font-bold">
                         <SlidersHorizontal className="size-4" />
                         Filter
                       </Button>
                     } />
                     <SheetContent side="right">
                       <SheetHeader className="mb-6">
-                        <SheetTitle className="text-left font-black tracking-tight text-2xl">Filters</SheetTitle>
+                        <SheetTitle className="text-left font-black tracking-tight text-2xl uppercase">Filters</SheetTitle>
                       </SheetHeader>
                       <FilterSidebar />
                     </SheetContent>
@@ -184,35 +220,32 @@ export default function SearchPage() {
           </div>
 
           {!hasResults ? (
-            <div className="py-20">
+            <div className="py-20 bg-white rounded-[40px] border border-gray-100 shadow-sm">
               <EmptyState
                 icon={<Search className="size-10" />}
                 title="No results found"
-                description={`We couldn't find any products matching "${query}". Please check the spelling or try different keywords.`}
-                cta={<Button variant="primary" size="lg">Explore Categories</Button>}
+                description={query ? `We couldn't find any products matching "${query}".` : "Try searching for luxury faucets or packaging materials."}
+                cta={
+                  <Button onClick={() => router.push("/categories")} variant="primary" size="lg" className="px-10 rounded-xl font-black uppercase tracking-widest shadow-xl shadow-primary/20">
+                    Explore Categories
+                  </Button>
+                }
               />
             </div>
           ) : (
             <div className="flex gap-10 items-start">
               {/* Desktop Sidebar */}
-              <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-32 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                <h2 className="text-lg font-black text-gray-900 mb-6">Filters</h2>
+              <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-32 bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm">
+                <h2 className="text-lg font-black text-gray-900 mb-8 uppercase tracking-tight">Filters</h2>
                 <FilterSidebar />
               </aside>
 
               {/* Grid */}
-              <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-8">
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
                 {results.map((product) => (
                   <ProductCard
                     key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    slug={product.slug}
-                    image={product.image}
-                    price={product.price}
-                    salePrice={product.salePrice}
-                    stock={product.stock}
-                    isNew={product.isNew}
+                    {...product}
                   />
                 ))}
               </div>

@@ -9,6 +9,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -22,6 +24,7 @@ import { CategoryCard } from "@/components/shop/category-card"
 import { Badge } from "@/components/ui/badge"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import { WhatsAppIcon } from "@/components/ui/icons/whatsapp"
+import { toast } from "sonner"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -96,7 +99,7 @@ function Hero() {
             Trusted by 5,000+ Customers
           </Badge>
           
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-gray-900 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-gray-900 leading-tight uppercase">
             Premium <span className="text-primary">Sanitary Ware</span> & Packaging Solutions
           </h1>
           
@@ -107,12 +110,12 @@ function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/products" className="flex-1 sm:flex-none">
-              <Button size="lg" className="w-full px-10 py-7 text-lg shadow-xl shadow-emerald-500/20">
+              <Button size="lg" className="w-full px-10 py-7 text-lg shadow-xl shadow-emerald-500/20 rounded-2xl">
                 Shop Now <ArrowRight className="ml-2 size-5" />
               </Button>
             </Link>
             <Link href="/categories" className="flex-1 sm:flex-none">
-              <Button variant="secondary" size="lg" className="w-full px-10 py-7 text-lg bg-white">
+              <Button variant="secondary" size="lg" className="w-full px-10 py-7 text-lg bg-white rounded-2xl">
                 View Categories
               </Button>
             </Link>
@@ -155,6 +158,11 @@ function Hero() {
 // ─────────────────────────────────────────────
 
 export default function HomePage() {
+  const handleWholesaleQuote = () => {
+    toast.info("Opening wholesale request form...")
+    window.location.href = "/contact"
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -167,10 +175,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-end mb-10">
               <div className="flex flex-col gap-2">
-                <h2 className="text-3xl font-black text-gray-900 tracking-tight">Shop by Category</h2>
+                <h2 className="text-3xl font-black text-gray-900 tracking-tight uppercase">Shop by Category</h2>
                 <p className="text-gray-500 font-medium">Explore our wide range of premium products</p>
               </div>
-              <Link href="/categories" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline">
+              <Link href="/categories" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline uppercase tracking-wider text-sm">
                 View All <ChevronRight className="size-4" />
               </Link>
             </div>
@@ -187,7 +195,7 @@ export default function HomePage() {
               ))}
             </div>
             
-            <Link href="/categories" className="flex sm:hidden items-center justify-center gap-1 text-primary font-bold mt-8 py-4 border-2 border-primary-100 rounded-xl">
+            <Link href="/categories" className="flex sm:hidden items-center justify-center gap-1 text-primary font-bold mt-8 py-4 border-2 border-primary-100 rounded-xl uppercase tracking-widest text-xs">
               View All Categories <ChevronRight className="size-4" />
             </Link>
           </div>
@@ -198,10 +206,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-end mb-10">
               <div className="flex flex-col gap-2">
-                <h2 className="text-3xl font-black text-gray-900 tracking-tight">New Arrivals</h2>
+                <h2 className="text-3xl font-black text-gray-900 tracking-tight uppercase">New Arrivals</h2>
                 <p className="text-gray-500 font-medium">Fresh stock just landed in our store</p>
               </div>
-              <Link href="/products" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline">
+              <Link href="/products" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline uppercase tracking-wider text-sm">
                 Shop All <ChevronRight className="size-4" />
               </Link>
             </div>
@@ -210,14 +218,7 @@ export default function HomePage() {
               {NEW_ARRIVALS.map((product) => (
                 <ProductCard
                   key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  slug={product.slug}
-                  image={product.image}
-                  price={product.price}
-                  salePrice={product.salePrice}
-                  stock={product.stock}
-                  isNew={product.isNew}
+                  {...product}
                 />
               ))}
             </div>
@@ -225,21 +226,21 @@ export default function HomePage() {
         </section>
 
         {/* Trust Banner */}
-        <section className="py-16 bg-emerald-600 text-white overflow-hidden relative">
+        <section className="py-20 bg-emerald-600 text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 opacity-10 -translate-y-1/2 translate-x-1/4">
             <Package size={300} strokeWidth={1} />
           </div>
           <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-3xl flex flex-col gap-6">
-              <h2 className="text-3xl md:text-4xl font-black leading-tight">
+            <div className="max-w-3xl flex flex-col gap-8">
+              <h2 className="text-3xl md:text-5xl font-black leading-tight uppercase tracking-tight">
                 Bulk Orders for Construction or Business?
               </h2>
-              <p className="text-emerald-50 text-lg md:text-xl font-medium opacity-90">
+              <p className="text-emerald-50 text-lg md:text-xl font-medium opacity-90 leading-relaxed">
                 We offer special wholesale pricing for developers, contractors, and retail shop owners. 
                 Get direct delivery with the most competitive rates in Bangladesh.
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
-                <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-black px-8">
+                <Button onClick={handleWholesaleQuote} size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-black px-10 h-16 rounded-2xl shadow-xl shadow-black/10 uppercase tracking-widest text-sm">
                   Get Wholesale Quote
                 </Button>
                 <a 
@@ -248,8 +249,8 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none"
                 >
-                  <Button variant="outline" size="lg" className="w-full border-white text-white hover:bg-white/10 font-black px-8 gap-3 bg-[#25D366]/20">
-                    <WhatsAppIcon className="size-5 fill-[#25D366]" /> Chat on WhatsApp
+                  <Button variant="outline" size="lg" className="w-full border-white text-white hover:bg-white/10 font-black px-10 h-16 rounded-2xl gap-3 bg-white/5 uppercase tracking-widest text-sm">
+                    <WhatsAppIcon className="size-6 fill-[#25D366]" /> Chat on WhatsApp
                   </Button>
                 </a>
               </div>

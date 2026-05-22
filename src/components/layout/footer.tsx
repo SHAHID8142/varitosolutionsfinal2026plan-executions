@@ -8,9 +8,11 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
-import { Phone, Mail, MapPin, Package } from "lucide-react"
+import { Phone, Mail, MapPin, Package, Send } from "lucide-react"
 import { FacebookIcon } from "@/components/ui/icons/facebook"
 import { InstagramIcon } from "@/components/ui/icons/instagram"
 import { YoutubeIcon } from "@/components/ui/icons/youtube"
@@ -21,6 +23,9 @@ import { VisaIcon } from "@/components/ui/icons/visa"
 import { PathaoIcon } from "@/components/ui/icons/pathao"
 import { RedxIcon } from "@/components/ui/icons/redx"
 import { SteadfastIcon } from "@/components/ui/icons/steadfast"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { toast } from "sonner"
 
 const FOOTER_LINKS = {
   shop: [
@@ -44,9 +49,45 @@ const FOOTER_LINKS = {
 }
 
 export function Footer() {
+  const [email, setEmail] = React.useState("")
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (email.trim()) {
+      toast.success("Subscribed successfully! Thank you for joining our newsletter.")
+      setEmail("")
+    }
+  }
+
+  const handleSocialClick = (platform: string) => {
+    toast.info(`Follow us on ${platform} - Official page coming soon!`)
+  }
+
   return (
     <footer className="bg-white text-gray-600 pt-16 pb-24 lg:pb-12 border-t border-gray-100">
       <div className="container mx-auto px-4">
+        
+        {/* Newsletter Section */}
+        <div className="mb-16 p-8 md:p-12 rounded-[40px] bg-emerald-50 border border-emerald-100 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col gap-2 max-w-lg text-center lg:text-left">
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight uppercase">Join our Newsletter</h3>
+            <p className="text-gray-600 font-medium">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+          </div>
+          <form onSubmit={handleSubscribe} className="flex w-full max-w-md gap-2">
+            <Input 
+              type="email" 
+              required 
+              placeholder="your@email.com" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-14 px-6 rounded-2xl bg-white border-gray-200" 
+            />
+            <Button type="submit" size="lg" className="h-14 px-8 rounded-2xl gap-2 font-black shadow-lg shadow-primary/20">
+              <Send className="size-5" /> Join
+            </Button>
+          </form>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           
           {/* Brand Info */}
@@ -63,9 +104,9 @@ export function Footer() {
               Delivering reliability to your doorstep across Bangladesh.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Facebook"><FacebookIcon className="size-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Instagram"><InstagramIcon className="size-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Youtube"><YoutubeIcon className="size-5" /></a>
+              <button onClick={() => handleSocialClick("Facebook")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Facebook"><FacebookIcon className="size-5" /></button>
+              <button onClick={() => handleSocialClick("Instagram")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Instagram"><InstagramIcon className="size-5" /></button>
+              <button onClick={() => handleSocialClick("YouTube")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Youtube"><YoutubeIcon className="size-5" /></button>
             </div>
           </div>
 

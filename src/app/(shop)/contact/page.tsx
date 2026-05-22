@@ -31,6 +31,7 @@ import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import { Badge } from "@/components/ui/badge"
 import { WhatsAppIcon } from "@/components/ui/icons/whatsapp"
+import { toast } from "sonner"
 
 // ─────────────────────────────────────────────
 // PAGE COMPONENTS
@@ -83,7 +84,9 @@ export default function ContactPage() {
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false)
-      alert("Message sent successfully! We will get back to you soon.")
+      toast.success("Message sent successfully! We will get back to you soon.")
+      const form = e.target as HTMLFormElement
+      form.reset()
     }, 1500)
   }
 
@@ -166,26 +169,26 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 px-1">Full Name</label>
-                    <Input required placeholder="Enter your name" className="h-14 px-5" />
+                    <Input required placeholder="Enter your name" className="h-14 px-5 rounded-2xl" />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 px-1">Phone Number</label>
-                    <Input required placeholder="01XXXXXXXXX" type="tel" className="h-14 px-5" />
+                    <Input required placeholder="01XXXXXXXXX" type="tel" className="h-14 px-5 rounded-2xl" />
                   </div>
                   <div className="flex flex-col gap-2 md:col-span-2">
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 px-1">Email Address</label>
-                    <Input required placeholder="yourname@email.com" type="email" className="h-14 px-5" />
+                    <Input required placeholder="yourname@email.com" type="email" className="h-14 px-5 rounded-2xl" />
                   </div>
                   <div className="flex flex-col gap-2 md:col-span-2">
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 px-1">Your Message</label>
-                    <Textarea required placeholder="How can we help you today?" className="min-h-40 px-5" />
+                    <Textarea required placeholder="How can we help you today?" className="min-h-40 px-5 rounded-2xl" />
                   </div>
                 </div>
 
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3"
+                  className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3 rounded-2xl"
                   loading={isSubmitting}
                 >
                   <Send className="size-6" /> Send Message
@@ -223,7 +226,7 @@ export default function ContactPage() {
              
              <div className="mt-12 text-center">
                <Link href="/help">
-                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-emerald-50">
+                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-emerald-50 rounded-xl">
                     Visit Help Center <ArrowRight className="ml-2 size-4" />
                  </Button>
                </Link>
