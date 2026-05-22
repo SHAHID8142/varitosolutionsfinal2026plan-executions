@@ -169,7 +169,13 @@ export function ProductsTable() {
                           "size-10 md:size-14 rounded-xl md:rounded-2xl border border-gray-100 overflow-hidden shrink-0 bg-gray-50 relative",
                           isOutOfStock && "opacity-50 grayscale"
                         )}>
-                          <Image src={prod.image} alt={prod.name} fill className="object-cover" />
+                          <Image 
+                            src={prod.image} 
+                            alt={prod.name} 
+                            fill 
+                            className="object-cover" 
+                            sizes="(max-width: 768px) 40px, 56px"
+                          />
                         </div>
                         <div className="flex flex-col min-w-0">
                           <span className="text-[8px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest">{prod.sku}</span>
