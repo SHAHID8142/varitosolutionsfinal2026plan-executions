@@ -93,14 +93,14 @@
 - [x] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
 - [x] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
 - [x] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
-- [ ] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
-- [ ] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes
-- [ ] `[GEMINI]` Admin inventory (`/admin/inventory`) — stock levels, adjustments, log
-- [ ] `[GEMINI]` Admin settings (`/admin/settings`) — delivery, payments, general, maintenance mode
-- [ ] `[GEMINI]` Admin users (`/admin/users`) — create/manage admin accounts
-- [ ] `[GEMINI]` Admin audit log (`/admin/audit-log`) — paginated action history
-- [ ] `[GEMINI]` Add PostHog tracking calls per docs/ANALYTICS.md event map
-- [ ] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing admin pages, broken links, un-wired buttons against specs, then ask user for manual verification.
+- [x] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
+- [x] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes
+- [x] `[GEMINI]` Admin inventory (`/admin/inventory`) — stock levels, adjustments, log
+- [x] `[GEMINI]` Admin settings (`/admin/settings`) — delivery, payments, general, maintenance mode
+- [x] `[GEMINI]` Admin users (`/admin/users`) — create/manage admin accounts
+- [x] `[GEMINI]` Admin audit log (`/admin/audit-log`) — track who did what
+- [x] `[GEMINI]` Add PostHog tracking calls per docs/ANALYTICS.md event map
+- [x] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing admin pages, broken links, un-wired buttons against specs, then ask user for manual verification.
 
 ---
 

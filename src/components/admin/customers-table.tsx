@@ -126,62 +126,61 @@ export function CustomerTable() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-gray-50 bg-gray-50/50">
-                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Customer</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Stats</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Activity</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-5 text-right text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</th>
+                <th className="px-4 md:px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Customer</th>
+                <th className="px-4 md:px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Stats</th>
+                <th className="px-4 md:px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Activity</th>
+                <th className="px-4 md:px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
+                <th className="px-4 md:px-6 py-5 text-right text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {filteredCustomers.map((cust) => (
                 <tr key={cust.id} className="hover:bg-gray-50/50 transition-colors group">
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-4">
-                      <div className="size-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-xs shrink-0">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className="size-8 md:size-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-[10px] md:text-xs shrink-0">
                         {cust.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-black text-gray-900 truncate">{cust.name}</span>
-                        <span className="text-xs font-medium text-gray-400 truncate">{cust.phone}</span>
+                        <span className="text-xs md:text-sm font-black text-gray-900 truncate max-w-[100px] md:max-w-none">{cust.name}</span>
+                        <span className="text-[10px] md:text-xs font-medium text-gray-400 truncate">{cust.phone}</span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700">
+                      <div className="flex items-center gap-1.5 text-[10px] md:text-xs font-bold text-gray-700">
                         <ShoppingBag className="size-3 text-emerald-500" />
-                        <span>{cust.orderCount} Orders</span>
+                        <span>{cust.orderCount} <span className="hidden md:inline">Orders</span></span>
                       </div>
-                      <span className="text-[10px] font-black text-gray-900">৳{cust.totalSpent.toLocaleString()} Spent</span>
+                      <span className="text-[9px] md:text-[10px] font-black text-gray-900">৳{cust.totalSpent.toLocaleString()}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
-                        <Calendar className="size-3" />
-                        <span>Last: {cust.lastOrderDate}</span>
+                      <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-bold text-gray-500">
+                        <Calendar className="size-2.5 md:size-3" />
+                        <span className="truncate max-w-[60px] md:max-w-none">{cust.lastOrderDate}</span>
                       </div>
-                      <span className="text-[9px] font-medium text-gray-400 uppercase tracking-wider">Joined {cust.joinedDate}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <Badge 
                       variant={cust.status === "active" ? "verified" : "destructive"}
-                      className="uppercase text-[9px] font-black tracking-widest px-2"
+                      className="uppercase text-[8px] md:text-[9px] font-black tracking-widest px-1 md:px-2 h-4 md:h-5"
                     >
                       {cust.status}
                     </Badge>
                   </td>
-                  <td className="px-6 py-5 text-right">
-                    <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <td className="px-4 md:px-6 py-4 md:py-5 text-right">
+                    <div className="flex justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                       <Link href={`/admin/customers/${cust.id}`}>
-                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-gray-100">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-gray-100">
                           <Eye className="size-4" />
                         </Button>
                       </Link>
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="h-9 w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
+                        <DropdownMenuTrigger className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
                             <MoreHorizontal className="size-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl">

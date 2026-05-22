@@ -15,15 +15,20 @@ import { useEffect } from 'react'
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // PostHog initialization
-    // Key and Host are usually in env vars, using placeholders for now
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY || 'phc_placeholder', {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://eu.posthog.com',
-      capture_pageview: false, // We capture manually for App Router
-      capture_pageleave: true,
-      autocapture: false,
-      persistence: 'localStorage',
-    })
+    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://eu.posthog.com'
+
+    if (key && key !== 'phc_placeholder') {
+      posthog.init(key, {
+        api_host: host,
+        capture_pageview: false, // We capture manually for App Router
+        capture_pageleave: true,
+        autocapture: false,
+        persistence: 'localStorage',
+      })
+    } else {
+      console.warn('PostHog key not found. Analytics is disabled.')
+    }
   }, [])
 
   return <PHProvider client={posthog}>{children}</PHProvider>

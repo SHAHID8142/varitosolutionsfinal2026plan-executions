@@ -37,8 +37,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
 
 // ─────────────────────────────────────────────
 // TYPES & MOCK DATA
@@ -129,27 +127,27 @@ export function OrdersTable() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-gray-50 bg-gray-50/50">
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Order ID <ArrowUpDown className="size-3" />
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                    Customer Info
+                    Customer
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                    Amount & Payment
+                    Amount
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Status
                   </div>
                 </th>
-                <th className="px-6 py-5 text-right">
+                <th className="px-4 md:px-6 py-5 text-right">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</span>
                 </th>
               </tr>
@@ -157,44 +155,38 @@ export function OrdersTable() {
             <tbody className="divide-y divide-gray-50">
               {filteredOrders.map((order) => (
                 <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col gap-1">
-                      <span className="text-sm font-black text-gray-900">{order.id}</span>
-                      <span className="text-[10px] font-bold text-gray-400">{order.date}</span>
+                      <span className="text-xs md:text-sm font-black text-gray-900">{order.id}</span>
+                      <span className="text-[9px] md:text-[10px] font-bold text-gray-400">{order.date}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-gray-900">{order.customer}</span>
-                      <span className="text-xs font-medium text-gray-500">{order.phone}</span>
+                      <span className="text-xs md:text-sm font-bold text-gray-900 truncate max-w-[100px] md:max-w-none">{order.customer}</span>
+                      <span className="text-[10px] md:text-xs font-medium text-gray-500">{order.phone}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col gap-1">
-                      <span className="text-sm font-black text-gray-900">৳{order.total.toLocaleString()}</span>
+                      <span className="text-xs md:text-sm font-black text-gray-900">৳{order.total.toLocaleString()}</span>
                       <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-[9px] font-bold px-1.5 h-4 border-gray-200">
-                          {order.paymentMethod}
-                        </Badge>
-                        <span className={cn(
-                          "text-[9px] font-black uppercase tracking-wider",
-                          order.paymentStatus === "paid" ? "text-emerald-600" : "text-amber-600"
-                        )}>
+                        <span className="text-[9px] font-black uppercase tracking-wider text-emerald-600 hidden md:inline">
                           {order.paymentStatus}
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
-                    <OrderStatusBadge status={order.status} />
+                  <td className="px-4 md:px-6 py-4 md:py-5">
+                    <OrderStatusBadge status={order.status} className="scale-90 md:scale-100 origin-left" />
                   </td>
-                  <td className="px-6 py-5 text-right">
-                    <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-emerald-50 hover:text-emerald-600">
+                  <td className="px-4 md:px-6 py-4 md:py-5 text-right">
+                    <div className="flex justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-emerald-50 hover:text-emerald-600">
                         <Eye className="size-4" />
                       </Button>
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="h-9 w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
+                        <DropdownMenuTrigger className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
                             <MoreHorizontal className="size-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl">

@@ -19,7 +19,6 @@ import {
   EyeOff, 
   Edit3, 
   Plus, 
-  Trash2,
   Folder,
   Package
 } from "lucide-react"
@@ -93,13 +92,13 @@ function CategoryItem({ category, level = 0 }: { category: Category; level?: num
     <div className="flex flex-col">
       <div 
         className={cn(
-          "group flex items-center gap-4 p-4 rounded-2xl border border-transparent hover:border-gray-100 hover:bg-white hover:shadow-sm transition-all duration-200",
+          "group flex items-center gap-2 md:gap-4 p-3 md:p-4 rounded-2xl border border-transparent hover:border-gray-100 hover:bg-white hover:shadow-sm transition-all duration-200",
           !category.isActive && "opacity-60"
         )}
-        style={{ marginLeft: `${level * 32}px` }}
+        style={{ paddingLeft: `${level * 16}px` }}
       >
-        <div className="flex items-center gap-3 shrink-0">
-          <GripVertical className="size-4 text-gray-300 cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-100" />
+        <div className="flex items-center gap-1 md:gap-3 shrink-0">
+          <GripVertical className="size-4 text-gray-300 cursor-grab active:cursor-grabbing opacity-100 lg:opacity-0 lg:group-hover:opacity-100" />
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
             className={cn(
@@ -111,36 +110,33 @@ function CategoryItem({ category, level = 0 }: { category: Category; level?: num
           </button>
         </div>
 
-        <div className="size-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-emerald-600 shrink-0">
-          <Folder className="size-5" />
+        <div className="size-8 md:size-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-emerald-600 shrink-0">
+          <Folder className="size-4 md:size-5" />
         </div>
 
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-black text-gray-900 truncate">{category.name}</span>
-            <Badge variant="outline" className="text-[9px] font-bold h-4 px-1.5 border-gray-100 text-gray-400">
+          <div className="flex flex-wrap items-center gap-1 md:gap-2">
+            <span className="text-xs md:text-sm font-black text-gray-900 truncate">{category.name}</span>
+            <Badge variant="outline" className="text-[8px] md:text-[9px] font-bold h-3.5 md:h-4 px-1 border-gray-100 text-gray-400">
               /{category.slug}
             </Badge>
           </div>
           <div className="flex items-center gap-4 mt-0.5">
-            <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1">
-              <Package className="size-3" /> {category.productCount} Products
+            <span className="text-[9px] md:text-[10px] font-bold text-gray-400 flex items-center gap-1">
+              <Package className="size-3" /> {category.productCount} <span className="hidden xs:inline">Products</span>
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-emerald-50 hover:text-emerald-600" onClick={toggleActive}>
-            {category.isActive ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+        <div className="flex items-center gap-0.5 md:gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+          <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-emerald-50 hover:text-emerald-600" onClick={toggleActive}>
+            {category.isActive ? <Eye className="size-3.5 md:size-4" /> : <EyeOff className="size-3.5 md:size-4" />}
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-gray-100">
-            <Plus className="size-4" />
+          <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-gray-100">
+            <Plus className="size-3.5 md:size-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-gray-100">
-            <Edit3 className="size-4" />
-          </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-red-50 hover:text-red-500">
-            <Trash2 className="size-4" />
+          <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-gray-100">
+            <Edit3 className="size-3.5 md:size-4" />
           </Button>
         </div>
       </div>

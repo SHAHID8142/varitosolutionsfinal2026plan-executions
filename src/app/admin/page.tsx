@@ -48,19 +48,19 @@ const LOW_STOCK_PRODUCTS = [
 
 export default function AdminDashboardPage() {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8 md:gap-10">
       
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Dashboard</h1>
-          <p className="text-gray-500 font-medium">Welcome back, here&apos;s what&apos;s happening with Varito Solutions today.</p>
+          <p className="text-sm md:text-base text-gray-500 font-medium">Welcome back, here&apos;s what&apos;s happening with Varito Solutions today.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="rounded-xl font-bold border-gray-200">
+        <div className="flex items-center gap-2 md:gap-3">
+          <Button variant="outline" className="flex-1 md:flex-none h-11 md:h-12 rounded-xl font-bold border-gray-200 bg-white">
             Export Report
           </Button>
-          <Button className="rounded-xl font-black shadow-lg shadow-emerald-500/20">
+          <Button className="flex-1 md:flex-none h-11 md:h-12 rounded-xl font-black shadow-lg shadow-emerald-500/20">
             New Product +
           </Button>
         </div>

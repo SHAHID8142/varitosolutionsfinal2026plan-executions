@@ -18,14 +18,11 @@ import {
   ArrowUpDown, 
   MoreHorizontal, 
   Edit3, 
-  Eye, 
   Trash2, 
   Package, 
-  AlertTriangle,
   ChevronLeft,
   ChevronRight,
   Check,
-  X
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -77,9 +74,6 @@ export function ProductsTable() {
   const [editingStockId, setEditingStockId] = React.useState<string | null>(null)
   const [editingPriceId, setEditingPriceId] = React.useState<string | null>(null)
   
-  // TODO: Replace with real auth/state
-  const isSuperAdmin = true
-
   const filteredProducts = MOCK_PRODUCTS.filter(prod => {
     const matchesSearch = 
       prod.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -137,27 +131,27 @@ export function ProductsTable() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-gray-50 bg-gray-50/50">
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                    Product Info <ArrowUpDown className="size-3" />
+                    Product <ArrowUpDown className="size-3" />
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                    Pricing
+                    Price
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Stock
                   </div>
                 </th>
-                <th className="px-6 py-5">
+                <th className="px-4 md:px-6 py-5">
                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Status
                   </div>
                 </th>
-                <th className="px-6 py-5 text-right">
+                <th className="px-4 md:px-6 py-5 text-right">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</span>
                 </th>
               </tr>
@@ -166,77 +160,61 @@ export function ProductsTable() {
               {filteredProducts.map((prod) => {
                 const isLowStock = prod.stock > 0 && prod.stock < 10
                 const isOutOfStock = prod.stock <= 0
-                const margin = ((prod.price - prod.costPrice) / prod.price) * 100
 
                 return (
                   <tr key={prod.id} className="hover:bg-gray-50/50 transition-colors group">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-4">
+                    <td className="px-4 md:px-6 py-4 md:py-5">
+                      <div className="flex items-center gap-2 md:gap-4">
                         <div className={cn(
-                          "size-14 rounded-2xl border border-gray-100 overflow-hidden shrink-0 bg-gray-50 relative",
+                          "size-10 md:size-14 rounded-xl md:rounded-2xl border border-gray-100 overflow-hidden shrink-0 bg-gray-50 relative",
                           isOutOfStock && "opacity-50 grayscale"
                         )}>
                           <Image src={prod.image} alt={prod.name} fill className="object-cover" />
                         </div>
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{prod.sku}</span>
-                          <span className="text-sm font-black text-gray-900 line-clamp-1">{prod.name}</span>
-                          <span className="text-[10px] font-bold text-gray-400">{prod.category}</span>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[8px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest">{prod.sku}</span>
+                          <span className="text-xs md:text-sm font-black text-gray-900 truncate max-w-[120px] md:max-w-none">{prod.name}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 md:px-6 py-4 md:py-5">
                       {editingPriceId === prod.id ? (
                         <div className="flex items-center gap-2">
                           <Input 
                             defaultValue={prod.price} 
-                            className="h-9 w-24 rounded-lg font-black text-sm" 
+                            className="h-8 md:h-9 w-20 md:w-24 rounded-lg font-black text-xs md:text-sm" 
                             type="number"
                             autoFocus
                           />
-                          <Button size="icon" className="size-8 rounded-lg" onClick={() => handleQuickSave("price")}>
-                            <Check className="size-4" />
-                          </Button>
-                          <Button size="icon" variant="ghost" className="size-8 rounded-lg" onClick={() => setEditingPriceId(null)}>
-                            <X className="size-4" />
+                          <Button size="icon" className="size-7 md:size-8 rounded-lg" onClick={() => handleQuickSave("price")}>
+                            <Check className="size-3 md:size-4" />
                           </Button>
                         </div>
                       ) : (
                         <div className="flex flex-col gap-0.5 group/price cursor-pointer" onClick={() => setEditingPriceId(prod.id)}>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-gray-900">৳{prod.price.toLocaleString()}</span>
-                            <Edit3 className="size-3 text-gray-300 opacity-0 group-hover/price:opacity-100" />
+                          <div className="flex items-center gap-1 md:gap-2">
+                            <span className="text-xs md:text-sm font-black text-gray-900">৳{prod.price.toLocaleString()}</span>
+                            <Edit3 className="size-3 text-gray-300 opacity-0 group-hover/price:opacity-100 hidden md:block" />
                           </div>
-                          {isSuperAdmin && (
-                            <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-bold text-gray-400 tracking-wide">Cost: ৳{prod.costPrice}</span>
-                              <Badge variant="outline" className="text-[8px] h-4 px-1 border-emerald-100 text-emerald-600 bg-emerald-50/50 font-black">
-                                {margin.toFixed(0)}% Margin
-                              </Badge>
-                            </div>
-                          )}
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 md:px-6 py-4 md:py-5">
                       {editingStockId === prod.id ? (
                         <div className="flex items-center gap-2">
                           <Input 
                             defaultValue={prod.stock} 
-                            className="h-9 w-20 rounded-lg font-black text-sm" 
+                            className="h-8 md:h-9 w-16 md:w-20 rounded-lg font-black text-xs md:text-sm" 
                             type="number"
                             autoFocus
                           />
-                          <Button size="icon" className="size-8 rounded-lg" onClick={() => handleQuickSave("stock")}>
-                            <Check className="size-4" />
-                          </Button>
-                          <Button size="icon" variant="ghost" className="size-8 rounded-lg" onClick={() => setEditingStockId(null)}>
-                            <X className="size-4" />
+                          <Button size="icon" className="size-7 md:size-8 rounded-lg" onClick={() => handleQuickSave("stock")}>
+                            <Check className="size-3 md:size-4" />
                           </Button>
                         </div>
                       ) : (
                         <div 
-                          className="flex items-center gap-3 group/stock cursor-pointer w-fit"
+                          className="flex items-center gap-2 md:gap-3 group/stock cursor-pointer w-fit"
                           onClick={() => setEditingStockId(prod.id)}
                         >
                           <div className={cn(
@@ -244,40 +222,32 @@ export function ProductsTable() {
                             isLowStock && "text-amber-600",
                             isOutOfStock && "text-red-600"
                           )}>
-                            <span className="text-sm font-black">{prod.stock}</span>
-                            <span className="text-[9px] font-bold uppercase tracking-widest opacity-60">In Stock</span>
+                            <span className="text-xs md:text-sm font-black">{prod.stock}</span>
+                            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest opacity-60">Stock</span>
                           </div>
-                          {isLowStock && <AlertTriangle className="size-4 text-amber-500" />}
-                          {isOutOfStock && <AlertTriangle className="size-4 text-red-500" />}
-                          <Edit3 className="size-3 text-gray-300 opacity-0 group-hover/stock:opacity-100" />
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 md:px-6 py-4 md:py-5">
                       <Badge 
                         variant={prod.status === "active" ? "verified" : "outline"}
                         className={cn(
-                          "uppercase text-[9px] font-black tracking-widest",
+                          "uppercase text-[8px] md:text-[9px] font-black tracking-widest px-1 md:px-2",
                           prod.status === "inactive" && "bg-gray-100 text-gray-400 border-gray-200"
                         )}
                       >
                         {prod.status}
                       </Badge>
                     </td>
-                    <td className="px-6 py-5 text-right">
-                      <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Link href={`/product/${prod.sku.toLowerCase()}`} target="_blank">
-                          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-gray-100">
-                            <Eye className="size-4" />
-                          </Button>
-                        </Link>
+                    <td className="px-4 md:px-6 py-4 md:py-5 text-right">
+                      <div className="flex justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                         <Link href={`/admin/products/${prod.id}/edit`}>
-                          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-emerald-50 hover:text-emerald-600">
+                          <Button variant="ghost" size="icon" className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-emerald-50 hover:text-emerald-600">
                             <Edit3 className="size-4" />
                           </Button>
                         </Link>
                         <DropdownMenu>
-                          <DropdownMenuTrigger className="h-9 w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
+                          <DropdownMenuTrigger className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-gray-100 flex items-center justify-center outline-none transition-colors">
                               <MoreHorizontal className="size-4" />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl">
