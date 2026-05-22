@@ -73,7 +73,7 @@
 - [ ] `[GEMINI]` Help Center / FAQ (`/help`) — common questions, contact support
 - [ ] `[GEMINI]` Track Order (`/track`) — guest tracking via Order ID + Phone number
 - [ ] `[GEMINI]` Shipping Information (`/shipping`) — delivery times, courier partners, fees
-- [ ] `[GEMINI]` Returns policy page (`/returns`) — policy text
+- [x] `[GEMINI]` Returns policy page (`/returns`) — policy text
 - [ ] `[GEMINI]` Privacy Policy (`/privacy`) — standard legal text
 - [ ] `[GEMINI]` Terms & Conditions (`/terms`) — standard legal text
 
@@ -84,11 +84,13 @@
 - [ ] `[GEMINI]` Admin orders list (`/admin/orders`) — table with filter, search, sort, inline status update
 - [ ] `[GEMINI]` Admin order detail (`/admin/orders/[id]`) — full details, timeline, notes, print invoice
 - [ ] `[GEMINI]` **Invoice & Label Printing** — A4 Customer Invoice component + Thermal Courier Barcode component
+- [ ] `[GEMINI]` Admin print invoice/label (`/admin/orders/[id]/print`) — print-optimized view (no sidebar)
 - [ ] `[GEMINI]` Admin products list (`/admin/products`) — table with quick stock/price edit, low stock highlight
 - [ ] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
 - [ ] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
 - [ ] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
-- [ ] `[GEMINI]` Admin customers (`/admin/customers`) — list, search, ban/unban
+- [ ] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
+- [ ] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
 - [ ] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
 - [ ] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
 - [ ] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes

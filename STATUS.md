@@ -35,6 +35,7 @@
 - [x] **[GEMINI] My orders page built (/account/orders)**
 - [x] **[GEMINI] About Us page built (/about)**
 - [x] **[GEMINI] Contact page built (/contact)**
+- [x] **[GEMINI] Returns policy page built (/returns)**
 
 - [x] Bangladesh e-commerce market research (16 sections)
 - [x] Global platform analysis (Amazon, Shopify, Daraz, TikTok Shop)
