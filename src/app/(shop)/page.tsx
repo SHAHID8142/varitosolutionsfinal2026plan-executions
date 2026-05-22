@@ -21,6 +21,7 @@ import { ProductCard } from "@/components/shop/product-card"
 import { CategoryCard } from "@/components/shop/category-card"
 import { Badge } from "@/components/ui/badge"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
+import { WhatsAppIcon } from "@/components/ui/icons/whatsapp"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -241,9 +242,16 @@ export default function HomePage() {
                 <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-black px-8">
                   Get Wholesale Quote
                 </Button>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 font-black px-8">
-                  Contact Support
-                </Button>
+                <a 
+                  href="https://wa.me/8801814214220" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-none"
+                >
+                  <Button variant="outline" size="lg" className="w-full border-white text-white hover:bg-white/10 font-black px-8 gap-3 bg-[#25D366]/20">
+                    <WhatsAppIcon className="size-5 fill-[#25D366]" /> Chat on WhatsApp
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
