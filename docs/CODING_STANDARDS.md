@@ -370,7 +370,9 @@ varito-solutions/
 │   │   ├── component-preview/
 │   │   │   └── page.tsx               ← Component showcase (all breakpoints)
 │   │   ├── layout.tsx                 ← Root layout
-│   │   ├── not-found.tsx              ← 404 page
+│   │   ├── not-found.tsx              ← 404 page (global)
+│   │   ├── error.tsx                  ← Unhandled error boundary (global)
+│   │   ├── loading.tsx                ← Root suspense fallback
 │   │   └── globals.css                ← Global styles + CSS variables
 │   │
 │   ├── components/                    ← All React components (Gemini only)
@@ -409,6 +411,10 @@ varito-solutions/
 │   │   ├── r2.ts                      ← Cloudflare R2 upload helpers
 │   │   ├── brevo.ts                   ← Email helpers
 │   │   ├── aamarpay.ts                ← Payment client
+│   │   ├── courier.ts                 ← Courier booking (Steadfast/Pathao/RedX)
+│   │   ├── redis.ts                   ← Upstash Redis client (rate limiting)
+│   │   ├── env.ts                     ← Startup env var validation (Zod)
+│   │   ├── audit.ts                   ← Audit log helper
 │   │   ├── format-price.ts            ← BDT price formatting utility
 │   │   ├── validate.ts                ← Shared Zod schemas
 │   │   └── errors.ts                  ← Standard error response helpers

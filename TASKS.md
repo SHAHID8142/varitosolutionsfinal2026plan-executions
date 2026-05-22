@@ -90,8 +90,8 @@
 - [x] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
 - [x] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
 - [x] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
-- [ ] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
-- [ ] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
+- [x] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
+- [x] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
 - [ ] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
 - [ ] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
 - [ ] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes

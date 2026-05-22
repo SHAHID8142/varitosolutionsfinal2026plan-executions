@@ -2,7 +2,7 @@
  * @file admin-sidebar.tsx
  * @description Sidebar navigation for the Admin Panel.
  *              Contains links to all 12 administration sections.
- *              Includes role-based visibility for Super Admin sections.
+ *              Responsive: Hidden on mobile, fixed on desktop.
  *
  * @owner    Gemini Design Agent
  * @updated  2026-05-22
@@ -32,11 +32,17 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import type { SidebarItem } from "@/types/admin"
 
 // ─────────────────────────────────────────────
-// CONSTANTS
+// TYPES & CONSTANTS
 // ─────────────────────────────────────────────
+
+interface SidebarItem {
+  label: string
+  href: string
+  icon: React.ElementType
+  superAdminOnly?: boolean
+}
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -57,21 +63,24 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 // COMPONENT
 // ─────────────────────────────────────────────
 
-/** Collapsible sidebar with navigation links for all 12 admin sections. */
-export function AdminSidebar() {
+/**
+ * Sidebar content component. 
+ * Separated from layout to allow reuse in Mobile Drawer.
+ */
+export function AdminSidebarContent({ 
+  isCollapsed = false, 
+  onCollapse,
+  className 
+}: { 
+  isCollapsed?: boolean
+  onCollapse?: () => void
+  className?: string
+}) {
   const pathname = usePathname()
-  const [isCollapsed, setIsCollapsed] = React.useState(false)
-
-  // TODO: Replace with real auth state
-  const isSuperAdmin = true 
+  const isSuperAdmin = true // TODO: Real auth
 
   return (
-    <aside 
-      className={cn(
-        "fixed left-0 top-0 z-40 h-screen bg-white border-r border-gray-100 transition-all duration-300 ease-in-out flex flex-col shadow-sm",
-        isCollapsed ? "w-20" : "w-72"
-      )}
-    >
+    <div className={cn("h-full flex flex-col bg-white", className)}>
       {/* Header / Logo */}
       <div className="h-20 flex items-center px-6 border-b border-gray-50 shrink-0">
         <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
@@ -89,7 +98,7 @@ export function AdminSidebar() {
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 no-scrollbar">
-        <div className="flex flex-col gap-1 px-3">
+        <div className="px-3 space-y-1">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))
             const Icon = item.icon
@@ -118,7 +127,6 @@ export function AdminSidebar() {
                   </span>
                 )}
 
-                {/* Tooltip for collapsed mode */}
                 {isCollapsed && (
                   <div className="absolute left-full ml-4 px-3 py-2 bg-gray-900 text-white text-xs font-bold rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
                     {item.label}
@@ -130,7 +138,7 @@ export function AdminSidebar() {
         </div>
       </nav>
 
-      {/* Footer / Collapse Toggle */}
+      {/* Footer / User Profile Summary */}
       <div className="p-4 border-t border-gray-50 flex flex-col gap-2">
         {!isCollapsed && (
           <div className="mb-2 px-2 flex items-center gap-3">
@@ -144,26 +152,50 @@ export function AdminSidebar() {
           </div>
         )}
 
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center gap-3 px-3 h-12 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-bold transition-all w-full"
-        >
-          <ChevronLeft className={cn(
-            "size-5 transition-transform duration-300",
-            isCollapsed && "rotate-180"
-          )} />
-          {!isCollapsed && <span className="text-sm">Collapse Sidebar</span>}
-        </button>
+        {onCollapse && (
+          <button
+            onClick={onCollapse}
+            className="flex items-center gap-3 px-3 h-12 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-bold transition-all w-full"
+          >
+            <ChevronLeft className={cn(
+              "size-5 transition-transform duration-300",
+              isCollapsed && "rotate-180"
+            )} />
+            {!isCollapsed && <span className="text-sm">Collapse Sidebar</span>}
+          </button>
+        )}
 
         <Button 
           variant="ghost" 
-          className="justify-start gap-3 h-12 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 px-3 font-bold"
+          className="justify-start gap-3 h-12 rounded-xl text-danger-500 hover:text-danger-600 hover:bg-red-50 px-3 font-bold"
           onClick={() => window.location.href = "/"}
         >
           <LogOut className="size-5" />
           {!isCollapsed && <span className="text-sm">Logout</span>}
         </Button>
       </div>
+    </div>
+  )
+}
+
+/**
+ * Desktop Sidebar wrapper.
+ */
+export function AdminSidebar() {
+  const [isCollapsed, setIsCollapsed] = React.useState(false)
+
+  return (
+    <aside 
+      className={cn(
+        "fixed left-0 top-0 z-40 h-screen border-r border-gray-100 transition-all duration-300 ease-in-out hidden lg:flex flex-col shadow-sm",
+        isCollapsed ? "w-20" : "w-72"
+      )}
+    >
+      <AdminSidebarContent 
+        isCollapsed={isCollapsed} 
+        onCollapse={() => setIsCollapsed(!isCollapsed)} 
+      />
     </aside>
   )
 }
+

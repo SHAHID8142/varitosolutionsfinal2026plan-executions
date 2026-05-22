@@ -38,7 +38,7 @@
 | `[x]` | ImageGallery | `image-gallery.tsx` | Product | Main + thumbnails, zoom on tap |
 | `[x]` | OrderSummary | `order-summary.tsx` | Checkout | Items, delivery, COD fee, total |
 | `[x]` | PaymentMethodSelector | `payment-method-selector.tsx` | Checkout | COD, bKash, Nagad, Card |
-| `[x]` | AddressForm | `address-form.tsx" | Forms | District → Thana → Area dropdowns |
+| `[x]` | AddressForm | `address-form.tsx` | Forms | District → Thana → Area dropdowns |
 
 ## Layout Components (`src/components/layout/`)
 
@@ -49,6 +49,27 @@
 | `[x]` | Footer | `footer.tsx` | Layout | Links, social, phone, address |
 | `[x]` | SearchBar | `search-bar.tsx` | Layout | Input + suggestions dropdown |
 | `[x]` | WhatsAppButton | `whatsapp-button.tsx` | Layout | Fixed floating button |
+
+## Admin UI Components (`src/components/admin/`)
+
+| Status | Component | File | Preview Section | Notes |
+|--------|-----------|------|----------------|-------|
+| `[x]` | StatsCard | `stats-card.tsx` | Admin | Dashboard metric cards |
+| `[x]` | OrderStatusBadge | `order-status-badge.tsx` | Admin | Color-coded status pills |
+| `[x]` | OrdersTable | `orders-table.tsx` | Admin | Advanced data table with filters |
+| `[x]` | OrderTimeline | `order-timeline.tsx` | Admin | Vertical status history |
+| `[x]` | ProductsTable | `products-table.tsx` | Admin | Catalogue table with inline edit |
+| `[x]` | ProductForm | `product-form.tsx` | Admin | Multi-step creation/edit form |
+| `[x]` | ImageUploader | `image-uploader.tsx` | Admin | Multi-image upload with R2 focus |
+| `[x]` | CategoryTree | `category-tree.tsx` | Admin | Hierarchical category manager |
+
+## Admin Layout Components (`src/components/layout/`)
+
+| Status | Component | File | Preview Section | Notes |
+|--------|-----------|------|----------------|-------|
+| `[x]` | AdminSidebar | `admin-sidebar.tsx` | Admin Layout | Collapsible sidebar with 12 sections |
+| `[x]` | AdminHeader | `admin-header.tsx` | Admin Layout | Glassmorphism bar with search/profile |
+| `[x]` | AdminBreadcrumb | `admin-breadcrumb.tsx` | Admin Layout | Hierarchy tracking |
 
 ## Preview Page
 
@@ -138,7 +159,7 @@ interface ProductCardProps {
 See `docs/DESIGN_SYSTEM.md` for all color tokens, typography, and spacing.
 
 **Quick reference for component building:**
-- Primary color: `var(--color-primary-500)` = `#3B82F6`
+- Primary color: `var(--color-primary-500)` = `#10b981` (Emerald — updated after Premium Emerald Refactor)
 - Accent/CTA: `var(--color-accent-500)` = `#F97316`
 - Card border: `var(--color-border)` = `#E5E7EB`
 - Minimum touch target: 44×44px

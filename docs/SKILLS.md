@@ -28,6 +28,7 @@
 | Code review before committing | `docs/skills/code-review.md` |
 | Setting up Brevo email | `docs/skills/brevo.md` |
 | Payment integration (aamarPay) | `docs/skills/payment-integration.md` |
+| Courier booking (Steadfast/Pathao/RedX) | `docs/skills/courier-integration.md` |
 | Tailwind CSS styling | `docs/skills/tailwind.md` |
 | **Starting ANY coding work** | `docs/CODING_STANDARDS.md` (not a skill — a rule file) |
 
@@ -52,7 +53,8 @@ All files below are extracted from the installed skill library and adapted for t
 | `seo.md` | `seo-fundamentals` + `nextjs-best-practices` | Gemini |
 | `code-review.md` | `code-review-checklist` + `clean-code` | Both |
 | `brevo.md` | `brevo-automation` + `email-systems` | Claude |
-| `payment-integration.md` | `payment-integration` | Claude |
+| `payment-integration.md` | aamarPay-specific (rewritten for this project) | Claude |
+| `courier-integration.md` | Steadfast + Pathao + RedX (project-specific) | Claude |
 | `tailwind.md` | `tailwind-patterns` | Gemini |
 
 ---

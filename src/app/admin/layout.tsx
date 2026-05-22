@@ -38,11 +38,11 @@ export default function AdminLayout({
       {/* Main Content Area */}
       <div className={cn(
         "flex flex-col transition-all duration-300 ease-in-out",
-        "pl-20 lg:pl-72" // Initial padding to account for fixed sidebar
+        "lg:pl-72" // Sidebar padding only on desktop
       )}>
         <AdminHeader />
         
-        <main className="flex-1 p-8 lg:p-12">
+        <main className="flex-1 p-4 md:p-8 lg:p-12">
           <div className="max-w-7xl mx-auto">
             <AdminBreadcrumb />
             {children}

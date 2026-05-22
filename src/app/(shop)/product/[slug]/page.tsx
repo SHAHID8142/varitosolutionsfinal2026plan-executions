@@ -40,6 +40,7 @@ import { Separator } from "@/components/ui/separator"
 import { ProductSchema } from "@/components/shop/product-schema"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { usePostHog } from "posthog-js/react"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -142,8 +143,29 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = React.useState(1)
   const [activeTab, setActiveTab] = React.useState<"description" | "specs" | "reviews">("description")
   const [isWishlisted, setIsWishlisted] = React.useState(false)
+  const posthog = usePostHog()
+
+  React.useEffect(() => {
+    if (posthog) {
+      posthog.capture('product_viewed', {
+        product_id: PRODUCT.id,
+        product_name: PRODUCT.name,
+        product_slug: PRODUCT.slug,
+        category: PRODUCT.category,
+        price: PRODUCT.salePrice ?? PRODUCT.price,
+      });
+    }
+  }, [posthog])
 
   const handleAddToCart = () => {
+    posthog.capture('product_added_to_cart', {
+      product_id: PRODUCT.id,
+      product_name: PRODUCT.name,
+      product_slug: PRODUCT.slug,
+      category: PRODUCT.category,
+      price: PRODUCT.salePrice ?? PRODUCT.price,
+      quantity,
+    });
     toast.success(`${PRODUCT.name} (${quantity} ${PRODUCT.unit}${quantity > 1 ? 's' : ''}) added to cart!`)
   }
 

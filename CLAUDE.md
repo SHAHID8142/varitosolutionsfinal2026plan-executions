@@ -39,7 +39,7 @@ Your model strength: Deep reasoning. Use it for architecture decisions, complex 
 **Business:** Varito Solutions — E-Commerce, Chattogram, Bangladesh  
 **Products:** Sanitary Items (luxury → budget) + Packaging Materials  
 **Target market:** Bangladesh (COD dominant, bKash/Nagad payments, mobile-first)  
-**Stack:** Next.js 15 + Drizzle ORM + Neon PostgreSQL + Supabase Auth + Cloudflare Pages  
+**Stack:** Next.js 16.2.6 + Drizzle ORM + Neon PostgreSQL + Supabase Auth + Cloudflare Pages  
 
 **Key files to read first:**
 - `STATUS.md` — Current project phase and what's done
@@ -143,7 +143,8 @@ Expert skill docs live in `docs/skills/`. Read the matching one BEFORE starting:
 | Write an API route | `docs/skills/api-design.md` |
 | Set up Supabase auth | `docs/skills/nextjs-supabase-auth.md` |
 | Work with Cloudflare Pages/R2 | `docs/skills/cloudflare.md` |
-| Implement payments | `docs/skills/payment-integration.md` |
+| Implement payments (aamarPay) | `docs/skills/payment-integration.md` |
+| Book courier (Steadfast/Pathao/RedX) | `docs/skills/courier-integration.md` |
 | Set up Brevo email | `docs/skills/brevo.md` |
 | Do a security review | `docs/skills/security.md` |
 | Debug any error | `docs/skills/debugging.md` |
@@ -195,7 +196,11 @@ src/
 │   ├── auth.ts            ← Auth helpers
 │   ├── r2.ts              ← Cloudflare R2 helpers
 │   ├── brevo.ts           ← Email helpers
-│   └── aamarpay.ts        ← Payment helpers
+│   ├── aamarpay.ts        ← Payment helpers
+│   ├── courier.ts         ← Courier booking (Steadfast/Pathao/RedX)
+│   ├── redis.ts           ← Upstash Redis client (rate limiting)
+│   ├── env.ts             ← Startup env var validation
+│   └── audit.ts           ← Audit log helper
 ├── db/                    ← YOUR domain — schema + migrations
 │   ├── schema.ts          ← Drizzle schema (source of truth)
 │   └── migrations/        ← Generated migration files

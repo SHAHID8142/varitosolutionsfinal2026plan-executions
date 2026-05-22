@@ -21,6 +21,7 @@ import { PriceTag } from "@/components/ui/price-tag"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import { usePostHog } from "posthog-js/react"
 
 export interface ProductCardProps {
   id: string
@@ -36,6 +37,7 @@ export interface ProductCardProps {
 }
 
 export function ProductCard({
+  id,
   name,
   slug,
   image,
@@ -46,6 +48,7 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const isOutOfStock = stock <= 0
+  const posthog = usePostHog()
 
   return (
     <div className={cn(
@@ -102,6 +105,13 @@ export function ProductCard({
         disabled={isOutOfStock}
         onClick={(e) => {
           e.preventDefault();
+          posthog.capture('product_added_to_cart', {
+            product_id: id,
+            product_name: name,
+            product_slug: slug,
+            price: salePrice ?? price,
+            is_sale: !!salePrice,
+          });
           toast.success(`${name} added to cart!`);
         }}
       >

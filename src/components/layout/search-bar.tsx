@@ -16,6 +16,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { Search, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { usePostHog } from "posthog-js/react"
 
 interface SearchBarProps {
   placeholder?: string
@@ -31,6 +32,7 @@ export function SearchBar({
   const [query, setQuery] = React.useState("")
   const [isFocused, setIsFocused] = React.useState(false)
   const router = useRouter()
+  const posthog = usePostHog()
 
   const handleClear = () => {
     setQuery("")
@@ -42,6 +44,9 @@ export function SearchBar({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
+      posthog.capture('search_performed', {
+        query: query.trim(),
+      });
       if (onSearch) {
         onSearch(query.trim())
       } else {

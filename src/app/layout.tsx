@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { plusJakartaSans, hindSiliguri } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/sonner";
+import { PostHogProvider } from "./posthog-provider";
+import { PostHogPageView } from "./posthog-pageview";
 import "./../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -50,8 +52,11 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${hindSiliguri.variable} h-full antialiased font-sans`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <Toaster />
+        <PostHogProvider>
+          <PostHogPageView />
+          {children}
+          <Toaster />
+        </PostHogProvider>
       </body>
     </html>
   );

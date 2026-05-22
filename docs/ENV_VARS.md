@@ -43,16 +43,52 @@ BREVO_SENDER_EMAIL=noreply@yourdomain.com
 BREVO_SENDER_NAME=Varito Solutions
 # Get from: brevo.com → Settings → API Keys
 
-# ─── POSTHOG (Analytics) ──────────────────────────────────
+# ─── POSTHOG (Analytics — Client) ────────────────────────
 NEXT_PUBLIC_POSTHOG_KEY=phc_xxxxx
-NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+NEXT_PUBLIC_POSTHOG_HOST=https://eu.posthog.com
+# IMPORTANT: Use eu.posthog.com (EU data residency) NOT app.posthog.com (US)
 # Get from: posthog.com → Project → Settings → Project API Key
-# Note: NEXT_PUBLIC_ prefix = exposed to browser (safe for PostHog)
+
+# ─── POSTHOG (Analytics — Server) ────────────────────────
+POSTHOG_PERSONAL_API_KEY=phx_xxxxx
+POSTHOG_PROJECT_ID=12345
+# Needed for admin analytics tab that queries PostHog via server-side API
+# Get from: posthog.com → Settings → Personal API Keys (separate from project key)
+
+# ─── UPSTASH REDIS (Rate Limiting) ───────────────────────
+UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
+UPSTASH_REDIS_REST_TOKEN=AXxxxx
+# Required for all rate limiting (auth, orders, payment endpoints)
+# Get from: console.upstash.com → Create Database → REST API section
+# Free tier: 10,000 commands/day — sufficient for launch
+# Install: npm install @upstash/ratelimit @upstash/redis
+
+# ─── COURIERS ─────────────────────────────────────────────
+# Primary: Steadfast (most popular BD courier with API)
+STEADFAST_API_KEY=xxx
+STEADFAST_API_SECRET=xxx
+# Get from: steadfast.com.bd → Merchant Dashboard → API Integration
+
+# Secondary: Pathao (popular in Dhaka + Chittagong)
+PATHAO_CLIENT_ID=xxx
+PATHAO_CLIENT_SECRET=xxx
+PATHAO_USERNAME=your@email.com
+PATHAO_PASSWORD=yourpassword
+# Get from: merchant.pathao.com → Settings → API Access
+
+# Tertiary: RedX
+REDX_API_TOKEN=xxx
+# Get from: redx.com.bd → Merchant → API
 
 # ─── APP ──────────────────────────────────────────────────
 NEXTAUTH_SECRET=generate-with-openssl-rand-base64-32
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 # Production: https://yourdomain.com
+
+NEXT_PUBLIC_WHATSAPP_NUMBER=8801XXXXXXXXX
+# Format: country code + number, no + sign, no spaces
+# Shown in the floating WhatsApp button and footer
+# Example: 8801712345678
 
 # ─── OPTIONAL: SMS (for order confirmations) ──────────────
 # BD SMS providers (free tier or very cheap):

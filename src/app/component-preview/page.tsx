@@ -33,7 +33,17 @@ import { Header } from "@/components/layout/header"
 import { BottomNav } from "@/components/layout/bottom-nav"
 import { Footer } from "@/components/layout/footer"
 import { SearchBar } from "@/components/layout/search-bar"
-import { ShoppingCart, Package } from "lucide-react"
+import { AdminSidebar } from "@/components/layout/admin-sidebar"
+import { AdminHeader } from "@/components/layout/admin-header"
+import { AdminBreadcrumb } from "@/components/layout/admin-breadcrumb"
+import { StatsCard } from "@/components/admin/stats-card"
+import { OrderStatusBadge } from "@/components/admin/order-status-badge"
+import { OrdersTable } from "@/components/admin/orders-table"
+import { OrderTimeline } from "@/components/admin/order-timeline"
+import { ProductsTable } from "@/components/admin/products-table"
+import { ProductForm } from "@/components/admin/product-form"
+import { CategoryTree } from "@/components/admin/category-tree"
+import { ShoppingCart, Package, TrendingUp, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // ─────────────────────────────────────────────
@@ -398,6 +408,83 @@ export default function ComponentPreviewPage() {
               <AddressForm />
             </div>
           )}
+        </ComponentSection>
+
+        {/* ADMIN UI */}
+        <ComponentSection title="⚙️ Admin UI Components">
+          <div className="flex flex-col gap-12 px-4">
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Admin Sidebar (Collapsible)</span>
+              <div className="relative h-[600px] border border-gray-100 rounded-2xl overflow-hidden bg-gray-50">
+                <AdminSidebar />
+                <div className="pl-72 pt-4 pr-4">
+                  <AdminHeader />
+                  <div className="p-8">
+                    <AdminBreadcrumb />
+                    <div className="bg-white p-8 rounded-3xl border border-gray-100 min-h-[300px]">
+                      Sidebar Context Preview
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Stats Cards</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <StatsCard label="Revenue" value="৳45,200" trend="up" trendValue="+12%" icon={TrendingUp} />
+                <StatsCard label="Orders" value="128" trend="down" trendValue="-2%" icon={ShoppingCart} />
+                <StatsCard label="Alerts" value="05" trend="neutral" trendValue="Action Needed" icon={Clock} />
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Order Status Badges</span>
+              <div className="flex flex-wrap gap-4">
+                <OrderStatusBadge status="pending" />
+                <OrderStatusBadge status="confirmed" />
+                <OrderStatusBadge status="shipped" />
+                <OrderStatusBadge status="delivered" />
+                <OrderStatusBadge status="cancelled" />
+                <OrderStatusBadge status="returned" />
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Order History Timeline</span>
+              <div className="bg-white p-8 rounded-[40px] border border-gray-100 max-w-lg">
+                <OrderTimeline 
+                  events={[
+                    { status: "pending", title: "Order Placed", description: "Customer placed the order.", timestamp: "10:30 AM", user: "System" },
+                    { status: "confirmed", title: "Confirmed", description: "Order confirmed by staff.", timestamp: "11:15 AM", user: "Staff" },
+                    { status: "note", title: "Staff Note", description: "Customer requested extra packaging.", timestamp: "11:20 AM", user: "Staff" }
+                  ]} 
+                />
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Category Tree</span>
+              <div className="bg-white p-8 rounded-[40px] border border-gray-100 max-w-2xl">
+                <CategoryTree />
+              </div>
+            </div>
+            
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Orders Table Preview</span>
+              <OrdersTable />
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Products Table Preview</span>
+              <ProductsTable />
+            </div>
+
+            <div>
+              <span className="text-xs text-gray-400 mb-4 block">Product Form (Multi-step)</span>
+              <ProductForm />
+            </div>
+          </div>
         </ComponentSection>
 
         {/* LOADING STATES */}

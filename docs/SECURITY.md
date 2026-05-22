@@ -18,7 +18,13 @@ Admin auth     → Supabase Auth (phone OTP) + role check in DB
 
 **Never mix these.** A customer JWT must never grant admin access.
 Admin check is ALWAYS: `user.role === 'super_admin' || user.role === 'staff'`
-This check reads from the **database** — never from the JWT payload.
+Super-admin-only check: `user.role === 'super_admin'`
+Both checks read from the **database** — never from the JWT payload.
+
+Canonical role values stored in DB (users.role column):
+  `customer`    — default, shop customers
+  `staff`       — admin panel access, most features
+  `super_admin` — full access including settings, coupons, refunds, user management
 
 ### Admin Session Rules
 ```
@@ -339,17 +345,31 @@ export const serverEnv = serverEnvSchema.parse(process.env)
 ```bash
 # These must NEVER appear in client-side code:
 DATABASE_URL
-SUPABASE_SERVICE_ROLE_KEY      # Admin-level Supabase key
+SUPABASE_SERVICE_ROLE_KEY
 AAMARPAY_STORE_ID
 AAMARPAY_SIGNATURE_KEY
 BREVO_API_KEY
 CLOUDFLARE_R2_SECRET_ACCESS_KEY
 NEXTAUTH_SECRET
+UPSTASH_REDIS_REST_URL
+UPSTASH_REDIS_REST_TOKEN
+POSTHOG_PERSONAL_API_KEY
+POSTHOG_PROJECT_ID
+STEADFAST_API_KEY
+STEADFAST_API_SECRET
+PATHAO_CLIENT_ID
+PATHAO_CLIENT_SECRET
+PATHAO_USERNAME
+PATHAO_PASSWORD
+REDX_API_TOKEN
 
-# These are OK on client:
+# These are OK on client (NEXT_PUBLIC_ prefix):
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 NEXT_PUBLIC_POSTHOG_KEY
+NEXT_PUBLIC_POSTHOG_HOST
+NEXT_PUBLIC_APP_URL
+NEXT_PUBLIC_WHATSAPP_NUMBER
 ```
 
 ---
