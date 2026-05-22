@@ -25,33 +25,35 @@
 ## 🎨 GEMINI AGENT TASKS (UI/UX)
 
 ### Phase 1: Design System Setup
-- [ ] `[GEMINI]` Install shadcn/ui: `npx shadcn@latest init`
-- [ ] `[GEMINI]` Add base shadcn components: `npx shadcn@latest add button card dialog sheet input select badge carousel skeleton toast`
-- [ ] `[GEMINI]` Create `src/styles/globals.css` with all CSS variables from `docs/DESIGN_SYSTEM.md`
-- [ ] `[GEMINI]` Create `src/lib/fonts.ts` — load Hind Siliguri from Google Fonts
+- [x] `[GEMINI]` Install shadcn/ui: `npx shadcn@latest init`
+- [x] `[GEMINI]` Add base shadcn components: `npx shadcn@latest add button card dialog sheet input select badge carousel skeleton toast`
+- [x] `[GEMINI]` Create `src/styles/globals.css` with all CSS variables from `docs/DESIGN_SYSTEM.md`
+- [x] `[GEMINI]` Create `src/lib/fonts.ts` — load Hind Siliguri from Google Fonts
+- [x] `[GEMINI]` **PREMIUM EMERALD REFACTOR** (Emerald theme, solid colors, no gradients, Jakarta font)
+- [x] `[GEMINI]` **ANTI-SLOP VALIDATION** (Passed npm run lint and type-check)
 
 ### Phase 2: Component Library (MUST COMPLETE BEFORE ANY PAGE)
-- [ ] `[GEMINI]` Build `<Button>` variants (primary, secondary, outline, ghost, danger)
-- [ ] `[GEMINI]` Build `<ProductCard>` (image, name, price, sale price, cart button)
-- [ ] `[GEMINI]` Build `<CategoryCard>` (image, name, product count)
-- [ ] `[GEMINI]` Build `<PriceTag>` (formatted BDT price, sale price, discount %)
-- [ ] `[GEMINI]` Build `<Badge>` variants (new, sale, out-of-stock, COD, verified)
-- [ ] `[GEMINI]` Build `<Header>` (logo, search, cart icon, mobile menu)
-- [ ] `[GEMINI]` Build `<BottomNav>` (mobile: Home, Categories, Search, Cart, Profile)
-- [ ] `[GEMINI]` Build `<Footer>` (links, social, phone, address)
-- [ ] `[GEMINI]` Build `<SearchBar>` (input + suggestions dropdown)
-- [ ] `[GEMINI]` Build `<ImageGallery>` (main image + thumbnails, zoom on tap)
-- [ ] `[GEMINI]` Build `<QuantitySelector>` (minus, number, plus)
-- [ ] `[GEMINI]` Build `<AddressForm>` (District → Thana → Area dropdowns)
-- [ ] `[GEMINI]` Build `<OrderSummary>` (items, delivery, COD fee, total)
-- [ ] `[GEMINI]` Build `<PaymentMethodSelector>` (COD, bKash, Nagad, Card)
-- [ ] `[GEMINI]` Build `<EmptyState>` (icon, title, description, CTA button)
-- [ ] `[GEMINI]` Build `<LoadingSkeleton>` variants (product card, list item, page)
-- [ ] `[GEMINI]` Build `<WhatsAppButton>` (floating, fixed bottom-right)
-- [ ] `[GEMINI]` Build `<Toast>` (success, error, info variants)
-- [ ] `[GEMINI]` Build `<Breadcrumb>` (navigation trail)
-- [ ] `[GEMINI]` Build `<RatingStars>` (display + interactive)
-- [ ] `[GEMINI]` Build `/app/component-preview/page.tsx` (shows ALL components)
+- [x] `[GEMINI]` Build `<Button>` variants (primary, secondary, outline, ghost, danger)
+- [x] `[GEMINI]` Build `<ProductCard>` (image, name, price, sale price, cart button)
+- [x] `[GEMINI]` Build `<CategoryCard>` (image, name, product count)
+- [x] `[GEMINI]` Build `<PriceTag>` (formatted BDT price, sale price, discount %)
+- [x] `[GEMINI]` Build `<Badge>` variants (new, sale, out-of-stock, COD, verified)
+- [x] `[GEMINI]` Build `<Header>` (logo, search, cart icon, mobile menu)
+- [x] `[GEMINI]` Build `<BottomNav>` (mobile: Home, Categories, Search, Cart, Profile)
+- [x] `[GEMINI]` Build `<Footer>` (links, social, phone, address)
+- [x] `[GEMINI]` Build `<SearchBar>` (input + suggestions dropdown)
+- [x] `[GEMINI]` Build `<ImageGallery>` (main image + thumbnails, zoom on tap)
+- [x] `[GEMINI]` Build `<QuantitySelector>` (minus, number, plus)
+- [x] `[GEMINI]` Build `<AddressForm>` (District → Thana → Area dropdowns)
+- [x] `[GEMINI]` Build `<OrderSummary>` (items, delivery, COD fee, total)
+- [x] `[GEMINI]` Build `<PaymentMethodSelector>` (COD, bKash, Nagad, Card)
+- [x] `[GEMINI]` Build `<EmptyState>` (icon, title, description, CTA button)
+- [x] `[GEMINI]` Build `<LoadingSkeleton>` variants (product card, list item, page)
+- [x] `[GEMINI]` Build `<WhatsAppButton>` (floating, fixed bottom-right)
+- [x] `[GEMINI]` Build `<Toast>` (success, error, info variants)
+- [x] `[GEMINI]` Build `<Breadcrumb>` (navigation trail)
+- [x] `[GEMINI]` Build `<RatingStars>` (display + interactive)
+- [x] `[GEMINI]` Build `/app/component-preview/page.tsx` (shows ALL components)
 - [ ] `[HUMAN]` **REVIEW AND APPROVE** component library at localhost:3000/component-preview
 
 ### Phase 3: Page Building (Only After Component Approval)
