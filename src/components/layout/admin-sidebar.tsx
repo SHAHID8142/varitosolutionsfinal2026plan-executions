@@ -33,6 +33,8 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+import { SheetClose } from "@/components/ui/sheet"
+
 // ─────────────────────────────────────────────
 // TYPES & CONSTANTS
 // ─────────────────────────────────────────────
@@ -70,10 +72,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 export function AdminSidebarContent({ 
   isCollapsed = false, 
   onCollapse,
+  onClose,
   className 
 }: { 
   isCollapsed?: boolean
   onCollapse?: () => void
+  onClose?: () => void
   className?: string
 }) {
   const pathname = usePathname()
@@ -83,7 +87,7 @@ export function AdminSidebarContent({
     <div className={cn("h-full flex flex-col bg-white", className)}>
       {/* Header / Logo */}
       <div className="h-20 flex items-center px-6 border-b border-gray-50 shrink-0">
-        <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
+        <Link href="/admin" onClick={onClose} className="flex items-center gap-3 overflow-hidden">
           <div className="size-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-emerald-200">
             <Package2 className="size-6" />
           </div>
@@ -105,10 +109,8 @@ export function AdminSidebarContent({
 
             if (item.superAdminOnly && !isSuperAdmin) return null
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
+            const content = (
+              <div
                 className={cn(
                   "flex items-center gap-3 px-3 h-12 rounded-xl transition-all duration-200 group relative",
                   isActive 
@@ -132,6 +134,24 @@ export function AdminSidebarContent({
                     {item.label}
                   </div>
                 )}
+              </div>
+            )
+
+            if (onClose) {
+              return (
+                <SheetClose key={item.href} nativeButton={false} render={<Link href={item.href} onClick={onClose} />}>
+                  {content}
+                </SheetClose>
+              )
+            }
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block"
+              >
+                {content}
               </Link>
             )
           })}

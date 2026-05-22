@@ -6,6 +6,7 @@ import { PostHogPageView } from "./posthog-pageview";
 import "./../styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://varitosolutions.com"),
   title: {
     default: "Varito Solutions | Premium Sanitary & Packaging Materials",
     template: "%s | Varito Solutions",

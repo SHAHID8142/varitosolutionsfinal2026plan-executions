@@ -61,7 +61,10 @@ export function AdminHeader() {
             <SheetHeader className="sr-only">
               <SheetTitle>Admin Navigation</SheetTitle>
             </SheetHeader>
-            <AdminSidebarContent className="h-full" />
+            <AdminSidebarContent 
+              className="h-full" 
+              onClose={() => setIsMobileMenuOpen(false)} 
+            />
           </SheetContent>
         </Sheet>
 

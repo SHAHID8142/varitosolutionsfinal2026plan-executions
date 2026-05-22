@@ -53,7 +53,7 @@ export function ProductAnalytics() {
         <div className="lg:col-span-8 flex flex-col gap-6">
           <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Top Products by Revenue</h3>
           <div className="h-[400px] w-full bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={TOP_PRODUCTS} layout="vertical" margin={{ left: 40, right: 30 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f3f4f6" />
                 <XAxis type="number" hide />

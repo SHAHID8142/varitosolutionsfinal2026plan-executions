@@ -54,7 +54,7 @@ export function CustomerAnalytics() {
         <div className="lg:col-span-7 flex flex-col gap-6">
           <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Orders by District</h3>
           <div className="h-[400px] w-full bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={TOP_DISTRICTS}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                 <XAxis 
@@ -75,7 +75,7 @@ export function CustomerAnalytics() {
         <div className="lg:col-span-5 flex flex-col gap-6">
           <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Customer Retention</h3>
           <div className="h-[400px] w-full bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm flex items-center justify-center relative">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <PieChart>
                 <Pie
                   data={CUSTOMER_TYPE}

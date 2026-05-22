@@ -101,7 +101,13 @@ export function BannerManager() {
               {/* Preview Image */}
               <div className="w-full md:w-64 h-32 md:h-40 bg-gray-50 shrink-0 relative overflow-hidden">
                 {banner.image ? (
-                  <Image src={banner.image} alt={banner.title} fill className="object-cover" />
+                  <Image 
+                    src={banner.image} 
+                    alt={banner.title} 
+                    fill 
+                    className="object-cover" 
+                    sizes="(max-width: 768px) 100vw, 256px"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-emerald-600/20">
                     <Zap className="size-12 fill-current" />
