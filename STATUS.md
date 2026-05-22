@@ -38,15 +38,25 @@
 - [x] TECH_STACK.md — Free tool stack
 - [x] MOBILE_APP_STRATEGY.md — PWA → App path
 - [x] LAUNCH_CHECKLIST.md — Pre-launch checklist
-- [x] GEMINI.md — Gemini agent instructions
-- [x] CLAUDE.md — Claude agent instructions
+- [x] GEMINI.md — Design agent full instructions (4-breakpoint preview, coding standards, admin spec)
+- [x] CLAUDE.md — Backend agent + 2nd Inspector instructions
+- [x] AGENTS.md — Three-agent coordination (Design / Backend+Inspector / Inspector)
+- [x] PROMPT.md — Master prompt for any agent on any computer
 - [x] STATUS.md — This file
-- [x] TASKS.md — Task queue
-- [x] AGENTS.md — Agent coordination guide
-- [x] docs/DESIGN_SYSTEM.md — Design tokens
-- [x] docs/API_SPEC.md — API contracts
-- [x] docs/DB_SCHEMA.md — Database schema
-- [x] docs/COMPONENT_REGISTRY.md — Component list
+- [x] TASKS.md — Full task queue (all phases, all agents, admin panel tasks)
+- [x] docs/DESIGN_SYSTEM.md — Colors, typography, spacing, BD-specific rules
+- [x] docs/API_SPEC.md — Public API contracts
+- [x] docs/ADMIN_SPEC.md — Complete admin panel (12 sections, 40+ routes, RBAC)
+- [x] docs/DB_SCHEMA.md — Full database schema (all tables incl. banners, coupons, audit_log)
+- [x] docs/COMPONENT_REGISTRY.md — All UI components with status tracking
+- [x] docs/SECURITY.md — Security architecture (auth, middleware, rate limiting, payment, XSS)
+- [x] docs/ANALYTICS.md — PostHog setup + event map + DB analytics API spec
+- [x] docs/CODING_STANDARDS.md — One-file-per-element, comment rules, folder structure
+- [x] docs/ENV_VARS.md — All environment variables
+- [x] docs/MCP_SERVERS.md — MCP configuration guide
+- [x] docs/TOKEN_EFFICIENCY.md — Token reduction strategy (graphify)
+- [x] docs/SKILLS.md — Skills index (15 skill docs)
+- [x] docs/skills/ — 15 expert skill docs (drizzle, shadcn, security, brevo, etc.)
 
 ### Infrastructure
 - [x] GitHub repo: SHAHID8142/varitosolutionsfinal2026plan-executions

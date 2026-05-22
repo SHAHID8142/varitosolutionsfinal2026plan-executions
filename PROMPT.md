@@ -86,13 +86,17 @@ Root files:
 
 docs/ (reference — all agents read):
 ├── DESIGN_SYSTEM.md   ← Colors, typography, spacing (Gemini follows exactly)
-├── API_SPEC.md        ← All API contracts (Claude follows exactly)
-├── DB_SCHEMA.md       ← Database schema reference
+├── API_SPEC.md        ← Public API contracts (Claude follows exactly)
+├── ADMIN_SPEC.md      ← Complete admin panel: 12 sections, 40+ routes, RBAC rules
+├── SECURITY.md        ← Security architecture: auth, middleware, rate limiting, payments
+├── ANALYTICS.md       ← PostHog setup + event tracking map + DB analytics APIs
+├── CODING_STANDARDS.md ← One-file-per-element, comment rules, full folder structure
+├── DB_SCHEMA.md       ← Database schema reference (all tables)
 ├── COMPONENT_REGISTRY.md ← All UI components, status, file paths
 ├── ENV_VARS.md        ← All environment variables (never commit values)
 ├── MCP_SERVERS.md     ← MCP server setup for Neon, Cloudflare, Supabase
 ├── TOKEN_EFFICIENCY.md ← How to reduce token usage + avoid hallucinations
-├── SKILLS.md          ← Index of all skill docs in docs/skills/
+└── SKILLS.md          ← Index of all 15 skill docs in docs/skills/
 
 docs/skills/ (expert knowledge — read before each type of work):
 ├── drizzle-orm.md, neon-postgres.md  ← DB work
@@ -109,10 +113,14 @@ Phase: 1 — PLANNING COMPLETE, BUILD NOT STARTED
 
 ✅ Done:
 - All planning, research, market analysis complete
-- All documentation written and pushed to GitHub
+- All documentation written and pushed to GitHub (25+ docs)
 - All free accounts created (GitHub, Cloudflare, Neon, Supabase, Brevo, aamarPay, PostHog, R2)
 - Social media accounts created
 - Legal docs collected (Trade License, e-TIN)
+- Admin panel fully spec'd (12 sections, 40+ API routes, RBAC)
+- Security architecture documented (auth, rate limiting, payment security, audit log)
+- Analytics documented (PostHog event map + custom DB analytics APIs)
+- Coding standards documented (one-file-per-element, comment rules, folder structure)
 
 🔴 Blocked on (human must do first):
 1. Register domain (Namecheap/Porkbun)
