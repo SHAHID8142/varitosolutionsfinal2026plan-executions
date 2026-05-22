@@ -18,6 +18,9 @@ import { CodIcon } from "@/components/ui/icons/cod"
 import { BkashIcon } from "@/components/ui/icons/bkash"
 import { NagadIcon } from "@/components/ui/icons/nagad"
 import { VisaIcon } from "@/components/ui/icons/visa"
+import { PathaoIcon } from "@/components/ui/icons/pathao"
+import { RedxIcon } from "@/components/ui/icons/redx"
+import { SteadfastIcon } from "@/components/ui/icons/steadfast"
 
 const FOOTER_LINKS = {
   shop: [
@@ -111,11 +114,19 @@ export function Footer() {
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-          <p>© 2026 Varito Solutions. All Rights Reserved.</p>
-          <div className="flex flex-col items-center md:items-end gap-3">
-            <span className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em]">Secure Payments</span>
+        {/* Partners & Payments */}
+        <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-10">
+          <div className="flex flex-col items-center md:items-start gap-4">
+            <span className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em]">Courier Partners</span>
+            <div className="flex flex-wrap justify-center md:justify-start items-center gap-6 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+              <PathaoIcon className="h-6 w-auto" />
+              <RedxIcon className="h-6 w-auto" />
+              <SteadfastIcon className="h-5 w-auto" />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center md:items-end gap-4">
+            <span className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em]">We Accept</span>
             <div className="flex items-center gap-5">
               <CodIcon className="h-6 w-auto" />
               <BkashIcon className="h-6 w-auto" />
@@ -123,6 +134,11 @@ export function Footer() {
               <VisaIcon className="h-6 w-auto" />
             </div>
           </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-10 pt-8 border-t border-gray-100 text-center text-[11px] font-bold uppercase tracking-widest text-gray-400">
+          <p>© 2026 Varito Solutions. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
