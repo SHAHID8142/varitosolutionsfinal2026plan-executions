@@ -42,7 +42,7 @@ const clientEnvSchema = z.object({
 function parseServerEnv() {
   const result = serverEnvSchema.safeParse(process.env)
   if (!result.success) {
-    const missing = result.error.errors
+    const missing = result.error.issues
       .map((e) => `  • ${e.path.join(".")}: ${e.message}`)
       .join("\n")
     throw new Error(`Missing or invalid server environment variables:\n${missing}`)

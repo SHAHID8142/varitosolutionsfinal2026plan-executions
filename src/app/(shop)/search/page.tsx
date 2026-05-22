@@ -111,7 +111,7 @@ function FilterSidebar() {
 // MAIN PAGE EXPORT
 // ─────────────────────────────────────────────
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const query = searchParams.get("q") || ""
@@ -259,5 +259,13 @@ export default function SearchPage() {
       <BottomNav />
       <WhatsAppButton />
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <React.Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <SearchContent />
+    </React.Suspense>
   )
 }

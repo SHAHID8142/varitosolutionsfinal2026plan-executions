@@ -21,6 +21,7 @@ import {
   index,
   uniqueIndex,
   customType,
+  foreignKey,
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
 
@@ -46,9 +47,7 @@ export const categories = pgTable(
     name: varchar("name", { length: 100 }).notNull(),
     nameBn: varchar("name_bn", { length: 100 }),
     slug: varchar("slug", { length: 120 }).notNull().unique(),
-    parentId: integer("parent_id").references((): ReturnType<typeof categories.id.columnType> => categories.id, {
-      onDelete: "set null",
-    }),
+    parentId: integer("parent_id"),
     image: text("image"),
     sortOrder: integer("sort_order").default(0),
     isActive: boolean("is_active").default(true),
@@ -59,6 +58,11 @@ export const categories = pgTable(
   (table) => [
     index("categories_parent_id_idx").on(table.parentId),
     index("categories_is_featured_idx").on(table.isFeatured),
+    foreignKey({
+      columns: [table.parentId],
+      foreignColumns: [table.id],
+      name: "categories_parent_id_fkey",
+    }).onDelete("set null"),
   ]
 )
 

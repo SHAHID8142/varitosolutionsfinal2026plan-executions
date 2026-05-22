@@ -54,7 +54,12 @@ const MOCK_BANNERS: Banner[] = [
 export function BannerManager() {
   const [banners, setBanners] = React.useState<Banner[]>(MOCK_BANNERS)
 
-  const handleToggleStatus = () => {
+  const handleToggleStatus = (id: string) => {
+    setBanners(banners.map(banner => 
+      banner.id === id 
+        ? { ...banner, status: banner.status === "active" ? "draft" : "active" } 
+        : banner
+    ))
     toast.success("Banner status updated")
   }
 

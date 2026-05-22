@@ -45,8 +45,7 @@ export async function getAuthUser(request: Request) {
 
 /** Sends a phone OTP via Supabase Auth. Phone must be in E.164 format (+880...). */
 export async function sendPhoneOtp(phone: string) {
-  const { error } = await supabaseAdmin.auth.admin.generateLink({
-    type: "phone_change",
+  const { error } = await supabaseAdmin.auth.signInWithOtp({
     phone,
   })
   if (error) throw error
