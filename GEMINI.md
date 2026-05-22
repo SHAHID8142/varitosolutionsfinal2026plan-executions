@@ -46,9 +46,9 @@ You MUST complete this before building any page:
 
 ```
 Step 1: Read DESIGN_SYSTEM.md completely
-Step 2: Build ALL components in src/components/ui/ 
-Step 3: Write src/components/ui/PREVIEW.tsx (shows all components together)
-Step 4: STOP and ask user for approval
+Step 2: Build ALL components in src/components/ui/
+Step 3: Write src/app/component-preview/page.tsx (the responsive preview page)
+Step 4: STOP — send the approval message (see § Component Approval Process below)
 Step 5: Only after user says "approved" → proceed to pages
 ```
 
@@ -171,25 +171,118 @@ git push origin main
 
 ## 📋 Component Approval Process
 
-When you finish the component library:
-1. Run `npm run dev`
-2. Navigate to `/component-preview` (the PREVIEW.tsx page you built)
-3. Write this exact message to the user:
+### What the Preview Page Must Show
+
+The preview page at `src/app/component-preview/page.tsx` is **not** a simple dump of components.
+It must be a **responsive showcase** — the user must be able to see every component at every
+breakpoint without resizing their browser window.
+
+#### Required Breakpoints (show ALL four for every component)
+
+| Breakpoint | Width | Device Target |
+|------------|-------|---------------|
+| **Mobile** | 375px | Android (Galaxy A, Redmi) — our primary user |
+| **Tablet** | 768px | iPad, Android tablet |
+| **Desktop** | 1280px | Laptop / small monitor |
+| **Wide** | 1440px | Large desktop monitor |
+
+#### How to Build the Preview Page
+
+```tsx
+// src/app/component-preview/page.tsx structure:
+//
+// 1. A sticky top bar with breakpoint buttons:
+//    [📱 Mobile 375] [📟 Tablet 768] [🖥️ Desktop 1280] [🖥️ Wide 1440] [📐 All]
+//
+// 2. Default view: "All" — renders each component inside 4 labelled
+//    iframe-like containers side by side (or stacked on real mobile)
+//    showing each at its target width using CSS transform scale().
+//
+// 3. Single breakpoint view: renders the component at that exact width
+//    in the center of the page.
+//
+// 4. Each component section has:
+//    - Component name as heading
+//    - All states shown (default, hover, disabled, loading, error)
+//    - All variants shown (primary, secondary, ghost, etc.)
+//    - Rendered at all 4 widths simultaneously in "All" view
+```
+
+#### Scale Technique (no iframes needed)
+
+```tsx
+// Scale a component to fit inside a preview box:
+// If target width is 375px and preview box is 300px wide → scale = 300/375 = 0.8
+<div style={{ width: '300px', height: 'auto', overflow: 'hidden' }}>
+  <div style={{
+    width: '375px',
+    transform: 'scale(0.8)',
+    transformOrigin: 'top left'
+  }}>
+    <YourComponent />
+  </div>
+</div>
+```
+
+#### Preview Page Component Sections (one per component)
+
+For every component in `src/components/ui/`, render a section like:
+```
+─────────────────────────────────
+🧩 Button Component
+─────────────────────────────────
+[📱 375px]  [📟 768px]  [🖥 1280px]  [🖥 1440px]
+  ┌──────┐   ┌──────┐   ┌──────────┐  ┌──────────┐
+  │ BTN  │   │ BTN  │   │  BUTTON  │  │  BUTTON  │
+  └──────┘   └──────┘   └──────────┘  └──────────┘
+
+Variants shown: primary, secondary, ghost, destructive, disabled, loading
+─────────────────────────────────
+```
+
+---
+
+### Approval Message to Send the User
+
+When preview page is built, run `npm run dev` and send this **exact** message:
 
 ```
-COMPONENT LIBRARY READY FOR REVIEW
+╔════════════════════════════════════════════╗
+║   COMPONENT LIBRARY READY FOR REVIEW      ║
+╚════════════════════════════════════════════╝
 
-I have built [N] components in src/components/ui/
-You can preview all of them at: http://localhost:3000/component-preview
+📦 Components built: [N] total
+🔗 Preview URL: http://localhost:3000/component-preview
 
-Components built:
-- [list all components with their file paths]
+📱 Mobile (375px) · 📟 Tablet (768px) · 🖥 Desktop (1280px) · 🖥 Wide (1440px)
+Every component is shown at all 4 breakpoints on the preview page.
+Use the breakpoint buttons at the top to switch views.
 
-Please review and say "approved" to proceed to page building,
-or give me specific feedback on what to change.
+Components in this review:
+┌─────────────────────────────────────────────┐
+│ Component          │ File path               │
+│ ─────────────────── │ ───────────────────── │
+│ Button             │ components/ui/button    │
+│ [... all components listed] ...             │
+└─────────────────────────────────────────────┘
+
+States shown per component:
+✅ Default  ✅ Hover  ✅ Active  ✅ Disabled  ✅ Loading  ✅ Error
+
+Please open the link, check every component at each breakpoint,
+then reply:
+  → "approved" to proceed to page building
+  → "fix [component] [what to change]" for specific changes
+
+⚠️ I will NOT start building pages until I receive your "approved".
 ```
 
-4. **Do not build any pages until you receive "approved"**
+### After Approval
+
+- Save this approval in `STATUS.md` with the date: `✅ Component library approved: YYYY-MM-DD`
+- Proceed to Phase B only after this line is written
+
+**Do not build any pages until you receive "approved"**
 
 ---
 
