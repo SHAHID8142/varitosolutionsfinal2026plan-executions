@@ -162,8 +162,8 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Search Bar (Desktop) */}
-          <div className="hidden md:flex flex-1 max-w-md ml-auto">
+          {/* Search Bar (Desktop) - Shown on LG and up */}
+          <div className="hidden lg:flex flex-1 max-w-md ml-auto">
             <SearchBar />
           </div>
 
@@ -207,8 +207,8 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Search (below header) */}
-        <div className="mt-4 md:hidden">
+        {/* Mobile/Tablet Search (below header) - Shown below LG */}
+        <div className="mt-4 lg:hidden">
           <SearchBar placeholder="Search sanitary, packaging..." />
         </div>
       </div>

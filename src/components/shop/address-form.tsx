@@ -15,6 +15,7 @@ import { MapPin, Phone, User, Home as HomeIcon, Briefcase, Info } from "lucide-r
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { toast } from "sonner"
 
 const DISTRICTS = ["Chattogram", "Dhaka", "Sylhet", "Rajshahi", "Khulna", "Barishal", "Rangpur", "Mymensingh"]
 const THANAS: Record<string, string[]> = {
@@ -126,7 +127,12 @@ export function AddressForm() {
         </div>
       </div>
 
-      <Button variant="primary" size="lg" className="w-full mt-4 shadow-lg shadow-primary/20">
+      <Button 
+        onClick={() => toast.success("Address saved successfully! Proceeding to payment...")}
+        variant="primary" 
+        size="lg" 
+        className="w-full mt-4 shadow-lg shadow-primary/20"
+      >
         Save Address & Continue
       </Button>
     </div>

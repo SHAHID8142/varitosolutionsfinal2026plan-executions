@@ -18,6 +18,9 @@ import { Button } from "@/components/ui/button"
 import { CategoryCard } from "@/components/shop/category-card"
 import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
+import { WhatsAppIcon } from "@/components/ui/icons/whatsapp"
+import { Package, ArrowRight } from "lucide-react"
+import { toast } from "sonner"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -41,12 +44,17 @@ const ALL_CATEGORIES = [
 // ─────────────────────────────────────────────
 
 export default function CategoriesPage() {
+  const handleWholesaleQuote = () => {
+    toast.info("Opening wholesale request form...")
+    window.location.href = "/contact"
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50/50">
       <Header />
       
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 pb-24">
           
           {/* Header & Breadcrumb */}
           <div className="flex flex-col gap-6 mb-12">
@@ -73,25 +81,41 @@ export default function CategoriesPage() {
                 slug={cat.slug}
                 image={cat.image}
                 productCount={cat.count}
-                className="bg-white border-white hover:border-primary/20"
+                className="bg-white border-white hover:border-primary/20 shadow-sm"
               />
             ))}
           </div>
 
-          {/* Wholesale Notice */}
-          <section className="mt-20 p-8 md:p-12 rounded-[40px] bg-emerald-600 text-white text-center relative overflow-hidden shadow-2xl shadow-emerald-500/20">
-             <div className="relative z-10 flex flex-col items-center gap-6">
-               <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight leading-tight">
-                 Looking for Bulk Packaging or Sanitary Supplies?
-               </h2>
-               <p className="text-emerald-50 text-lg font-medium max-w-xl opacity-90">
-                 We provide customized quotes for high-volume orders. Connect with our dedicated sales team for trade pricing.
-               </p>
-               <WhatsAppButton className="relative bottom-0 right-0" />
-               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                 <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-black px-10 py-7 text-lg">
-                   Request Wholesale Quote
+          {/* Wholesale Notice (Improved) */}
+          <section className="mt-24 p-8 md:p-16 rounded-[40px] bg-emerald-950 text-white relative overflow-hidden shadow-2xl shadow-emerald-950/20 border border-emerald-900/50">
+             <div className="absolute top-0 right-0 opacity-5 -translate-y-1/2 translate-x-1/4">
+               <Package size={400} strokeWidth={1} />
+             </div>
+             
+             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+               <div className="flex flex-col gap-6 max-w-2xl text-center lg:text-left">
+                 <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight leading-tight">
+                   Bulk Packaging or <span className="text-primary">Sanitary Supplies?</span>
+                 </h2>
+                 <p className="text-emerald-100/70 text-lg md:text-xl font-medium leading-relaxed">
+                   We provide customized quotes for high-volume orders. Connect with our dedicated sales team for industry-leading trade pricing and direct delivery.
+                 </p>
+               </div>
+
+               <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0">
+                 <Button onClick={handleWholesaleQuote} size="lg" className="h-16 px-10 rounded-2xl bg-white text-emerald-950 hover:bg-emerald-50 font-black uppercase tracking-widest text-sm shadow-xl shadow-black/20">
+                   Get Wholesale Quote <ArrowRight className="ml-2 size-5" />
                  </Button>
+                 <a 
+                   href="https://wa.me/8801814214220" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="w-full sm:w-auto"
+                 >
+                   <Button variant="outline" size="lg" className="w-full h-16 px-10 rounded-2xl border-emerald-800 text-white hover:bg-emerald-800/50 font-black uppercase tracking-widest text-sm gap-3">
+                     <WhatsAppIcon className="size-6 fill-[#25D366]" /> Chat on WhatsApp
+                   </Button>
+                 </a>
                </div>
              </div>
           </section>
