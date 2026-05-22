@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 
 const NAV_ITEMS = [
   { label: "Home", icon: Home, href: "/" },
-  { label: "Categories", icon: Grid, href: "/category" },
+  { label: "Categories", icon: Grid, href: "/categories" },
   { label: "Search", icon: Search, href: "/search" },
   { label: "Cart", icon: ShoppingCart, href: "/cart", badge: 3 },
   { label: "Profile", icon: User, href: "/account" },

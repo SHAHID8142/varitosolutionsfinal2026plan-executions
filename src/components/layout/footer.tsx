@@ -17,7 +17,7 @@ import { YoutubeIcon } from "@/components/ui/icons/youtube"
 const FOOTER_LINKS = {
   shop: [
     { label: "All Products", href: "/products" },
-    { label: "Categories", href: "/category" },
+    { label: "Categories", href: "/categories" },
     { label: "Flash Deals", href: "/deals" },
     { label: "New Arrivals", href: "/new" },
   ],

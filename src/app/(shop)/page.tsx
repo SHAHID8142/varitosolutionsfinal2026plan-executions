@@ -177,7 +177,7 @@ export default function HomePage() {
                 <h2 className="text-3xl font-black text-gray-900 tracking-tight">Shop by Category</h2>
                 <p className="text-gray-500 font-medium">Explore our wide range of premium products</p>
               </div>
-              <Link href="/category" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline">
+              <Link href="/categories" className="hidden sm:flex items-center gap-1 text-primary font-bold hover:underline">
                 View All <ChevronRight className="size-4" />
               </Link>
             </div>
@@ -194,7 +194,7 @@ export default function HomePage() {
               ))}
             </div>
             
-            <Link href="/category" className="flex sm:hidden items-center justify-center gap-1 text-primary font-bold mt-8 py-4 border-2 border-primary-100 rounded-xl">
+            <Link href="/categories" className="flex sm:hidden items-center justify-center gap-1 text-primary font-bold mt-8 py-4 border-2 border-primary-100 rounded-xl">
               View All Categories <ChevronRight className="size-4" />
             </Link>
           </div>

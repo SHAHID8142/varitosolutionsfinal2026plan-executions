@@ -37,6 +37,7 @@ import { RatingStars } from "@/components/ui/rating-stars"
 import { PriceTag } from "@/components/ui/price-tag"
 import { QuantitySelector } from "@/components/ui/quantity-selector"
 import { Separator } from "@/components/ui/separator"
+import { ProductSchema } from "@/components/shop/product-schema"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -140,6 +141,13 @@ export default function ProductDetailPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ProductSchema
+        name={PRODUCT.name}
+        description={PRODUCT.description}
+        image={PRODUCT.images[0]}
+        sku={PRODUCT.sku}
+        price={PRODUCT.salePrice || PRODUCT.price}
+      />
       <Header />
       
       <main className="flex-1 bg-white">
@@ -148,7 +156,7 @@ export default function ProductDetailPage() {
           {/* Breadcrumb */}
           <Breadcrumb
             items={[
-              { label: "Categories", href: "/category" },
+              { label: "Categories", href: "/categories" },
               { label: PRODUCT.category, href: `/category/${PRODUCT.category.toLowerCase().replace(' ', '-')}` },
               { label: PRODUCT.name },
             ]}
