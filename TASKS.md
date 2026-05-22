@@ -79,17 +79,17 @@
 - [x] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing pages, broken links, un-wired buttons against specs, then ask user for manual verification.
 
 ### Phase 4: Admin Panel UI (Read docs/ADMIN_SPEC.md first)
-- [ ] `[GEMINI]` Admin login page (`/admin/login`) — phone OTP login for admins
-- [ ] `[GEMINI]` Admin layout — sidebar (all 12 sections), header (admin name + logout), breadcrumb
-- [ ] `[GEMINI]` Admin dashboard (`/admin`) — stats cards, revenue overview, pending orders, low stock alerts
-- [ ] `[GEMINI]` Admin orders list (`/admin/orders`) — table with filter, search, sort, inline status update
-- [ ] `[GEMINI]` Admin order detail (`/admin/orders/[id]`) — full details, timeline, notes, print invoice
-- [ ] `[GEMINI]` **Invoice & Label Printing** — A4 Customer Invoice component + Thermal Courier Barcode component
-- [ ] `[GEMINI]` Admin print invoice/label (`/admin/orders/[id]/print`) — print-optimized view (no sidebar)
-- [ ] `[GEMINI]` Admin products list (`/admin/products`) — table with quick stock/price edit, low stock highlight
-- [ ] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
-- [ ] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
-- [ ] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
+- [x] `[GEMINI]` Admin login page (`/admin/login`) — phone OTP login for admins
+- [x] `[GEMINI]` Admin layout — sidebar (all 12 sections), header (admin name + logout), breadcrumb
+- [x] `[GEMINI]` Admin dashboard (`/admin`) — stats cards, revenue overview, pending orders, low stock alerts
+- [x] `[GEMINI]` Admin orders list (`/admin/orders`) — table with filter, search, sort, inline status update
+- [x] `[GEMINI]` Admin order detail (`/admin/orders/[id]`) — full details, timeline, notes, print invoice
+- [x] `[GEMINI]` **Invoice & Label Printing** — A4 Customer Invoice component + Thermal Courier Barcode component
+- [x] `[GEMINI]` Admin print invoice/label (`/admin/orders/[id]/print`) — print-optimized view (no sidebar)
+- [x] `[GEMINI]` Admin products list (`/admin/products`) — table with quick stock/price edit, low stock highlight
+- [x] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
+- [x] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
+- [x] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
 - [ ] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
 - [ ] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
 - [ ] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
