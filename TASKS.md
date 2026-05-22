@@ -76,6 +76,7 @@
 - [x] `[GEMINI]` Returns policy page (`/returns`) — policy text
 - [ ] `[GEMINI]` Privacy Policy (`/privacy`) — standard legal text
 - [ ] `[GEMINI]` Terms & Conditions (`/terms`) — standard legal text
+- [ ] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing pages, broken links, un-wired buttons against specs, then ask user for manual verification.
 
 ### Phase 4: Admin Panel UI (Read docs/ADMIN_SPEC.md first)
 - [ ] `[GEMINI]` Admin login page (`/admin/login`) — phone OTP login for admins
@@ -99,6 +100,7 @@
 - [ ] `[GEMINI]` Admin users (`/admin/users`) — create/manage admin accounts
 - [ ] `[GEMINI]` Admin audit log (`/admin/audit-log`) — paginated action history
 - [ ] `[GEMINI]` Add PostHog tracking calls per docs/ANALYTICS.md event map
+- [ ] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing admin pages, broken links, un-wired buttons against specs, then ask user for manual verification.
 
 ---
 
@@ -126,6 +128,7 @@
 - [ ] `[CLAUDE]` `POST /api/auth/otp` — send Supabase OTP (rate limited)
 - [ ] `[CLAUDE]` `POST /api/auth/verify` — verify OTP, return session
 - [ ] `[CLAUDE]` Middleware: protect /admin/* + /api/admin/* (RBAC — see docs/SECURITY.md)
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check for missing API routes and missing auth/RBAC against specs, then ask user for manual verification.
 
 ### Phase 3: Admin API Routes (All need RBAC middleware)
 - [ ] `[CLAUDE]` `GET /api/admin/dashboard/stats` — revenue + order counts + alerts
@@ -155,6 +158,7 @@
 - [ ] `[CLAUDE]` `GET/POST/PATCH /api/admin/users` — admin user management (Super Admin)
 - [ ] `[CLAUDE]` `GET /api/admin/audit-log` — paginated audit entries (Super Admin)
 - [ ] `[CLAUDE]` Mark each completed route `[READY]` in `docs/API_SPEC.md`
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check for missing admin API routes and missing RBAC against specs, then ask user for manual verification.
 
 ### Phase 4: Security, Integrations & Polish
 - [ ] `[CLAUDE]` Add Zod validation schemas to ALL routes (see docs/SECURITY.md)
@@ -170,6 +174,7 @@
 - [ ] `[CLAUDE]` Create `src/db/seed.ts` — seed data for development
 - [ ] `[CLAUDE]` Full security audit — run through ALL items in docs/SECURITY.md checklist
 - [ ] `[CLAUDE]` Create `src/constants/districts.ts` — all 64 Bangladesh districts + upazilas
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check all security items, integrations, and email templates, then ask user for manual verification.
 
 ---
 
