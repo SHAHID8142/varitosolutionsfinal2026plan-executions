@@ -80,17 +80,6 @@ const NEW_ARRIVALS = [
 // ─────────────────────────────────────────────
 
 /**
- * Announcement bar at the very top.
- */
-function AnnouncementBar() {
-  return (
-    <div className="bg-emerald-950 text-white py-2 text-center text-xs font-bold tracking-wide">
-      🔥 Flash Sale: 20% OFF on all Packaging Materials! Use Code: VARITO20
-    </div>
-  )
-}
-
-/**
  * Hero Section with main offer and CTA.
  */
 function Hero() {
@@ -167,7 +156,6 @@ function Hero() {
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <AnnouncementBar />
       <Header />
       
       <main className="flex-1">
