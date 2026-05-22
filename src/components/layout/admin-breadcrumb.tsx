@@ -18,6 +18,7 @@ import { ChevronRight, Home } from "lucide-react"
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/** Renders a dynamic breadcrumb trail derived from the current pathname. */
 export function AdminBreadcrumb() {
   const pathname = usePathname()
   

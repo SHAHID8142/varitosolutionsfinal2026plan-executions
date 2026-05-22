@@ -32,17 +32,11 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import type { SidebarItem } from "@/types/admin"
 
 // ─────────────────────────────────────────────
-// TYPES & CONSTANTS
+// CONSTANTS
 // ─────────────────────────────────────────────
-
-interface SidebarItem {
-  label: string
-  href: string
-  icon: React.ElementType
-  superAdminOnly?: boolean
-}
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -63,6 +57,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/** Collapsible sidebar with navigation links for all 12 admin sections. */
 export function AdminSidebar() {
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = React.useState(false)
@@ -94,7 +89,7 @@ export function AdminSidebar() {
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 no-scrollbar">
-        <div className="px-3 space-y-1">
+        <div className="flex flex-col gap-1 px-3">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))
             const Icon = item.icon
@@ -162,7 +157,7 @@ export function AdminSidebar() {
 
         <Button 
           variant="ghost" 
-          className="justify-start gap-3 h-12 rounded-xl text-danger-500 hover:text-danger-600 hover:bg-red-50 px-3 font-bold"
+          className="justify-start gap-3 h-12 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 px-3 font-bold"
           onClick={() => window.location.href = "/"}
         >
           <LogOut className="size-5" />

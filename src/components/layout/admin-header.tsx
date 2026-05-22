@@ -27,6 +27,7 @@ import { toast } from "sonner"
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/** Top header bar with global search, notifications, and admin profile dropdown. */
 export function AdminHeader() {
   const [searchQuery, setSearchQuery] = React.useState("")
 
@@ -47,6 +48,7 @@ export function AdminHeader() {
           type="text" 
           placeholder="Search orders, products, or customers..." 
           className="h-11 pl-11 pr-4 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-emerald-50 transition-all text-sm font-medium"
+          aria-label="Search admin panel"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -71,14 +73,14 @@ export function AdminHeader() {
         <div className="h-8 w-px bg-gray-100 mx-2 hidden sm:block" />
 
         {/* Theme Toggle Placeholder */}
-        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-gray-900 rounded-xl">
+        <Button variant="ghost" size="icon" aria-label="Toggle theme" className="text-gray-400 hover:text-gray-900 rounded-xl">
           <Sun className="size-5" />
         </Button>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-gray-900 rounded-xl">
+        <Button variant="ghost" size="icon" aria-label="View notifications" className="relative text-gray-400 hover:text-gray-900 rounded-xl">
           <Bell className="size-5" />
-          <span className="absolute top-2 right-2 size-2 bg-danger-500 rounded-full ring-2 ring-white" />
+          <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full ring-2 ring-white" />
         </Button>
 
         {/* Admin Profile Dropdown */}
@@ -103,7 +105,7 @@ export function AdminHeader() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              className="rounded-xl h-10 font-bold text-sm text-danger-500 cursor-pointer focus:bg-red-50 focus:text-danger-600"
+              className="rounded-xl h-10 font-bold text-sm text-red-500 cursor-pointer focus:bg-red-50 focus:text-red-600"
               onClick={() => window.location.href = "/"}
             >
               Logout System
