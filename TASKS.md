@@ -92,7 +92,7 @@
 - [x] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
 - [x] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
 - [x] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
-- [ ] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
+- [x] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
 - [ ] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
 - [ ] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes
 - [ ] `[GEMINI]` Admin inventory (`/admin/inventory`) — stock levels, adjustments, log

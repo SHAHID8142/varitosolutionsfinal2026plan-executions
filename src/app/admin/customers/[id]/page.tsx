@@ -18,9 +18,7 @@ import {
   MapPin, 
   Phone, 
   Mail,
-  Calendar,
   ShoppingBag,
-  CreditCard,
   Ban,
   CheckCircle2,
   MoreVertical,
@@ -28,7 +26,6 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
@@ -61,7 +58,7 @@ const CUSTOMER = {
 // COMPONENT
 // ─────────────────────────────────────────────
 
-export default function CustomerDetailPage({ params: _params }: { params: { id: string } }) {
+export default function CustomerDetailPage() {
   const [isBanned, setIsBanned] = React.useState(CUSTOMER.status === "banned")
 
   const handleToggleBan = () => {

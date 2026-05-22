@@ -105,7 +105,7 @@ const ORDER = {
 // COMPONENT
 // ─────────────────────────────────────────────
 
-export default function OrderDetailPage({ params: _params }: { params: { id: string } }) {
+export default function OrderDetailPage() {
   const [status, setStatus] = React.useState<OrderStatus>(ORDER.status)
   const [note, setNote] = React.useState("")
   const [isUpdating, setIsUpdating] = React.useState(false)

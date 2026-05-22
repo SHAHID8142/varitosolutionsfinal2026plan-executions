@@ -31,7 +31,7 @@ const MOCK_PRODUCT = {
   images: ["https://placehold.co/400x400/10b981/white.png?text=Faucet"],
 }
 
-export default function EditProductPage({ params: _params }: { params: { id: string } }) {
+export default function EditProductPage() {
   return (
     <div className="flex flex-col gap-10">
       

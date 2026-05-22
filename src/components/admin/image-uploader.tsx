@@ -31,7 +31,7 @@ export function ImageUploader({ images, onChange, maxImages = 5 }: ImageUploader
 
     // Simulate R2 Upload
     const newImages = [...images]
-    Array.from(files).forEach((_file) => {
+    Array.from(files).forEach(() => {
       if (newImages.length < maxImages) {
         // Create a fake blob URL for preview
         newImages.push("https://placehold.co/400x400/10b981/white.png?text=Uploaded")
