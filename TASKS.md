@@ -58,16 +58,16 @@
 
 ### Phase 3: Page Building (Only After Component Approval)
 - [x] `[GEMINI]` Homepage (`/`) — hero banner, categories grid, featured products, flash deal, announcement bar
-- [ ] `[GEMINI]` Category listing page (`/category/[slug]`) — grid, filters, sort
-- [ ] `[GEMINI]` Product detail page (`/product/[slug]`) — gallery, details, add to cart, trust signals
+- [x] `[GEMINI]` Category listing page (`/category/[slug]`) — grid, filters, sort
+- [x] `[GEMINI]` Product detail page (`/product/[slug]`) — gallery, details, add to cart, trust signals
 - [ ] `[GEMINI]` **SEO Implementation** — Add dynamic OpenGraph tags and JSON-LD schema to product pages
-- [ ] `[GEMINI]` Search results page (`/search`) — results grid
-- [ ] `[GEMINI]` Cart page (`/cart`) — items, COD surcharge, proceed
-- [ ] `[GEMINI]` Checkout page (`/checkout`) — address, payment, COD default
-- [ ] `[GEMINI]` Order confirmation page (`/order/[id]`) — success, order number
-- [ ] `[GEMINI]` My orders page (`/account/orders`) — list, status tracking
-- [ ] `[GEMINI]` About Us page (`/about`) — trust signals, team, location
-- [ ] `[GEMINI]` Contact page (`/contact`) — phone, WhatsApp, form
+- [x] `[GEMINI]` Search results page (`/search`) — results grid
+- [x] `[GEMINI]` Cart page (`/cart`) — items, COD surcharge, proceed
+- [x] `[GEMINI]` Checkout page (`/checkout`) — address, payment, COD default
+- [x] `[GEMINI]` Order confirmation page (`/order/[id]`) — success, order number
+- [x] `[GEMINI]` My orders page (`/account/orders`) — list, status tracking
+- [x] `[GEMINI]` About Us page (`/about`) — trust signals, team, location
+- [x] `[GEMINI]` Contact page (`/contact`) — phone, WhatsApp, form
 - [ ] `[GEMINI]` Returns policy page (`/returns`) — policy text
 
 ### Phase 4: Admin Panel UI (Read docs/ADMIN_SPEC.md first)
