@@ -13,6 +13,10 @@ import { Phone, Mail, MapPin, Package } from "lucide-react"
 import { FacebookIcon } from "@/components/ui/icons/facebook"
 import { InstagramIcon } from "@/components/ui/icons/instagram"
 import { YoutubeIcon } from "@/components/ui/icons/youtube"
+import { CodIcon } from "@/components/ui/icons/cod"
+import { BkashIcon } from "@/components/ui/icons/bkash"
+import { NagadIcon } from "@/components/ui/icons/nagad"
+import { VisaIcon } from "@/components/ui/icons/visa"
 
 const FOOTER_LINKS = {
   shop: [
@@ -109,9 +113,14 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-widest text-gray-500">
           <p>© 2026 Varito Solutions. All Rights Reserved.</p>
-          <div className="flex items-center gap-6">
-            <span>Verified Business</span>
-            <span>Secure Payments</span>
+          <div className="flex flex-col items-center md:items-end gap-3">
+            <span className="text-[9px] font-black text-gray-600 uppercase tracking-[0.2em]">Secure Payments</span>
+            <div className="flex items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
+              <CodIcon className="size-6" />
+              <BkashIcon className="size-6" />
+              <NagadIcon className="size-6" />
+              <VisaIcon className="size-6" />
+            </div>
           </div>
         </div>
       </div>

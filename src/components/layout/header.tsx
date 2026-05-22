@@ -12,10 +12,19 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, ShoppingCart, User, Phone, Package, Bell } from "lucide-react"
+import { Menu, ShoppingCart, User, Phone, Package, Bell, Home, Grid, Zap, Star, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/layout/search-bar"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false)
@@ -53,9 +62,59 @@ export function Header() {
       <div className="container mx-auto px-4">
         {/* Mobile Header */}
         <div className="flex items-center justify-between lg:hidden">
-          <Button variant="ghost" size="icon" className="size-10" aria-label="Open menu">
-            <Menu className="size-6" />
-          </Button>
+          <Sheet>
+            <SheetTrigger render={
+              <Button variant="ghost" size="icon" className="size-10" aria-label="Open menu">
+                <Menu className="size-6" />
+              </Button>
+            } />
+            <SheetContent side="left" className="w-[300px] p-0 flex flex-col">
+              <SheetHeader className="p-6 border-b border-gray-100 flex-row items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Package className="size-6 text-primary" />
+                  <SheetTitle className="text-xl font-bold">Varito Menu</SheetTitle>
+                </div>
+              </SheetHeader>
+              
+              <div className="flex-1 overflow-y-auto py-6">
+                <nav className="flex flex-col gap-2 px-4">
+                  {[
+                    { label: "Home", icon: Home, href: "/" },
+                    { label: "Shop All", icon: ShoppingBag, href: "/products" },
+                    { label: "Categories", icon: Grid, href: "/categories" },
+                    { label: "Flash Deals", icon: Zap, href: "/deals" },
+                    { label: "New Arrivals", icon: Star, href: "/new" },
+                    { label: "My Profile", icon: User, href: "/account" },
+                  ].map((item) => (
+                    <SheetClose 
+                      key={item.label}
+                      render={
+                        <Link
+                          href={item.href}
+                          className="flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-gray-50 transition-colors font-bold text-gray-700"
+                        >
+                          <item.icon className="size-5 text-gray-400" />
+                          {item.label}
+                        </Link>
+                      }
+                    />
+                  ))}
+                </nav>
+              </div>
+
+              <div className="p-6 mt-auto border-t border-gray-100 bg-gray-50/50">
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Customer Support</p>
+                <div className="flex flex-col gap-4">
+                  <a href="tel:+8801814214220" className="flex items-center gap-3 text-sm font-bold text-gray-900">
+                    <Phone className="size-4 text-primary" /> +880 1814-214220
+                  </a>
+                  <Link href="/help" className="text-xs font-bold text-primary hover:underline uppercase tracking-wider">
+                    Visit Help Center
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
 
           <Link href="/" className="flex items-center gap-1.5">
             <Package className="size-7 text-primary" />
@@ -63,7 +122,13 @@ export function Header() {
           </Link>
 
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="size-10 relative" aria-label="Notifications">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="size-10 relative" 
+              aria-label="Notifications"
+              onClick={() => toast.info("You have no new notifications.")}
+            >
               <Bell className="size-5" />
               <span className="absolute top-2 right-2 size-2 bg-danger-500 rounded-full" />
             </Button>

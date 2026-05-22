@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { plusJakartaSans, hindSiliguri } from "@/lib/fonts";
+import { Toaster } from "@/components/ui/sonner";
 import "./../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -48,7 +49,10 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${hindSiliguri.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

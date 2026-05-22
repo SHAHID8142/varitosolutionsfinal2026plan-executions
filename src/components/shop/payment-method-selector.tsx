@@ -12,6 +12,10 @@ import * as React from "react"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { BkashIcon } from "@/components/ui/icons/bkash"
+import { NagadIcon } from "@/components/ui/icons/nagad"
+import { VisaIcon } from "@/components/ui/icons/visa"
+import { CodIcon } from "@/components/ui/icons/cod"
 
 type PaymentMethod = "cod" | "bkash" | "nagad" | "card"
 
@@ -27,6 +31,7 @@ const METHODS = [
     label: "Cash on Delivery",
     labelBn: "ক্যাশ অন ডেলিভারি",
     description: "Pay when you receive the product",
+    icon: CodIcon,
     badge: { label: "+৳40 Fee", variant: "cod" as const },
   },
   {
@@ -34,6 +39,7 @@ const METHODS = [
     label: "bKash",
     labelBn: "বিকাশ",
     description: "Fast & secure mobile payment",
+    icon: BkashIcon,
     badge: { label: "0% Fee", variant: "verified" as const },
   },
   {
@@ -41,6 +47,7 @@ const METHODS = [
     label: "Nagad",
     labelBn: "নগদ",
     description: "Convenient mobile payment",
+    icon: NagadIcon,
     badge: { label: "0% Fee", variant: "verified" as const },
   },
   {
@@ -48,6 +55,7 @@ const METHODS = [
     label: "Card Payment",
     labelBn: "কার্ড পেমেন্ট",
     description: "Visa, Mastercard, etc.",
+    icon: VisaIcon,
     badge: { label: "via aamarPay", variant: "outline" as const },
   },
 ] as const
@@ -61,6 +69,7 @@ export function PaymentMethodSelector({
     <div className={cn("flex flex-col gap-3", className)}>
       {METHODS.map((method) => {
         const isActive = selected === method.id
+        const Icon = method.icon
 
         return (
           <button
@@ -74,12 +83,9 @@ export function PaymentMethodSelector({
                 : "border-gray-100 bg-white hover:border-gray-200"
             )}
           >
-            {/* Selection Circle */}
-            <div className={cn(
-              "flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-all",
-              isActive ? "border-primary bg-primary" : "border-gray-300"
-            )}>
-              {isActive && <Check className="size-3 text-white stroke-[3px]" />}
+            {/* Brand Icon */}
+            <div className="size-10 rounded-lg overflow-hidden shrink-0 shadow-sm border border-gray-100 bg-white flex items-center justify-center p-1">
+               <Icon className="size-full" />
             </div>
 
             {/* Content */}
@@ -92,15 +98,18 @@ export function PaymentMethodSelector({
                   </Badge>
                 )}
               </div>
-              <span className="text-xs text-gray-500 font-medium">
+              <span className="text-xs text-gray-500 font-medium line-clamp-1">
                 {method.description}
               </span>
             </div>
 
-            {/* Bangla Label (Subtle) */}
-            <span className="hidden sm:block text-xs font-bangla text-gray-400">
-              {method.labelBn}
-            </span>
+            {/* Selection Circle */}
+            <div className={cn(
+              "flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-all",
+              isActive ? "border-primary bg-primary" : "border-gray-300"
+            )}>
+              {isActive && <Check className="size-4 text-white stroke-[3px]" />}
+            </div>
           </button>
         )
       })}

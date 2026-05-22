@@ -10,6 +10,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -18,6 +20,7 @@ import { cn } from "@/lib/utils"
 import { PriceTag } from "@/components/ui/price-tag"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 export interface ProductCardProps {
   id: string
@@ -97,6 +100,10 @@ export function ProductCard({
         size="sm"
         className="w-full gap-2 text-xs h-10"
         disabled={isOutOfStock}
+        onClick={(e) => {
+          e.preventDefault();
+          toast.success(`${name} added to cart!`);
+        }}
       >
         <ShoppingCart className="size-4" />
         Add to Cart

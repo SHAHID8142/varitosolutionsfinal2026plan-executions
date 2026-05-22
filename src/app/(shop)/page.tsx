@@ -116,12 +116,16 @@ function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="px-10 py-7 text-lg shadow-xl shadow-emerald-500/20">
-              Shop Now <ArrowRight className="ml-2 size-5" />
-            </Button>
-            <Button variant="secondary" size="lg" className="px-10 py-7 text-lg bg-white">
-              View Categories
-            </Button>
+            <Link href="/products" className="flex-1 sm:flex-none">
+              <Button size="lg" className="w-full px-10 py-7 text-lg shadow-xl shadow-emerald-500/20">
+                Shop Now <ArrowRight className="ml-2 size-5" />
+              </Button>
+            </Link>
+            <Link href="/categories" className="flex-1 sm:flex-none">
+              <Button variant="secondary" size="lg" className="w-full px-10 py-7 text-lg bg-white">
+                View Categories
+              </Button>
+            </Link>
           </div>
 
           {/* Quick Stats */}

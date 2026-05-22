@@ -22,6 +22,10 @@ import { OrderSummary } from "@/components/shop/order-summary"
 import { EmptyState } from "@/components/ui/empty-state"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import { Badge } from "@/components/ui/badge"
+import { BkashIcon } from "@/components/ui/icons/bkash"
+import { NagadIcon } from "@/components/ui/icons/nagad"
+import { VisaIcon } from "@/components/ui/icons/visa"
+import { CodIcon } from "@/components/ui/icons/cod"
 
 // ─────────────────────────────────────────────
 // SAMPLE DATA
@@ -149,11 +153,11 @@ export default function CartPage() {
 
                 <div className="mt-6 flex flex-col gap-4">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">We Accept</span>
-                  <div className="flex justify-center items-center gap-3 opacity-60 grayscale hover:grayscale-0 transition-all">
-                    <Badge variant="cod">COD</Badge>
-                    <Badge variant="bkash">bKash</Badge>
-                    <Badge variant="nagad">Nagad</Badge>
-                    <Badge variant="outline">Visa/Card</Badge>
+                  <div className="flex justify-center items-center gap-5 opacity-40 hover:opacity-100 transition-all">
+                    <CodIcon className="size-6" />
+                    <BkashIcon className="size-6" />
+                    <NagadIcon className="size-6" />
+                    <VisaIcon className="size-6" />
                   </div>
                 </div>
               </div>
