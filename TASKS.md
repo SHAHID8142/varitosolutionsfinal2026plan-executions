@@ -58,6 +58,7 @@
 - [ ] `[GEMINI]` Homepage (`/`) — hero banner, categories grid, featured products, flash deal, announcement bar
 - [ ] `[GEMINI]` Category listing page (`/category/[slug]`) — grid, filters, sort
 - [ ] `[GEMINI]` Product detail page (`/product/[slug]`) — gallery, details, add to cart, trust signals
+- [ ] `[GEMINI]` **SEO Implementation** — Add dynamic OpenGraph tags and JSON-LD schema to product pages
 - [ ] `[GEMINI]` Search results page (`/search`) — results grid
 - [ ] `[GEMINI]` Cart page (`/cart`) — items, COD surcharge, proceed
 - [ ] `[GEMINI]` Checkout page (`/checkout`) — address, payment, COD default
@@ -118,6 +119,7 @@
 - [ ] `[CLAUDE]` `GET /api/admin/dashboard/stats` — revenue + order counts + alerts
 - [ ] `[CLAUDE]` `GET/PATCH /api/admin/orders` — list + status update + COD mark paid
 - [ ] `[CLAUDE]` `GET /api/admin/orders/[id]` — full order detail
+- [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/courier` — send order to Steadfast/Pathao API
 - [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/refund` — initiate refund (Super Admin)
 - [ ] `[CLAUDE]` `GET /api/admin/orders/export` — CSV export (Super Admin)
 - [ ] `[CLAUDE]` `GET/POST /api/admin/products` — list (with cost_price) + create
@@ -148,6 +150,8 @@
 - [ ] `[CLAUDE]` Add HTTP security headers to `next.config.ts`
 - [ ] `[CLAUDE]` Create `src/lib/env.ts` — validate all required env vars at startup
 - [ ] `[CLAUDE]` Create `src/lib/audit.ts` — audit log helper function
+- [ ] `[CLAUDE]` Implement Next.js ISR cache tags (revalidate) for products endpoints to save DB compute
+- [ ] `[CLAUDE]` Implement COD Trust Score calculation in customer profile queries
 - [ ] `[CLAUDE]` Write order confirmation Brevo email template
 - [ ] `[CLAUDE]` Write shipping update Brevo email template
 - [ ] `[CLAUDE]` Add server-side PostHog events (order placed, payment confirmed)

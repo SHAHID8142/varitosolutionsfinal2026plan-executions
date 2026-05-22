@@ -106,7 +106,7 @@ id              SERIAL PRIMARY KEY
 order_number    VARCHAR(20) UNIQUE NOT NULL       -- e.g., VR-2026-00001
 user_id         UUID REFERENCES users(id) ON DELETE SET NULL
 status          VARCHAR(20) DEFAULT 'pending'
--- Enum: pending | confirmed | processing | shipped | delivered | cancelled
+-- Enum: pending | confirmed | processing | shipped | delivered | cancelled | returned
 
 payment_method  VARCHAR(20) NOT NULL
 -- Enum: cod | bkash | nagad | card
@@ -129,6 +129,11 @@ address_area    VARCHAR(100)
 address_road    VARCHAR(150)
 address_house   VARCHAR(100)
 address_landmark VARCHAR(200)
+
+-- Courier Integration
+courier_name        VARCHAR(50)
+consignment_id      VARCHAR(100)
+courier_status      VARCHAR(50)
 
 -- Payment gateway
 aamarpay_txn_id     VARCHAR(100)
