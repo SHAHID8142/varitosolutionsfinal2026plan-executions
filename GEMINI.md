@@ -30,9 +30,12 @@ Your model strength: Speed and iteration. Use it. Build fast, show the user, ite
 **Styling:** Tailwind CSS v4 + shadcn/ui  
 **Language:** TypeScript (strict mode)
 
-**Key files to read first:**
+**Key files to read first (every session):**
 - `docs/DESIGN_SYSTEM.md` — Colors, typography, spacing, component rules
 - `docs/COMPONENT_REGISTRY.md` — What components exist, their status
+- `docs/ADMIN_SPEC.md` — Admin panel layout, all 12 sections, all UI components needed
+- `docs/ANALYTICS.md` — PostHog event tracking map (where to place `.capture()` calls)
+- `docs/CODING_STANDARDS.md` — File structure, comments, naming rules (**read before writing any code**)
 - `docs/SKILLS.md` — Skills index (which skill to read before each type of work)
 - `STATUS.md` — Current project phase and what's done
 - `TASKS.md` — Your specific pending tasks
@@ -132,6 +135,10 @@ src/
 6. **Always** commit after each logical unit of work (not in bulk)
 7. **Never** hardcode product data — use the API routes from Claude's domain
 8. **Never** write Tailwind classes longer than 3 utilities inline — extract to component
+9. **One file per component** — never put two components in the same file (see `docs/CODING_STANDARDS.md`)
+10. **Header comment on every file** — @file, @description, @owner before any code
+11. **JSDoc on every exported function and component** — no exceptions
+12. **Section dividers** inside any file over 50 lines (see `docs/CODING_STANDARDS.md`)
 
 ---
 
@@ -315,9 +322,12 @@ Every time you start a new session:
 2. `cat TASKS.md` — find your next task
 3. `cat docs/DESIGN_SYSTEM.md` — refresh design rules
 4. `cat docs/COMPONENT_REGISTRY.md` — know what components exist
-5. `cat docs/SKILLS.md` — check which skills apply to today's work
-6. `git log --oneline -10` — see recent commits
-7. Then and only then, start working
+5. `cat docs/ADMIN_SPEC.md` — understand admin panel requirements
+6. `cat docs/ANALYTICS.md` — know where to place PostHog tracking calls
+7. `cat docs/CODING_STANDARDS.md` — refresh file structure and comment rules
+8. `cat docs/SKILLS.md` — check which skills apply to today's work
+9. `git log --oneline -10` — see recent commits
+10. Then and only then, start working
 
 ---
 

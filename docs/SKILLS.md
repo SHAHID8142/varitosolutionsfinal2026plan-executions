@@ -29,6 +29,7 @@
 | Setting up Brevo email | `docs/skills/brevo.md` |
 | Payment integration (aamarPay) | `docs/skills/payment-integration.md` |
 | Tailwind CSS styling | `docs/skills/tailwind.md` |
+| **Starting ANY coding work** | `docs/CODING_STANDARDS.md` (not a skill — a rule file) |
 
 ---
 
@@ -72,7 +73,11 @@ cd varitosolutionsfinal2026plan-executions
 ## How Agents Should Use These Skills
 
 ### Gemini Flash Agent
-Before building a component or page, read:
+Before ANY coding session, read:
+```
+cat docs/CODING_STANDARDS.md      # File structure, comment rules — EVERY session
+```
+Before building a component or page, also read:
 ```
 cat docs/skills/shadcn-ui.md
 cat docs/skills/mobile-design.md
@@ -80,7 +85,11 @@ cat docs/skills/tailwind.md
 ```
 
 ### Claude Code Agent
-Before writing an API route or DB query, read:
+Before ANY coding session, read:
+```
+cat docs/CODING_STANDARDS.md      # File structure, comment rules — EVERY session
+```
+Before writing an API route or DB query, also read:
 ```
 cat docs/skills/drizzle-orm.md
 cat docs/skills/neon-postgres.md
