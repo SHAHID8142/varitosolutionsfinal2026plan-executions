@@ -58,6 +58,7 @@
 
 ### Phase 3: Page Building (Only After Component Approval)
 - [x] `[GEMINI]` Homepage (`/`) — hero banner, categories grid, featured products, flash deal, announcement bar
+- [ ] `[GEMINI]` Categories overview (`/categories`) — list of all categories
 - [x] `[GEMINI]` Category listing page (`/category/[slug]`) — grid, filters, sort
 - [x] `[GEMINI]` Product detail page (`/product/[slug]`) — gallery, details, add to cart, trust signals
 - [ ] `[GEMINI]` **SEO Implementation** — Add dynamic OpenGraph tags and JSON-LD schema to product pages
@@ -65,10 +66,16 @@
 - [x] `[GEMINI]` Cart page (`/cart`) — items, COD surcharge, proceed
 - [x] `[GEMINI]` Checkout page (`/checkout`) — address, payment, COD default
 - [x] `[GEMINI]` Order confirmation page (`/order/[id]`) — success, order number
+- [ ] `[GEMINI]` Profile page (`/account/profile`) — user info, manage addresses
 - [x] `[GEMINI]` My orders page (`/account/orders`) — list, status tracking
 - [x] `[GEMINI]` About Us page (`/about`) — trust signals, team, location
 - [x] `[GEMINI]` Contact page (`/contact`) — phone, WhatsApp, form
+- [ ] `[GEMINI]` Help Center / FAQ (`/help`) — common questions, contact support
+- [ ] `[GEMINI]` Track Order (`/track`) — guest tracking via Order ID + Phone number
+- [ ] `[GEMINI]` Shipping Information (`/shipping`) — delivery times, courier partners, fees
 - [ ] `[GEMINI]` Returns policy page (`/returns`) — policy text
+- [ ] `[GEMINI]` Privacy Policy (`/privacy`) — standard legal text
+- [ ] `[GEMINI]` Terms & Conditions (`/terms`) — standard legal text
 
 ### Phase 4: Admin Panel UI (Read docs/ADMIN_SPEC.md first)
 - [ ] `[GEMINI]` Admin login page (`/admin/login`) — phone OTP login for admins
