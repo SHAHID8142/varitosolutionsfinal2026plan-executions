@@ -8,6 +8,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import { MapPin, Phone, User, Home as HomeIcon, Briefcase, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"

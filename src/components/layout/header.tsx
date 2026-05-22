@@ -8,6 +8,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
 import { Menu, ShoppingCart, User, Phone, Package, Bell } from "lucide-react"

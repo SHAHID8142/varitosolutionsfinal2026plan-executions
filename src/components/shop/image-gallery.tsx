@@ -9,6 +9,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react"

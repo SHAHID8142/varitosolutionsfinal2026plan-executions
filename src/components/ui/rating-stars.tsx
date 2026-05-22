@@ -11,6 +11,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import { Star, StarHalf } from "lucide-react"
 import { cn } from "@/lib/utils"

@@ -11,6 +11,8 @@
  * @updated  2026-05-22
  */
 
+"use client"
+
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
