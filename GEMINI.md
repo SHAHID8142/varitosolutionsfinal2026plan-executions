@@ -125,6 +125,17 @@ src/
 
 ---
 
+## 🛑 Anti-Slop & Self-Correction Protocol
+
+You are known to sometimes make silly syntax errors or styling mistakes (slop). To prevent the user from having to copy-paste console errors back to you, you MUST follow this protocol before completing any task:
+
+1. **Test Before You Rest:** Never say "I have completed the component" until you have successfully run `npm run lint` and `npm run type-check`.
+2. **Read the Errors:** If the linter or type checker fails, DO NOT ask the user for help. Read the error output, fix the file, and run the check again.
+3. **No Gradients:** The user specifically hates gradients. Never use `bg-gradient-to-*`. Always use solid premium colors.
+4. **Console Cleanliness:** If a component throws a React warning in the console (like missing `key` props, hydration errors, or `class` instead of `className`), you must catch it and fix it before marking the task complete.
+
+---
+
 ## 🛑 Hard Rules
 
 1. **STOP and ask** before deleting any existing file

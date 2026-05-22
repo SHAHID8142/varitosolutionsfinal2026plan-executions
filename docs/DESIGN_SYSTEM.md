@@ -22,17 +22,17 @@
 
 ```css
 :root {
-  /* Primary — Deep Blue (trust, reliability) */
-  --color-primary-50:  #EFF6FF;
-  --color-primary-100: #DBEAFE;
-  --color-primary-200: #BFDBFE;
-  --color-primary-300: #93C5FD;
-  --color-primary-400: #60A5FA;
-  --color-primary-500: #3B82F6;  /* Main primary */
-  --color-primary-600: #2563EB;  /* Primary hover */
-  --color-primary-700: #1D4ED8;
-  --color-primary-800: #1E40AF;
-  --color-primary-900: #1E3A8A;
+  /* Primary — Premium Emerald Green (clean, natural, luxury) */
+  --color-primary-50:  #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;  /* Main primary */
+  --color-primary-600: #059669;  /* Primary hover */
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
 
   /* Accent — Warm Orange (energy, action, CTA) */
   --color-accent-50:  #FFF7ED;
@@ -110,8 +110,8 @@ colors: {
 ### Font Stack
 
 ```css
-/* English: Inter (system + Google Fonts fallback) */
---font-english: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+/* English: Plus Jakarta Sans (Google Fonts) */
+--font-english: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
 /* Bangla: Hind Siliguri (Google Fonts) */
 --font-bangla: 'Hind Siliguri', 'Kalpurush', sans-serif;
@@ -119,11 +119,11 @@ colors: {
 
 ### Font Loading (`src/lib/fonts.ts`)
 ```typescript
-import { Inter, Hind_Siliguri } from 'next/font/google'
+import { Plus_Jakarta_Sans, Hind_Siliguri } from 'next/font/google'
 
-export const inter = Inter({
+export const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-plus-jakarta',
   display: 'swap',
 })
 
@@ -171,15 +171,16 @@ Use Tailwind's default spacing scale (4px base):
 
 ---
 
-## Component Design Rules
+## Component Design Rules (Premium Upgrade)
 
 ### Cards
 ```
 Background: var(--color-bg-card) = white
 Border: 1px solid var(--color-border)
-Border radius: 12px (rounded-xl)
-Shadow: shadow-sm (subtle only)
+Border radius: 16px (rounded-2xl)
+Shadow: shadow-sm (default), hover:shadow-xl (interactive)
 Padding: 16px (p-4)
+Hover: transition-all duration-300 hover:-translate-y-1
 ```
 
 ### Buttons
@@ -191,30 +192,27 @@ Ghost: transparent, text-gray-700, hover:bg-gray-100
 Danger: bg-danger-500, text-white
 
 Height: 44px minimum (touch target — critical for mobile)
-Border radius: 8px (rounded-lg)
+Border radius: 12px (rounded-xl)
 Font weight: 600
+
+CRITICAL RULE: **NEVER USE GRADIENTS** for buttons, backgrounds, or text. Solid colors only for a premium, clean look. (Plus Jakarta Sans)
 ```
 
 ### Form Inputs
 ```
 Height: 44px minimum
 Border: 1px solid var(--color-border)
-Border radius: 8px
-Focus: border-primary-500, ring-2 ring-primary-200
-Error: border-danger-500, ring-2 ring-danger-200
+Border radius: 12px (rounded-xl)
+Focus: border-primary-500, ring-4 ring-primary-100
 Background: white
 ```
 
-### Bottom Navigation (Mobile)
+### Glassmorphism (Layout Elements)
 ```
-Position: fixed bottom-0
-Height: 60px + safe-area-inset-bottom
-Background: white
-Border top: 1px solid var(--color-border)
-Icon size: 24px
-Label size: 10px (exception — below icon)
-Active: text-primary-600
-Inactive: text-gray-400
+Top Header & Bottom Navigation:
+Background: rgba(255, 255, 255, 0.8)
+Backdrop blur: blur(12px)
+Border: 1px solid rgba(229, 231, 235, 0.5)
 ```
 
 ---
