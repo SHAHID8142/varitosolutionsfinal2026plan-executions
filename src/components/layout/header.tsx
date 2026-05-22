@@ -109,6 +109,7 @@ export function Header() {
                     {NAV_MENU.map((item) => (
                       <SheetClose 
                         key={item.label}
+                        nativeButton={false}
                         render={
                           <Link
                             href={item.href}
@@ -124,11 +125,14 @@ export function Header() {
                       />
                     ))}
                     <div className="h-px bg-gray-100 my-4" />
-                    <SheetClose render={
-                      <Link href="/account" className="flex items-center gap-4 px-4 py-4 rounded-2xl font-bold text-gray-700">
-                        <User className="size-5 text-gray-400" /> My Profile
-                      </Link>
-                    } />
+                    <SheetClose 
+                      nativeButton={false}
+                      render={
+                        <Link href="/account" className="flex items-center gap-4 px-4 py-4 rounded-2xl font-bold text-gray-700">
+                          <User className="size-5 text-gray-400" /> My Profile
+                        </Link>
+                      } 
+                    />
                   </nav>
                 </div>
               </SheetContent>
