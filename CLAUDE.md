@@ -36,6 +36,7 @@ Your model strength: Deep reasoning. Use it for architecture decisions, complex 
 **Key files to read first:**
 - `STATUS.md` — Current project phase and what's done
 - `TASKS.md` — Your specific pending tasks
+- `docs/SKILLS.md` — Skills index (which skill to read before each type of work)
 - `docs/API_SPEC.md` — All API contracts (read before writing any route)
 - `docs/DB_SCHEMA.md` — Database schema reference
 - `src/db/schema.ts` — Actual Drizzle schema
@@ -47,11 +48,39 @@ Your model strength: Deep reasoning. Use it for architecture decisions, complex 
 ### Session Start (Every Time)
 ```bash
 cat STATUS.md           # Current state
-cat TASKS.md            # Your next tasks  
+cat TASKS.md            # Your next tasks
+cat docs/SKILLS.md      # Which skills apply today
 cat docs/API_SPEC.md    # API contracts
 git log --oneline -10   # Recent changes
 npm run type-check      # Current errors
 ```
+
+## 🧰 Skills — Read Before Each Type of Work
+
+Expert skill docs live in `docs/skills/`. Read the matching one BEFORE starting:
+
+| You are about to... | Read first |
+|---------------------|------------|
+| Write DB schema or query | `docs/skills/drizzle-orm.md` |
+| Work with Neon DB | `docs/skills/neon-postgres.md` |
+| Write an API route | `docs/skills/api-design.md` |
+| Set up Supabase auth | `docs/skills/nextjs-supabase-auth.md` |
+| Work with Cloudflare Pages/R2 | `docs/skills/cloudflare.md` |
+| Implement payments | `docs/skills/payment-integration.md` |
+| Set up Brevo email | `docs/skills/brevo.md` |
+| Do a security review | `docs/skills/security.md` |
+| Debug any error | `docs/skills/debugging.md` |
+| Review code quality | `docs/skills/code-review.md` |
+| Write Next.js API handler | `docs/skills/nextjs-patterns.md` |
+
+**Quick commands:**
+```bash
+cat docs/skills/drizzle-orm.md         # Before any DB work
+cat docs/skills/api-design.md          # Before writing API routes
+cat docs/skills/security.md            # Before any auth/payment code
+```
+
+---
 
 ### Before Writing Code
 1. Read the relevant existing files first

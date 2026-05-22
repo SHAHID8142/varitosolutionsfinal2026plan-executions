@@ -213,6 +213,56 @@ This system is designed to work seamlessly across locations:
 
 ---
 
+## 🆕 New Computer Setup — Complete Checklist
+
+Run this ONCE on any new computer before starting work:
+
+```bash
+# 1. Install Node.js (if not installed)
+# Download from: https://nodejs.org (v20 LTS)
+
+# 2. Clone the repo
+git clone https://github.com/SHAHID8142/varitosolutionsfinal2026plan-executions
+cd varitosolutionsfinal2026plan-executions
+
+# 3. Install your agent CLI tool
+npm install -g @google/gemini-cli    # For Gemini UI/UX work
+npm install -g @anthropic/claude-code # For backend/Claude work
+
+# 4. Get your .env.local file
+# Open your Bitwarden (password manager)
+# Find the note: "Varito Solutions .env.local"
+# Create the file: touch .env.local
+# Paste the contents in
+
+# 5. Pull latest code
+git pull origin main
+
+# 6. Verify everything is there
+cat STATUS.md    # Should show project status
+cat TASKS.md     # Should show task list
+ls docs/skills/  # Should list 15 skill files
+
+# 7. Start your agent
+gemini   # Opens Gemini CLI (reads GEMINI.md automatically)
+# OR
+claude   # Opens Claude Code CLI (reads CLAUDE.md automatically)
+```
+
+**Skills are already in the repo** — no separate skill install needed.
+All 15 skill docs are in `docs/skills/` and come with the git clone.
+
+---
+
+## 🧰 Skills in This Project
+
+All skill knowledge docs are stored in `docs/skills/` and pushed to git.
+Every new computer gets them automatically with `git pull`.
+
+See `docs/SKILLS.md` for the full list and when to use each one.
+
+---
+
 ## ⚠️ Things That Will Break the System
 
 1. **Committing `.env.local`** — NEVER. It's in `.gitignore`. Share keys via password manager.

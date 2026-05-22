@@ -33,6 +33,7 @@ Your model strength: Speed and iteration. Use it. Build fast, show the user, ite
 **Key files to read first:**
 - `docs/DESIGN_SYSTEM.md` — Colors, typography, spacing, component rules
 - `docs/COMPONENT_REGISTRY.md` — What components exist, their status
+- `docs/SKILLS.md` — Skills index (which skill to read before each type of work)
 - `STATUS.md` — Current project phase and what's done
 - `TASKS.md` — Your specific pending tasks
 
@@ -192,6 +193,28 @@ or give me specific feedback on what to change.
 
 ---
 
+## 🧰 Skills — Use These Before Starting Work
+
+This project has expert skill docs in `docs/skills/`. Read the relevant one BEFORE starting:
+
+| You are about to... | Read first |
+|---------------------|------------|
+| Build any UI component | `docs/skills/shadcn-ui.md` |
+| Style with Tailwind | `docs/skills/tailwind.md` |
+| Design for mobile | `docs/skills/mobile-design.md` |
+| Build a Next.js page | `docs/skills/nextjs-patterns.md` |
+| Add SEO metadata | `docs/skills/seo.md` |
+| Debug a UI bug | `docs/skills/debugging.md` |
+| Do a code review | `docs/skills/code-review.md` |
+
+**Quick command:**
+```bash
+cat docs/skills/shadcn-ui.md    # Before any component work
+cat docs/skills/mobile-design.md  # Before any layout work
+```
+
+---
+
 ## 📊 Session Start Checklist
 
 Every time you start a new session:
@@ -199,8 +222,9 @@ Every time you start a new session:
 2. `cat TASKS.md` — find your next task
 3. `cat docs/DESIGN_SYSTEM.md` — refresh design rules
 4. `cat docs/COMPONENT_REGISTRY.md` — know what components exist
-5. `git log --oneline -10` — see recent commits
-6. Then and only then, start working
+5. `cat docs/SKILLS.md` — check which skills apply to today's work
+6. `git log --oneline -10` — see recent commits
+7. Then and only then, start working
 
 ---
 
