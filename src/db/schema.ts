@@ -423,6 +423,38 @@ export const auditLog = pgTable(
 )
 
 // ─────────────────────────────────────────────
+// FLASH DEALS
+// ─────────────────────────────────────────────
+
+export const flashDeals = pgTable(
+  "flash_deals",
+  {
+    id: serial("id").primaryKey(),
+    productId: integer("product_id")
+      .references(() => products.id, { onDelete: "cascade" })
+      .notNull(),
+    flashPrice: decimal("flash_price", { precision: 10, scale: 2 }).notNull(),
+    maxQty: integer("max_qty"),
+    soldQty: integer("sold_qty").default(0).notNull(),
+    isActive: boolean("is_active").default(true).notNull(),
+    startsAt: timestamp("starts_at").notNull(),
+    endsAt: timestamp("ends_at").notNull(),
+    createdBy: uuid("created_by").references(() => users.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("flash_deals_product_id_idx").on(table.productId),
+    index("flash_deals_is_active_idx").on(table.isActive),
+    index("flash_deals_ends_at_idx").on(table.endsAt),
+  ]
+)
+
+export const flashDealsRelations = relations(flashDeals, ({ one }) => ({
+  product: one(products, { fields: [flashDeals.productId], references: [products.id] }),
+}))
+
+// ─────────────────────────────────────────────
 // TYPE EXPORTS
 // ─────────────────────────────────────────────
 
@@ -446,3 +478,5 @@ export type NewCoupon = typeof coupons.$inferInsert
 export type Setting = typeof settings.$inferSelect
 export type InventoryLogEntry = typeof inventoryLog.$inferSelect
 export type AuditLogEntry = typeof auditLog.$inferSelect
+export type FlashDeal = typeof flashDeals.$inferSelect
+export type NewFlashDeal = typeof flashDeals.$inferInsert

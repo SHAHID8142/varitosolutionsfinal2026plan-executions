@@ -80,8 +80,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
     }
 
     try {
-      // TODO: Actual API call
-      console.log("Submitting flash deal:", formData)
+      // TODO: wire to POST /api/admin/flash-deals
       await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate network
       
       toast.success(initialData ? "Flash deal updated successfully" : "Flash deal created successfully")
