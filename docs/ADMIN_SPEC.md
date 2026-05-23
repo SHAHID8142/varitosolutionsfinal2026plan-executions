@@ -308,6 +308,7 @@ Expires at   Optional expiry date
 
 ### 12. Audit Log (`/admin/audit-log`) — Super Admin Only
 **Purpose:** Track every admin action for accountability
+**Purpose:** Track every admin action for accountability
 
 **Shows:**
 - Timestamp
@@ -455,92 +456,57 @@ src/components/layout/
 
 ---
 
-## 🗄️ Additional DB Tables Needed for Admin
+## 🗄️ Database Tables
 
-Add these to `DB_SCHEMA.md` and `src/db/schema.ts`:
+All database tables for admin features are fully defined in **`docs/DB_SCHEMA.md`** — that is the single source of truth.
 
-### `banners`
-```sql
-id           SERIAL PRIMARY KEY
-title        VARCHAR(200)
-subtitle     VARCHAR(300)
-image        TEXT NOT NULL        -- R2 URL
-cta_text     VARCHAR(50)
-cta_url      VARCHAR(500)
-position     VARCHAR(30)          -- hero | secondary | announcement
-sort_order   INTEGER DEFAULT 0
-is_active    BOOLEAN DEFAULT true
-starts_at    TIMESTAMP
-ends_at      TIMESTAMP
-created_by   UUID REFERENCES users(id)
-created_at   TIMESTAMP DEFAULT NOW()
-updated_at   TIMESTAMP DEFAULT NOW()
+Tables used exclusively by admin features:
+- `banners` — homepage visual banners
+- `flash_deals` — timed discount deals on homepage
+- `coupons` + `coupon_uses` — discount codes
+- `settings` — configurable store settings
+- `inventory_log` — stock change audit trail
+- `audit_log` — admin action audit trail
+- `courier_shipments` — courier booking records
+
+Tables shared with the shop (admin manages, shop reads):
+- `products` (includes `is_featured`, `total_orders`)
+- `categories` (includes `is_featured`)
+- `users` (includes `role`, `is_banned`, `ban_reason`)
+- `orders`, `order_items`, `order_history`
+
+> Do NOT define table schemas here. Read `docs/DB_SCHEMA.md` for the authoritative definition.
+
+---
+
+## 🚀 Flash Deals (`/admin/flash-deals`)
+
+**Section 13** — Not in the original 12 sections, added during planning.
+
+**Purpose:** Create time-limited price promotions shown on the homepage with a countdown timer.
+
+**Features:**
+- Create a flash deal: choose product, set flash price, set start + end time, optional qty cap
+- Only one deal can be active at a time (overlap → blocked with clear error)
+- Flash price must be less than the product's regular price (enforced server-side)
+- Admin can deactivate a deal early (sets `is_active = false`)
+- Shows sold qty vs max qty (live progress bar)
+
+**Flash deal display on homepage:**
+- Countdown timer (days : hours : minutes : seconds)
+- Product image, name, flash price, original price (strikethrough)
+- "Was ৳X — Now ৳Y — Save Z%" label
+- Add to cart button
+- Stock/qty progress bar (if `max_qty` is set)
+
+**Admin UI components needed:**
+```
+src/components/admin/
+├── flash-deal-form.tsx      ← Create/edit deal (product picker, price, dates, qty)
+└── flash-deal-countdown.tsx ← Preview countdown (for admin preview in form)
 ```
 
-### `coupons`
-```sql
-id              SERIAL PRIMARY KEY
-code            VARCHAR(30) UNIQUE NOT NULL   -- e.g., WELCOME10
-type            VARCHAR(20) NOT NULL           -- percentage | fixed
-value           DECIMAL(10,2) NOT NULL
-min_order       DECIMAL(10,2) DEFAULT 0
-max_discount    DECIMAL(10,2)                  -- cap for percentage
-usage_limit     INTEGER                        -- total max uses
-per_user_limit  INTEGER DEFAULT 1
-used_count      INTEGER DEFAULT 0
-is_active       BOOLEAN DEFAULT true
-starts_at       TIMESTAMP
-expires_at      TIMESTAMP
-created_by      UUID REFERENCES users(id)
-created_at      TIMESTAMP DEFAULT NOW()
-```
-
-### `coupon_uses`
-```sql
-id           SERIAL PRIMARY KEY
-coupon_id    INTEGER REFERENCES coupons(id)
-order_id     INTEGER REFERENCES orders(id)
-user_id      UUID REFERENCES users(id)
-discount     DECIMAL(10,2) NOT NULL
-used_at      TIMESTAMP DEFAULT NOW()
-```
-
-### `settings`
-```sql
-id           SERIAL PRIMARY KEY
-key          VARCHAR(100) UNIQUE NOT NULL     -- e.g., delivery_charge
-value        TEXT NOT NULL                    -- always stored as string
-type         VARCHAR(20) DEFAULT 'string'     -- string | number | boolean | json
-updated_by   UUID REFERENCES users(id)
-updated_at   TIMESTAMP DEFAULT NOW()
-```
-
-### `inventory_log`
-```sql
-id           SERIAL PRIMARY KEY
-product_id   INTEGER REFERENCES products(id)
-type         VARCHAR(20) NOT NULL    -- adjustment | order | refund | correction
-quantity     INTEGER NOT NULL        -- positive = added, negative = removed
-before       INTEGER NOT NULL        -- stock before change
-after        INTEGER NOT NULL        -- stock after change
-reason       TEXT
-order_id     INTEGER REFERENCES orders(id)  -- if triggered by order
-changed_by   UUID REFERENCES users(id)
-created_at   TIMESTAMP DEFAULT NOW()
-```
-
-### `audit_log`
-```sql
-id           SERIAL PRIMARY KEY
-admin_id     UUID REFERENCES users(id)
-action       VARCHAR(100) NOT NULL   -- e.g., product.update, order.status_change
-entity_type  VARCHAR(50)             -- product | order | user | setting
-entity_id    VARCHAR(50)             -- ID of the affected record
-changes      JSONB                   -- { before: {...}, after: {...} }
-ip_address   VARCHAR(45)
-user_agent   TEXT
-created_at   TIMESTAMP DEFAULT NOW()
-```
+**Data from:** `GET /api/admin/flash-deals`, `POST /api/admin/flash-deals`, `PATCH /api/admin/flash-deals/[id]`
 
 ---
 

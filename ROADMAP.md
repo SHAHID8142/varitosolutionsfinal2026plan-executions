@@ -84,7 +84,7 @@ Next.js Website   →    PWA + TWA (Play Store)  →    React Native App
 ```
 Layer              Tool                    Why
 ─────────────────────────────────────────────────────────────
-Framework          Next.js 15              SSR + API routes + SEO
+Framework          Next.js 16.2.6          SSR + API routes + SEO
 Styling            Tailwind CSS v4         Utility-first, fast development
 Components         shadcn/ui               Free, you own the code, production-ready
 Database ORM       Drizzle ORM             Free MIT, TypeScript-first, edge-ready

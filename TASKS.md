@@ -10,171 +10,206 @@
 
 ---
 
-## 🚨 IMMEDIATE TASKS (Before Agents Can Build)
+## 🚨 HUMAN SETUP (Blockers — Agents Cannot Proceed Without These)
 
+- [x] `[HUMAN]` Initialize Next.js project ✅ Done
+- [x] `[HUMAN]` Push initial project to GitHub repo ✅ Done
 - [ ] `[HUMAN]` Register domain at Namecheap or Porkbun
 - [ ] `[HUMAN]` Point domain to Cloudflare nameservers
-- [ ] `[HUMAN]` Initialize Next.js project: `npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir`
-- [ ] `[HUMAN]` Push initial Next.js project to this repo
 - [ ] `[HUMAN]` Connect GitHub repo to Cloudflare Pages (auto-deploy on push)
-- [ ] `[HUMAN]` Create `.env.local` with all API keys (see docs/ENV_VARS.md)
-- [ ] `[HUMAN]` Create Neon DB project named `varito-production`
+- [ ] `[HUMAN]` Create Neon DB project named `varito-production` → save connection string
+- [ ] `[HUMAN]` Create `.env.local` — fill ALL keys from `docs/ENV_VARS.md`
+- [ ] `[HUMAN]` Get aamarPay sandbox credentials (aamarpay.com → Merchant Dashboard → API Settings)
+- [ ] `[HUMAN]` Get Steadfast API key + secret (portal.steadfast.com.bd → API Integration)
+- [ ] `[HUMAN]` Get Pathao client ID + secret (merchant.pathao.com → Settings → API Access)
+- [ ] `[HUMAN]` Get RedX API token (redx.com.bd → Merchant → API)
+- [ ] `[HUMAN]` Create Upstash Redis DB → get REST URL + token (console.upstash.com — free tier)
+- [ ] `[HUMAN]` Get PostHog Personal API Key (posthog.com → Settings → Personal API Keys)
 
 ---
 
 ## 🎨 GEMINI AGENT TASKS (UI/UX)
 
-### Phase 1: Design System Setup
-- [x] `[GEMINI]` Install shadcn/ui: `npx shadcn@latest init`
-- [x] `[GEMINI]` Add base shadcn components: `npx shadcn@latest add button card dialog sheet input select badge carousel skeleton toast`
-- [x] `[GEMINI]` Create `src/styles/globals.css` with all CSS variables from `docs/DESIGN_SYSTEM.md`
-- [x] `[GEMINI]` Create `src/lib/fonts.ts` — load Hind Siliguri from Google Fonts
-- [x] `[GEMINI]` **PREMIUM EMERALD REFACTOR** (Emerald theme, solid colors, no gradients, Jakarta font)
-- [x] `[GEMINI]` **ANTI-SLOP VALIDATION** (Passed npm run lint and type-check)
+### Phase 1: Design System Setup ✅ Complete
+- [x] `[GEMINI]` Install shadcn/ui and base components
+- [x] `[GEMINI]` Create `src/styles/globals.css` with CSS variables from `docs/DESIGN_SYSTEM.md`
+- [x] `[GEMINI]` Create `src/lib/fonts.ts` — Plus Jakarta Sans + Hind Siliguri
+- [x] `[GEMINI]` **PREMIUM EMERALD REFACTOR** (Emerald theme, solid colors, no gradients)
+- [x] `[GEMINI]` **ANTI-SLOP VALIDATION** (lint + type-check passed)
 
-### Phase 2: Component Library (MUST COMPLETE BEFORE ANY PAGE)
-- [x] `[GEMINI]` Build `<Button>` variants (primary, secondary, outline, ghost, danger)
-- [x] `[GEMINI]` Build `<ProductCard>` (image, name, price, sale price, cart button)
-- [x] `[GEMINI]` Build `<CategoryCard>` (image, name, product count)
-- [x] `[GEMINI]` Build `<PriceTag>` (formatted BDT price, sale price, discount %)
-- [x] `[GEMINI]` Build `<Badge>` variants (new, sale, out-of-stock, COD, verified)
-- [x] `[GEMINI]` Build `<Header>` (logo, search, cart icon, mobile menu)
-- [x] `[GEMINI]` Build `<BottomNav>` (mobile: Home, Categories, Search, Cart, Profile)
-- [x] `[GEMINI]` Build `<Footer>` (links, social, phone, address)
-- [x] `[GEMINI]` Build `<SearchBar>` (input + suggestions dropdown)
-- [x] `[GEMINI]` Build `<ImageGallery>` (main image + thumbnails, zoom on tap)
-- [x] `[GEMINI]` Build `<QuantitySelector>` (minus, number, plus)
-- [x] `[GEMINI]` Build `<AddressForm>` (District → Thana → Area dropdowns)
-- [x] `[GEMINI]` Build `<OrderSummary>` (items, delivery, COD fee, total)
-- [x] `[GEMINI]` Build `<PaymentMethodSelector>` (COD, bKash, Nagad, Card)
-- [x] `[GEMINI]` Build `<EmptyState>` (icon, title, description, CTA button)
-- [x] `[GEMINI]` Build `<LoadingSkeleton>` variants (product card, list item, page)
-- [x] `[GEMINI]` Build `<WhatsAppButton>` (floating, fixed bottom-right)
-- [x] `[GEMINI]` Build `<Toast>` (success, error, info variants)
-- [x] `[GEMINI]` Build `<Breadcrumb>` (navigation trail)
-- [x] `[GEMINI]` Build `<RatingStars>` (display + interactive)
-- [x] `[GEMINI]` Build `/app/component-preview/page.tsx` (shows ALL components)
+### Phase 2: Component Library ✅ Complete
+- [x] `[GEMINI]` Build all 21 components (Button, ProductCard, CategoryCard, etc.)
+- [x] `[GEMINI]` Build `/app/component-preview/page.tsx`
 - [x] `[HUMAN]` **REVIEW AND APPROVE** component library at localhost:3000/component-preview
 
-### Phase 3: Page Building (Only After Component Approval)
-- [x] `[GEMINI]` Homepage (`/`) — hero banner, categories grid, featured products, flash deal, announcement bar
-- [x] `[GEMINI]` Categories overview (`/categories`) — list of all categories
-- [x] `[GEMINI]` Category listing page (`/category/[slug]`) — grid, filters, sort
-- [x] `[GEMINI]` Product detail page (`/product/[slug]`) — gallery, details, add to cart, trust signals
-- [x] `[GEMINI]` **SEO Implementation** — Add dynamic OpenGraph tags and JSON-LD schema to product pages
-- [x] `[GEMINI]` Search results page (`/search`) — results grid
-- [x] `[GEMINI]` Cart page (`/cart`) — items, COD surcharge, proceed
-- [x] `[GEMINI]` Checkout page (`/checkout`) — address, payment, COD default
-- [x] `[GEMINI]` Order confirmation page (`/order/[id]`) — success, order number
-- [x] `[GEMINI]` Profile page (`/account/profile`) — user info, manage addresses
-- [x] `[GEMINI]` My orders page (`/account/orders`) — list, status tracking
-- [x] `[GEMINI]` About Us page (`/about`) — trust signals, team, location
-- [x] `[GEMINI]` Contact page (`/contact`) — phone, WhatsApp, form
-- [x] `[GEMINI]` Help Center / FAQ (`/help`) — common questions, contact support
-- [x] `[GEMINI]` Track Order (`/track`) — guest tracking via Order ID + Phone number
-- [x] `[GEMINI]` Shipping Information (`/shipping`) — delivery times, courier partners, fees
-- [x] `[GEMINI]` Returns policy page (`/returns`) — policy text
-- [x] `[GEMINI]` Privacy Policy (`/privacy`) — standard legal text
-- [x] `[GEMINI]` Terms & Conditions (`/terms`) — standard legal text
-- [x] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing pages, broken links, un-wired buttons against specs, then ask user for manual verification.
+### Phase 3: Shop Pages ✅ Complete
+- [x] `[GEMINI]` Homepage, Categories, Category listing, Product detail
+- [x] `[GEMINI]` SEO Implementation (OpenGraph + JSON-LD on product pages)
+- [x] `[GEMINI]` Search, Cart, Checkout, Order confirmation
+- [x] `[GEMINI]` Profile, My Orders
+- [x] `[GEMINI]` About, Contact, Help/FAQ, Track Order
+- [x] `[GEMINI]` Shipping, Returns, Privacy Policy, Terms & Conditions
+- [x] `[GEMINI]` Phase Review & Self-Audit
 
-### Phase 4: Admin Panel UI (Read docs/ADMIN_SPEC.md first)
-- [x] `[GEMINI]` Admin login page (`/admin/login`) — phone OTP login for admins
-- [x] `[GEMINI]` Admin layout — sidebar (all 12 sections), header (admin name + logout), breadcrumb
-- [x] `[GEMINI]` Admin dashboard (`/admin`) — stats cards, revenue overview, pending orders, low stock alerts
-- [x] `[GEMINI]` Admin orders list (`/admin/orders`) — table with filter, search, sort, inline status update
-- [x] `[GEMINI]` Admin order detail (`/admin/orders/[id]`) — full details, timeline, notes, print invoice
-- [x] `[GEMINI]` **Invoice & Label Printing** — A4 Customer Invoice component + Thermal Courier Barcode component
-- [x] `[GEMINI]` Admin print invoice/label (`/admin/orders/[id]/print`) — print-optimized view (no sidebar)
-- [x] `[GEMINI]` Admin products list (`/admin/products`) — table with quick stock/price edit, low stock highlight
-- [x] `[GEMINI]` Admin add product (`/admin/products/new`) — full form with multi-image upload
-- [x] `[GEMINI]` Admin edit product (`/admin/products/[id]/edit`) — same form, pre-populated
-- [x] `[GEMINI]` Admin categories (`/admin/categories`) — tree view, create/edit/reorder
-- [x] `[GEMINI]` Admin customers list (`/admin/customers`) — list, search
-- [x] `[GEMINI]` Admin customer detail (`/admin/customers/[id]`) — profile, order history, ban/unban
-- [x] `[GEMINI]` Admin analytics (`/admin/analytics`) — revenue/orders/products/customers tabs with charts
-- [x] `[GEMINI]` Admin banners (`/admin/content`) — hero + secondary + announcement manager
-- [x] `[GEMINI]` Admin coupons (`/admin/coupons`) — create/manage discount codes
-- [x] `[GEMINI]` Admin inventory (`/admin/inventory`) — stock levels, adjustments, log
-- [x] `[GEMINI]` Admin settings (`/admin/settings`) — delivery, payments, general, maintenance mode
-- [x] `[GEMINI]` Admin users (`/admin/users`) — create/manage admin accounts
-- [x] `[GEMINI]` Admin audit log (`/admin/audit-log`) — track who did what
-- [x] `[GEMINI]` Add PostHog tracking calls per docs/ANALYTICS.md event map
-- [x] `[GEMINI]` **Phase Review & Self-Audit** — Check for missing admin pages, broken links, un-wired buttons against specs, then ask user for manual verification.
+### Phase 4: Admin Panel UI ✅ Complete
+- [x] `[GEMINI]` Admin login page (`/admin/login`)
+- [x] `[GEMINI]` Admin layout (sidebar, header, breadcrumb)
+- [x] `[GEMINI]` Admin dashboard (`/admin`)
+- [x] `[GEMINI]` Admin orders list + detail + print invoice/label
+- [x] `[GEMINI]` Admin products list + add/edit form
+- [x] `[GEMINI]` Admin categories tree view
+- [x] `[GEMINI]` Admin customers list + detail
+- [x] `[GEMINI]` Admin analytics (all 5 tabs)
+- [x] `[GEMINI]` Admin banners + content manager
+- [x] `[GEMINI]` Admin coupons
+- [x] `[GEMINI]` Admin inventory
+- [x] `[GEMINI]` Admin settings
+- [x] `[GEMINI]` Admin users
+- [x] `[GEMINI]` Admin audit log
+- [x] `[GEMINI]` PostHog tracking calls wired in (per `docs/ANALYTICS.md`)
+- [x] `[GEMINI]` Phase Review & Self-Audit
+
+### Phase 5: Gaps & Polish (Gemini — Not Started)
+- [ ] `[GEMINI]` Admin flash deals UI (`/admin/flash-deals`) — create/edit/deactivate timed deals. Read `docs/DB_SCHEMA.md` for `flash_deals` table and `docs/API_SPEC.md` for flash deal admin routes.
+- [ ] `[GEMINI]` Build `src/app/error.tsx` — global error boundary page (shows when unhandled error occurs)
+- [ ] `[GEMINI]` Build `src/app/loading.tsx` — global Suspense fallback (spinner or skeleton)
+- [ ] `[GEMINI]` Build `src/app/not-found.tsx` — global 404 page (if not already done)
+- [ ] `[GEMINI]` Homepage: wire up dynamic banner from `GET /api/banners` (once Claude marks [READY])
+- [ ] `[GEMINI]` Homepage: wire up flash deal countdown from `GET /api/flash-deal` (once Claude marks [READY])
+- [ ] `[GEMINI]` Checkout: wire up "Apply Coupon" button to `POST /api/coupons/validate` (once Claude marks [READY])
+- [ ] `[GEMINI]` SEO: add dynamic OpenGraph + JSON-LD to category pages (`/category/[slug]`)
+- [ ] `[GEMINI]` SEO: add structured data (Organization schema) to homepage and About page
+- [ ] `[GEMINI]` Facebook Messenger chat widget — add floating widget (per ROADMAP.md must-have features)
+- [ ] `[GEMINI]` PWA "Add to Home Screen" banner prompt — show after 2nd visit on mobile
+- [ ] `[GEMINI]` **Phase Review & Self-Audit** — Check all gaps, test all wired API calls, then ask user for manual verification.
 
 ---
 
 ## 🔧 CLAUDE AGENT TASKS (Backend)
 
-### Phase 1: Database & Infrastructure
-- [ ] `[CLAUDE]` Install Drizzle: `npm install drizzle-orm @neondatabase/serverless drizzle-kit`
-- [ ] `[CLAUDE]` Create `src/db/schema.ts` from `docs/DB_SCHEMA.md`
+> **Read before starting:**
+> `docs/API_SPEC.md` — all route contracts
+> `docs/DB_SCHEMA.md` — all tables and columns
+> `docs/SECURITY.md` — all security requirements
+> `docs/CODING_STANDARDS.md` — file structure and comment rules
+
+### Phase 1: Infrastructure & Helpers (Start Here)
+- [ ] `[CLAUDE]` Install packages: `npm install drizzle-orm @neondatabase/serverless drizzle-kit @upstash/ratelimit @upstash/redis sharp @aws-sdk/client-s3`
 - [ ] `[CLAUDE]` Add scripts to `package.json`: `db:generate`, `db:migrate`, `db:studio`
-- [ ] `[CLAUDE]` Run first migration on Neon DB
-- [ ] `[CLAUDE]` Create `src/lib/db.ts` — database connection helper
-- [ ] `[CLAUDE]` Create `src/lib/r2.ts` — Cloudflare R2 client
-- [ ] `[CLAUDE]` Create `src/lib/brevo.ts` — email client
-- [ ] `[CLAUDE]` Create `src/lib/aamarpay.ts` — payment client
-- [ ] `[CLAUDE]` Create `src/lib/auth.ts` — Supabase auth helpers
+- [ ] `[CLAUDE]` Create `src/lib/env.ts` — validate ALL required env vars at startup (Zod schema, throws on missing)
+- [ ] `[CLAUDE]` Create `src/db/schema.ts` — implement ALL tables from `docs/DB_SCHEMA.md`
+- [ ] `[CLAUDE]` Run first migration: `npm run db:generate && npm run db:migrate`
+- [ ] `[CLAUDE]` Create `src/db/seed.ts` — seed categories, products, admin user, default settings (see `docs/DB_SCHEMA.md` seed section)
+- [ ] `[CLAUDE]` Create `src/lib/db.ts` — Neon/Drizzle connection
+- [ ] `[CLAUDE]` Create `src/lib/auth.ts` — Supabase client + JWT verification helpers
+- [ ] `[CLAUDE]` Create `src/lib/r2.ts` — Cloudflare R2 S3-compatible client (upload, delete, get URL)
+- [ ] `[CLAUDE]` Create `src/lib/brevo.ts` — Brevo email client (order confirmation + shipping update templates)
+- [ ] `[CLAUDE]` Create `src/lib/aamarpay.ts` — aamarPay client (initiate payment, verify webhook signature)
+- [ ] `[CLAUDE]` Create `src/lib/courier.ts` — courier booking (Steadfast primary, Pathao + RedX fallback). Read `docs/skills/courier-integration.md` first.
+- [ ] `[CLAUDE]` Create `src/lib/redis.ts` — Upstash Redis client for rate limiting
+- [ ] `[CLAUDE]` Create `src/lib/audit.ts` — `logAuditEvent()` helper that writes to `audit_log` table
+- [ ] `[CLAUDE]` Create `src/lib/errors.ts` — standard `{ error, code }` response helpers
+- [ ] `[CLAUDE]` Create `src/lib/validate.ts` — shared Zod schemas (phone, BDT amount, pagination params)
+- [ ] `[CLAUDE]` Create `src/constants/districts.ts` — all 64 Bangladesh districts + upazilas data
+- [ ] `[CLAUDE]` Create `src/constants/routes.ts` — all app route paths as typed constants
+- [ ] `[CLAUDE]` Create `src/constants/payment-methods.ts` — payment method configs (labels, fees, icons)
+- [ ] `[CLAUDE]` Create `src/types/product.ts`, `order.ts`, `user.ts`, `cart.ts`, `payment.ts` — shared TypeScript types (coordinate with Gemini before changing)
+- [ ] `[CLAUDE]` Create `src/middleware.ts` — protect `/admin/*` pages + `/api/admin/*` routes (RBAC). Read `docs/SECURITY.md` middleware pseudocode.
 
-### Phase 2: API Routes (Read docs/API_SPEC.md + docs/ADMIN_SPEC.md + docs/SECURITY.md first)
-- [ ] `[CLAUDE]` `GET /api/products` — list with pagination, filters, full-text search
-- [ ] `[CLAUDE]` `GET /api/products/[slug]` — single product detail
-- [ ] `[CLAUDE]` `GET /api/categories` — full category hierarchy
-- [ ] `[CLAUDE]` `POST /api/orders` — create order, server-side price calc, Brevo email
-- [ ] `[CLAUDE]` `GET /api/orders/[orderNumber]` — order status (public, no auth)
-- [ ] `[CLAUDE]` `POST /api/payment/initiate` — start aamarPay session
-- [ ] `[CLAUDE]` `POST /api/payment/webhook` — verify signature, update order
-- [ ] `[CLAUDE]` `POST /api/auth/otp` — send Supabase OTP (rate limited)
-- [ ] `[CLAUDE]` `POST /api/auth/verify` — verify OTP, return session
-- [ ] `[CLAUDE]` Middleware: protect /admin/* + /api/admin/* (RBAC — see docs/SECURITY.md)
-- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check for missing API routes and missing auth/RBAC against specs, then ask user for manual verification.
+### Phase 2: Public API Routes
+- [ ] `[CLAUDE]` `GET /api/products` — list with cursor pagination, category filter, search, sort (including `sort=popular` using `total_orders` column)
+- [ ] `[CLAUDE]` `GET /api/products/[slug]` — single product detail (404 if deleted or inactive)
+- [ ] `[CLAUDE]` `GET /api/categories` — full category tree (only active categories)
+- [ ] `[CLAUDE]` `GET /api/banners` — active banners by position for homepage. See `docs/API_SPEC.md`.
+- [ ] `[CLAUDE]` `GET /api/flash-deal` — current active flash deal (1 deal or null). See `docs/API_SPEC.md`.
+- [ ] `[CLAUDE]` `POST /api/coupons/validate` — validate coupon code before order placement. See `docs/API_SPEC.md`.
+- [ ] `[CLAUDE]` `POST /api/orders` — create order: verify stock, calculate price server-side, handle COD fee, call aamarPay for non-COD, send Brevo email, decrement stock + increment `total_orders`
+- [ ] `[CLAUDE]` `GET /api/orders/[orderNumber]` — public order tracking (no auth needed)
+- [ ] `[CLAUDE]` `POST /api/payment/initiate` — start aamarPay payment session
+- [ ] `[CLAUDE]` `POST /api/payment/webhook` — aamarPay webhook: verify signature, idempotency check, update order. **Read `docs/skills/payment-integration.md` before writing this.**
+- [ ] `[CLAUDE]` `GET /api/payment/callback` — redirect endpoint aamarPay sends user back to (handles success/fail/cancel URL params, redirects to `/order/[id]`)
+- [ ] `[CLAUDE]` `POST /api/auth/otp` — send Supabase phone OTP (rate limited: 5/phone/10min via Upstash Redis)
+- [ ] `[CLAUDE]` `POST /api/auth/verify` — verify OTP, return Supabase session token
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check all routes match `docs/API_SPEC.md` contracts exactly. Check auth/RBAC. Ask user for manual verification.
 
-### Phase 3: Admin API Routes (All need RBAC middleware)
-- [ ] `[CLAUDE]` `GET /api/admin/dashboard/stats` — revenue + order counts + alerts
-- [ ] `[CLAUDE]` `GET/PATCH /api/admin/orders` — list + status update + COD mark paid
-- [ ] `[CLAUDE]` `GET /api/admin/orders/[id]` — full order detail
-- [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/courier` — send order to Steadfast/Pathao API
-- [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/refund` — initiate refund (Super Admin)
-- [ ] `[CLAUDE]` `GET /api/admin/orders/export` — CSV export (Super Admin)
-- [ ] `[CLAUDE]` `GET/POST /api/admin/products` — list (with cost_price) + create
-- [ ] `[CLAUDE]` `GET/PATCH/DELETE /api/admin/products/[id]` — get + update + soft delete
-- [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/restore` — restore deleted product
-- [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/stock` — quick stock adjustment
-- [ ] `[CLAUDE]` `POST /api/admin/upload` — R2 image upload WITH `sharp` compression (WebP, max 1200px)
-- [ ] `[CLAUDE]` `GET/POST/PATCH/DELETE /api/admin/categories` — category CRUD + reorder
-- [ ] `[CLAUDE]` `GET /api/admin/customers` — list customers
-- [ ] `[CLAUDE]` `GET /api/admin/customers/[id]` — customer detail + order history
-- [ ] `[CLAUDE]` `PATCH /api/admin/customers/[id]/ban` — ban with reason (Super Admin)
-- [ ] `[CLAUDE]` `GET /api/admin/analytics/revenue` — revenue by period
-- [ ] `[CLAUDE]` `GET /api/admin/analytics/orders` — funnel + heatmap
-- [ ] `[CLAUDE]` `GET /api/admin/analytics/products` — top + low performing
-- [ ] `[CLAUDE]` `GET /api/admin/analytics/customers` — new/returning + districts
-- [ ] `[CLAUDE]` `GET /api/admin/analytics/inventory` — stock status summary
-- [ ] `[CLAUDE]` `GET/POST/PATCH/DELETE /api/admin/banners` — banner CRUD + reorder
-- [ ] `[CLAUDE]` `GET/POST/PATCH/DELETE /api/admin/coupons` — coupon CRUD (Super Admin)
-- [ ] `[CLAUDE]` `GET/POST /api/admin/inventory` — stock levels + manual adjustment
-- [ ] `[CLAUDE]` `GET/PATCH /api/admin/settings` — settings CRUD (Super Admin)
-- [ ] `[CLAUDE]` `GET/POST/PATCH /api/admin/users` — admin user management (Super Admin)
-- [ ] `[CLAUDE]` `GET /api/admin/audit-log` — paginated audit entries (Super Admin)
+### Phase 3: Admin API Routes (All protected by middleware)
+- [ ] `[CLAUDE]` `GET /api/admin/dashboard/stats` — today/week/month summary + pending + low stock
+- [ ] `[CLAUDE]` `GET /api/admin/orders` — list with filters, search, pagination, sort
+- [ ] `[CLAUDE]` `GET /api/admin/orders/[id]` — full order detail including timeline + courier info
+- [ ] `[CLAUDE]` `PATCH /api/admin/orders/[id]/status` — update status + add note → appends `order_history`
+- [ ] `[CLAUDE]` `PATCH /api/admin/orders/[id]/payment` — mark COD as paid/failed (COD orders only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/orders/[id]/notes` — update internal admin notes
+- [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/courier` — book shipment (Steadfast/Pathao/RedX). Read `docs/skills/courier-integration.md`.
+- [ ] `[CLAUDE]` `POST /api/admin/orders/[id]/refund` — aamarPay refund initiation (Super Admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/orders/export` — CSV export with date range (Super Admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/products` — list with cost_price + margin (margin % only for super_admin)
+- [ ] `[CLAUDE]` `POST /api/admin/products` — create product, write `inventory_log` row for initial stock
+- [ ] `[CLAUDE]` `GET /api/admin/products/[id]` — single product full detail
+- [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]` — partial update (costPrice + isFeatured restricted to super_admin)
+- [ ] `[CLAUDE]` `DELETE /api/admin/products/[id]` — soft delete (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/restore` — restore soft-deleted (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/products/[id]/stock` — quick stock adjustment → writes `inventory_log`
+- [ ] `[CLAUDE]` `POST /api/admin/upload` — R2 image upload with `sharp` compression → WebP, max 1200px wide
+- [ ] `[CLAUDE]` `GET /api/admin/categories` — full category tree with product counts
+- [ ] `[CLAUDE]` `POST /api/admin/categories` — create category
+- [ ] `[CLAUDE]` `PATCH /api/admin/categories/[id]` — update category
+- [ ] `[CLAUDE]` `DELETE /api/admin/categories/[id]` — deactivate (block if has products → 409)
+- [ ] `[CLAUDE]` `PATCH /api/admin/categories/reorder` — bulk sort_order update
+- [ ] `[CLAUDE]` `GET /api/admin/customers` — list with search + ban filter
+- [ ] `[CLAUDE]` `GET /api/admin/customers/[id]` — profile + all orders + addresses
+- [ ] `[CLAUDE]` `PATCH /api/admin/customers/[id]/ban` — ban with reason (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/customers/[id]/unban` — unban (Super Admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/analytics/revenue` — revenue by period (see `docs/ANALYTICS.md §4`)
+- [ ] `[CLAUDE]` `GET /api/admin/analytics/orders` — funnel + heatmap + COD success rate
+- [ ] `[CLAUDE]` `GET /api/admin/analytics/products` — top/low performing by period
+- [ ] `[CLAUDE]` `GET /api/admin/analytics/customers` — new/returning + district breakdown + top customers
+- [ ] `[CLAUDE]` `GET /api/admin/analytics/inventory` — stock summary (totalStockValue super_admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/banners` — all banners including inactive
+- [ ] `[CLAUDE]` `POST /api/admin/banners` — create banner
+- [ ] `[CLAUDE]` `PATCH /api/admin/banners/[id]` — update banner
+- [ ] `[CLAUDE]` `DELETE /api/admin/banners/[id]` — delete banner
+- [ ] `[CLAUDE]` `PATCH /api/admin/banners/reorder` — bulk sort_order update
+- [ ] `[CLAUDE]` `GET /api/admin/flash-deals` — list all deals (past + active)
+- [ ] `[CLAUDE]` `POST /api/admin/flash-deals` — create deal (validate flash_price < product.price, no overlap)
+- [ ] `[CLAUDE]` `PATCH /api/admin/flash-deals/[id]` — update / deactivate early
+- [ ] `[CLAUDE]` `GET /api/admin/coupons` — list with usage stats (Super Admin only)
+- [ ] `[CLAUDE]` `POST /api/admin/coupons` — create coupon (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/coupons/[id]` — update coupon (Super Admin only)
+- [ ] `[CLAUDE]` `DELETE /api/admin/coupons/[id]` — deactivate coupon (Super Admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/inventory` — stock levels with low-stock highlighting
+- [ ] `[CLAUDE]` `POST /api/admin/inventory/adjust` — manual stock adjustment → writes `inventory_log`
+- [ ] `[CLAUDE]` `GET /api/admin/inventory/log` — full adjustment history with filters
+- [ ] `[CLAUDE]` `GET /api/admin/inventory/export` — CSV export (Super Admin only)
+- [ ] `[CLAUDE]` `GET /api/admin/settings` — all settings as typed object (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/settings` — partial update (logs before/after to audit_log)
+- [ ] `[CLAUDE]` `GET /api/admin/users` — list admin accounts (Super Admin only)
+- [ ] `[CLAUDE]` `POST /api/admin/users` — create admin account (Super Admin only)
+- [ ] `[CLAUDE]` `PATCH /api/admin/users/[id]` — update role / deactivate (Super Admin only, cannot self-deactivate)
+- [ ] `[CLAUDE]` `GET /api/admin/audit-log` — paginated audit entries with filters (Super Admin only)
 - [ ] `[CLAUDE]` Mark each completed route `[READY]` in `docs/API_SPEC.md`
-- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check for missing admin API routes and missing RBAC against specs, then ask user for manual verification.
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Verify all routes match API_SPEC.md contracts. Verify RBAC on every route. Ask user for manual verification.
 
 ### Phase 4: Security, Integrations & Polish
-- [ ] `[CLAUDE]` Add Zod validation schemas to ALL routes (see docs/SECURITY.md)
-- [ ] `[CLAUDE]` Implement Upstash Redis rate limiting on auth endpoints
-- [ ] `[CLAUDE]` Add HTTP security headers to `next.config.ts`
-- [ ] `[CLAUDE]` Create `src/lib/env.ts` — validate all required env vars at startup
-- [ ] `[CLAUDE]` Create `src/lib/audit.ts` — audit log helper function
-- [ ] `[CLAUDE]` Implement Next.js ISR cache tags (revalidate) for products endpoints to save DB compute
-- [ ] `[CLAUDE]` Implement COD Trust Score calculation in customer profile queries
-- [ ] `[CLAUDE]` Write order confirmation Brevo email template
-- [ ] `[CLAUDE]` Write shipping update Brevo email template
-- [ ] `[CLAUDE]` Add server-side PostHog events (order placed, payment confirmed)
-- [ ] `[CLAUDE]` Create `src/db/seed.ts` — seed data for development
-- [ ] `[CLAUDE]` Full security audit — run through ALL items in docs/SECURITY.md checklist
-- [ ] `[CLAUDE]` Create `src/constants/districts.ts` — all 64 Bangladesh districts + upazilas
-- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Check all security items, integrations, and email templates, then ask user for manual verification.
+- [ ] `[CLAUDE]` Verify Zod validation schema at top of EVERY route handler (no route touches DB without validating)
+- [ ] `[CLAUDE]` Verify Upstash Redis rate limiting wired on all auth + payment endpoints (see `docs/SECURITY.md §4`)
+- [ ] `[CLAUDE]` Add HTTP security headers to `next.config.ts` (full list in `docs/SECURITY.md §6`)
+- [ ] `[CLAUDE]` ISR cache tags: add `revalidateTag('products')` to product list/detail routes to avoid DB hammering
+- [ ] `[CLAUDE]` COD Trust Score: add to customer profile query — calculate as `(delivered_cod_orders / total_cod_orders) * 100` using `order_history`
+- [ ] `[CLAUDE]` Write Brevo order confirmation email template (HTML + text, includes order items + total + tracking link)
+- [ ] `[CLAUDE]` Write Brevo shipping update email template (includes courier name + tracking code + tracking URL)
+- [ ] `[CLAUDE]` Server-side PostHog event: fire `order_placed` from `POST /api/orders` handler
+- [ ] `[CLAUDE]` Server-side PostHog event: fire `payment_confirmed` from `POST /api/payment/webhook` handler
+- [ ] `[CLAUDE]` Full security audit: run through ALL checkboxes in `docs/SECURITY.md` ✅ checklist
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Run security checklist, verify email templates send correctly in sandbox, ask user for manual verification.
+
+### Phase 5: PWA Setup
+- [ ] `[CLAUDE]` Install Serwist: `npm install serwist @serwist/next`
+- [ ] `[CLAUDE]` Create `public/manifest.json` — app name, icons (192px + 512px), theme color `#10b981`, display standalone
+- [ ] `[CLAUDE]` Generate PWA icons: 192×192 and 512×512 PNG from logo (use `sharp` or instruct human)
+- [ ] `[CLAUDE]` Configure Serwist in `next.config.ts` — service worker with offline fallback
+- [ ] `[CLAUDE]` Create `src/app/offline/page.tsx` — offline page shown when user loses connection
+- [ ] `[CLAUDE]` Test: open Chrome DevTools → Application → Service Workers → verify registration
+- [ ] `[CLAUDE]` **Phase Review & Self-Audit** — Verify "Add to Home Screen" prompt appears on Android Chrome. Ask user to test on real device.
 
 ---
 
@@ -193,7 +228,9 @@
 *Use this section to leave notes for the other agent*
 
 **From Gemini → Claude:**
-*(Leave notes here when Gemini needs something from Claude)*
+- All public shop pages and admin UI are built with mock/static data.
+- Once you mark API routes `[READY]` in `docs/API_SPEC.md`, I will wire the real data calls.
+- Priority order for wiring: Products → Categories → Cart/Checkout → Orders → Admin Dashboard.
 
 **From Claude → Gemini:**
 *(Leave notes here when Claude needs something from Gemini)*

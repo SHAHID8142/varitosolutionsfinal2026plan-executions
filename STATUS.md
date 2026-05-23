@@ -14,9 +14,9 @@
 
 ## 📅 Last Updated
 
-- **Date:** 2026-05-22
-- **Updated by:** Gemini (Design Agent)
-- **Session summary:** Completed Phase 4: Admin Panel UI. Built all 12 sections including Content, Coupons, Inventory, Settings, Users, and Audit Log. Optimized entire admin panel for mobile responsiveness. Integrated PostHog analytics infrastructure.
+- **Date:** 2026-05-23
+- **Updated by:** Agent 3 — Antigravity (Inspector)
+- **Session summary:** Full documentation inspection and repair pass. Fixed: role naming consistency (customer/staff/super_admin), DB_SCHEMA.md missing 6 tables + 2 new tables (flash_deals, courier_shipments), API_SPEC.md full admin route contracts, ENV_VARS.md missing Upstash Redis + courier + PostHog server keys, payment-integration.md replaced with aamarPay-specific content, new courier-integration.md skill created, TASKS.md fully audited and expanded (missing routes, PWA tasks, Gemini gap tasks), ADMIN_SPEC.md duplicate table definitions removed, Next.js version corrected to 16.2.6 across all docs, color token bug in COMPONENT_REGISTRY.md fixed, CODING_STANDARDS.md folder structure updated.
 
 ---
 
@@ -100,35 +100,44 @@
 
 ## 🔲 What's NOT Done (In Order)
 
-### Immediate (This Week)
-- [ ] Register domain (Namecheap/Porkbun)
-- [ ] Point domain to Cloudflare nameservers
-- [x] ~~Initialize Next.js project in the repo~~ ✅ Done
-- [ ] Connect GitHub repo to Cloudflare Pages (auto-deploy on push)
-- [ ] Create `.env.local` with all API keys (see docs/ENV_VARS.md)
-- [ ] Create Neon DB project named `varito-production`
+### Human Actions Required (Blockers)
+- [ ] `[HUMAN]` Register domain (Namecheap/Porkbun)
+- [ ] `[HUMAN]` Point domain to Cloudflare nameservers
+- [ ] `[HUMAN]` Connect GitHub repo to Cloudflare Pages (auto-deploy on push)
+- [ ] `[HUMAN]` Create `.env.local` with all API keys (see `docs/ENV_VARS.md`)
+- [ ] `[HUMAN]` Create Neon DB project named `varito-production`
+- [ ] `[HUMAN]` Get aamarPay sandbox credentials from merchant dashboard
+- [ ] `[HUMAN]` Get Steadfast API key from portal.steadfast.com.bd
+- [ ] `[HUMAN]` Get Upstash Redis REST URL + token from console.upstash.com
 
-### Phase 2 — Build (After Domain)
-- [ ] Next.js project setup with all dependencies
-- [ ] Cloudflare Pages deployment pipeline
-- [ ] Neon DB project created, schema migrated
-- [x] **[GEMINI] Component library awaiting human approval**
-- [x] **[GEMINI] Homepage built**
-- [x] **[GEMINI] Category page built**
-- [x] **[GEMINI] Product page built**
-- [x] **[GEMINI] Cart + Checkout built**
-- [ ] **[CLAUDE] All API routes implemented**
-- [ ] **[CLAUDE] aamarPay payment integration**
-- [ ] **[CLAUDE] Supabase auth (phone OTP)**
-- [ ] **[CLAUDE] Order management system**
-- [x] **[GEMINI] Admin dashboard UI**
-- [ ] **[CLAUDE] Admin dashboard API**
+### Phase 4 — Admin Panel UI (Gemini — In Progress)
+- [ ] `[GEMINI]` Admin customers list + detail pages
+- [ ] `[GEMINI]` Admin analytics page (Revenue / Orders / Products / Customers / Inventory tabs)
+- [ ] `[GEMINI]` Admin banners + flash deals content manager
+- [ ] `[GEMINI]` Admin coupons page
+- [ ] `[GEMINI]` Admin inventory page
+- [ ] `[GEMINI]` Admin settings page
+- [ ] `[GEMINI]` Admin users page
+- [ ] `[GEMINI]` Admin audit log page
+- [ ] `[GEMINI]` PostHog tracking calls wired in (per `docs/ANALYTICS.md`)
+- [ ] `[HUMAN]` **APPROVE** completed admin UI before Claude starts backend
 
-### Phase 3 — Launch
+### Phase 5 — Backend (Claude — Not Started)
+- [ ] `[CLAUDE]` Database schema + first migration (Drizzle + Neon)
+- [ ] `[CLAUDE]` All public API routes (`/api/products`, `/api/orders`, `/api/auth/*`, etc.)
+- [ ] `[CLAUDE]` All admin API routes (full contracts in `docs/API_SPEC.md`)
+- [ ] `[CLAUDE]` aamarPay payment integration + webhook
+- [ ] `[CLAUDE]` Courier integration (Steadfast primary, Pathao + RedX secondary)
+- [ ] `[CLAUDE]` Brevo email templates (order confirmation + shipping update)
+- [ ] `[CLAUDE]` Rate limiting (Upstash Redis)
+- [ ] `[CLAUDE]` Security hardening + audit logging
+- [ ] `[CLAUDE]` PWA setup (Serwist + manifest.json + offline page)
+
+### Phase 6 — Launch
 - [ ] Full end-to-end checkout test (COD + bKash + Nagad)
-- [ ] Mobile testing on real Android device
-- [ ] All launch checklist items checked
-- [ ] Go live
+- [ ] Mobile testing on real Android device (4GB RAM, slow 3G)
+- [ ] All LAUNCH_CHECKLIST.md items checked
+- [ ] Go live 🚀
 
 ---
 
@@ -147,7 +156,7 @@
 
 | Decision | What | Why |
 |----------|------|-----|
-| Framework | Next.js 15 (App Router) | SSR for SEO, API routes, free on Cloudflare Pages |
+| Framework | Next.js 16.2.6 (App Router) | SSR for SEO, API routes, free on Cloudflare Pages |
 | Database | Neon PostgreSQL + Drizzle ORM | Free tier, edge-compatible |
 | Hosting | Cloudflare Pages | Commercial-safe free tier, unlimited bandwidth |
 | Payment | aamarPay | Only zero-setup-fee BD payment gateway |
