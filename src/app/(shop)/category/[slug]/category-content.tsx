@@ -1,27 +1,27 @@
 /**
- * @file page.tsx
+ * @file category-content.tsx
  * @path /category/[slug]
- * @description Category listing page. Shows products filtered by category.
+ * @description Category listing page — wired to GET /api/products?categorySlug=[slug].
  *              Includes sidebar filters (desktop) and sheet filters (mobile).
- *              Uses premium Emerald theme and Jakarta typography.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
 
 import * as React from "react"
 import { useParams } from "next/navigation"
-import { SlidersHorizontal, LayoutGrid, List, X } from "lucide-react"
+import { SlidersHorizontal, LayoutGrid, List, Package } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { BottomNav } from "@/components/layout/bottom-nav"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/shop/product-card"
+import { ProductCardSkeleton } from "@/components/ui/loading-skeleton"
+import { EmptyState } from "@/components/ui/empty-state"
 import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
-import { Badge } from "@/components/ui/badge"
 import { CategorySchema } from "@/components/shop/category-schema"
 import {
   Select,
@@ -39,72 +39,20 @@ import {
 } from "@/components/ui/sheet"
 
 // ─────────────────────────────────────────────
-// SAMPLE DATA
+// TYPES
 // ─────────────────────────────────────────────
 
-const PRODUCTS = [
-  {
-    id: "1",
-    name: "Luxury Emerald Gold Faucet",
-    slug: "luxury-emerald-gold-faucet",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+1",
-    price: 4500,
-    salePrice: 3800,
-    stock: 12,
-    isNew: true
-  },
-  {
-    id: "2",
-    name: "Classic Silver Basin Mixer",
-    slug: "classic-silver-mixer",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+2",
-    price: 2800,
-    stock: 25
-  },
-  {
-    id: "3",
-    name: "Modern Matte Black Tap",
-    slug: "matte-black-tap",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+3",
-    price: 3500,
-    salePrice: 2999,
-    stock: 15,
-    isNew: true
-  },
-  {
-    id: "4",
-    name: "Eco-Friendly Water Saver Faucet",
-    slug: "eco-faucet",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+4",
-    price: 1800,
-    stock: 100
-  },
-  {
-    id: "5",
-    name: "Wall Mounted Luxury Tap",
-    slug: "wall-mounted-tap",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+5",
-    price: 5200,
-    salePrice: 4500,
-    stock: 5
-  },
-  {
-    id: "6",
-    name: "Automatic Sensor Faucet",
-    slug: "sensor-faucet",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+6",
-    price: 8500,
-    stock: 10
-  },
-]
-
-const CATEGORIES = [
-  { name: "All Faucets", count: 150 },
-  { name: "Kitchen Taps", count: 45 },
-  { name: "Basin Mixers", count: 62 },
-  { name: "Shower Heads", count: 38 },
-  { name: "Bath Spouts", count: 12 },
-]
+interface ApiProduct {
+  id: string
+  slug: string
+  name: string
+  nameBn: string
+  price: number
+  salePrice: number | null
+  images: string[]
+  stock: number
+  isNew: boolean
+}
 
 // ─────────────────────────────────────────────
 // PAGE COMPONENTS
@@ -124,17 +72,6 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 function SidebarFilters() {
   return (
     <div className="flex flex-col">
-      <FilterSection title="Sub-Categories">
-        {CATEGORIES.map((cat) => (
-          <button key={cat.name} className="flex items-center justify-between text-sm text-gray-600 hover:text-primary transition-colors group">
-            <span>{cat.name}</span>
-            <span className="text-[10px] font-bold bg-gray-50 px-2 py-0.5 rounded-full text-gray-400 group-hover:bg-primary/10 group-hover:text-primary transition-all">
-              {cat.count}
-            </span>
-          </button>
-        ))}
-      </FilterSection>
-
       <FilterSection title="Price Range">
         <div className="flex flex-col gap-4 mt-2">
           <div className="grid grid-cols-2 gap-2">
@@ -172,25 +109,47 @@ function SidebarFilters() {
 export default function CategoryContent() {
   const params = useParams()
   const slug = params.slug as string
-  
-  // Format slug for display
+  const [products, setProducts] = React.useState<ApiProduct[]>([])
+  const [total, setTotal] = React.useState(0)
+  const [loading, setLoading] = React.useState(true)
+  const [sort, setSort] = React.useState("new")
+
   const categoryName = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
+  React.useEffect(() => {
+    if (!slug) return
+    async function load() {
+      try {
+        const r = await fetch(`/api/products?categorySlug=${encodeURIComponent(slug)}&sort=${sort}&limit=24`)
+        const json = await r.json()
+        if (json.data) {
+          setProducts(json.data)
+          setTotal(json.total ?? json.data.length)
+        }
+      } catch {
+        // keep previous state on error
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [slug, sort])
+
   return (
     <div className="flex flex-col min-h-screen">
-      <CategorySchema 
+      <CategorySchema
         name={categoryName}
         description={`Shop premium ${categoryName.toLowerCase()} in Bangladesh at Varito Solutions.`}
         url={`https://varitosolutions.com/category/${slug}`}
       />
       <Header />
-      
+
       <main className="flex-1 bg-gray-50/50">
         <div className="container mx-auto px-4 py-8">
-          
+
           {/* Breadcrumb & Title */}
           <div className="flex flex-col gap-6 mb-8">
             <Breadcrumb
@@ -199,29 +158,29 @@ export default function CategoryContent() {
                 { label: categoryName },
               ]}
             />
-            
+
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
                   {categoryName}
                 </h1>
                 <p className="text-sm text-gray-500 font-medium">
-                  Showing 1–{PRODUCTS.length} of 150 products
+                  {loading ? "Loading..." : `${products.length} of ${total} products`}
                 </p>
               </div>
 
               {/* Sorting & View Options */}
               <div className="flex items-center gap-3">
                 <div className="hidden sm:flex items-center bg-white border border-gray-100 rounded-xl p-1 gap-1">
-                  <Button variant="ghost" size="icon" className="size-9 bg-gray-50 text-primary rounded-lg shadow-sm">
+                  <Button variant="ghost" size="icon" aria-label="Grid view" className="size-9 bg-gray-50 text-primary rounded-lg shadow-sm">
                     <LayoutGrid className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="size-9 text-gray-400 rounded-lg">
+                  <Button variant="ghost" size="icon" aria-label="List view" className="size-9 text-gray-400 rounded-lg">
                     <List className="size-4" />
                   </Button>
                 </div>
-                
-                <Select defaultValue="newest">
+
+                <Select defaultValue="new" onValueChange={(v) => { if (v) setSort(v) }}>
                   <SelectTrigger className="w-[180px] h-11 bg-white border-gray-100 rounded-xl shadow-sm font-bold text-gray-700">
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400 font-normal">Sort:</span>
@@ -229,16 +188,15 @@ export default function CategoryContent() {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="new">Newest First</SelectItem>
                     <SelectItem value="price_asc">Price: Low to High</SelectItem>
                     <SelectItem value="price_desc">Price: High to Low</SelectItem>
-                    <SelectItem value="popular">Most Popular</SelectItem>
                   </SelectContent>
                 </Select>
 
                 {/* Mobile Filter Trigger */}
                 <Sheet>
-                  <SheetTrigger 
+                  <SheetTrigger
                     render={
                       <Button variant="outline" className="lg:hidden h-11 rounded-xl bg-white border-gray-100 shadow-sm gap-2">
                         <SlidersHorizontal className="size-4" />
@@ -252,11 +210,6 @@ export default function CategoryContent() {
                     </SheetHeader>
                     <div className="overflow-y-auto h-[calc(100vh-120px)] pr-2 -mr-2">
                       <SidebarFilters />
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100">
-                      <Button className="w-full py-6 text-lg shadow-lg shadow-primary/20">
-                        Show {PRODUCTS.length} Results
-                      </Button>
                     </div>
                   </SheetContent>
                 </Sheet>
@@ -276,42 +229,49 @@ export default function CategoryContent() {
 
             {/* Product Grid */}
             <div className="flex-1 flex flex-col gap-10">
-              {/* Active Filters (Chips) */}
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="h-8 gap-1.5 pl-3 pr-2 bg-white border-gray-100 text-gray-700 normal-case">
-                  Price: Under ৳5000 <X className="size-3 text-gray-400 hover:text-danger-500 cursor-pointer" />
-                </Badge>
-                <Badge variant="secondary" className="h-8 gap-1.5 pl-3 pr-2 bg-white border-gray-100 text-gray-700 normal-case">
-                  Brand: Luxury <X className="size-3 text-gray-400 hover:text-danger-500 cursor-pointer" />
-                </Badge>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-8">
-                {PRODUCTS.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    slug={product.slug}
-                    image={product.image}
-                    price={product.price}
-                    salePrice={product.salePrice}
-                    stock={product.stock}
-                    isNew={product.isNew}
-                  />
-                ))}
-              </div>
-
-              {/* Load More */}
-              <div className="flex flex-col items-center gap-4 py-12">
-                <p className="text-sm text-gray-400 font-medium">You&apos;ve viewed 6 of 150 products</p>
-                <div className="w-64 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="bg-primary h-full w-[4%]" />
+              {loading ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                  {Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)}
                 </div>
-                <Button variant="outline" size="lg" className="mt-4 px-12 border-primary/20 text-primary hover:bg-primary-50 font-bold bg-white">
-                  Load More Products
-                </Button>
-              </div>
+              ) : products.length === 0 ? (
+                <div className="py-20 bg-white rounded-[40px] border border-gray-100 shadow-sm">
+                  <EmptyState
+                    icon={<Package className="size-10" />}
+                    title="No products in this category"
+                    description="We haven't added products here yet. Check back soon!"
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-8">
+                    {products.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        id={product.id}
+                        name={product.name}
+                        nameBn={product.nameBn}
+                        slug={product.slug}
+                        image={product.images[0] ?? ""}
+                        price={product.price}
+                        salePrice={product.salePrice ?? undefined}
+                        stock={product.stock}
+                        isNew={product.isNew}
+                      />
+                    ))}
+                  </div>
+
+                  {products.length < total && (
+                    <div className="flex flex-col items-center gap-4 py-12">
+                      <p className="text-sm text-gray-400 font-medium">
+                        You&apos;ve viewed {products.length} of {total} products
+                      </p>
+                      <div className="w-64 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="bg-primary h-full transition-all" style={{ width: `${Math.round((products.length / total) * 100)}%` }} />
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
 

@@ -18,10 +18,11 @@ import { BottomNav } from "@/components/layout/bottom-nav"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/shop/product-card"
+import { ProductCardSkeleton } from "@/components/ui/loading-skeleton"
 import { EmptyState } from "@/components/ui/empty-state"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
-import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 import {
   Select,
   SelectContent,
@@ -38,39 +39,20 @@ import {
 } from "@/components/ui/sheet"
 
 // ─────────────────────────────────────────────
-// SAMPLE DATA
+// TYPES
 // ─────────────────────────────────────────────
 
-const MOCK_RESULTS = [
-  {
-    id: "1",
-    name: "Luxury Emerald Gold Faucet",
-    slug: "luxury-emerald-gold-faucet",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+1",
-    price: 4500,
-    salePrice: 3800,
-    stock: 12,
-    isNew: true
-  },
-  {
-    id: "2",
-    name: "Classic Silver Basin Mixer",
-    slug: "classic-silver-mixer",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+2",
-    price: 2800,
-    stock: 25
-  },
-  {
-    id: "3",
-    name: "Modern Matte Black Tap",
-    slug: "matte-black-tap",
-    image: "https://placehold.co/400x400/10b981/white.png?text=Faucet+3",
-    price: 3500,
-    salePrice: 2999,
-    stock: 15,
-    isNew: true
-  },
-]
+interface ApiProduct {
+  id: string
+  slug: string
+  name: string
+  nameBn: string
+  price: number
+  salePrice: number | null
+  images: string[]
+  stock: number
+  isNew: boolean
+}
 
 // ─────────────────────────────────────────────
 // PAGE COMPONENTS
@@ -116,9 +98,32 @@ function SearchContent() {
   const router = useRouter()
   const query = searchParams.get("q") || ""
   const [view, setView] = React.useState<"grid" | "list">("grid")
-  
-  const hasResults = query.toLowerCase() !== "empty" && query.trim() !== "" 
-  const results = hasResults ? MOCK_RESULTS : []
+  const [results, setResults] = React.useState<ApiProduct[]>([])
+  const [loading, setLoading] = React.useState(false)
+  const [sort, setSort] = React.useState("relevance")
+
+  React.useEffect(() => {
+    async function search() {
+      if (!query.trim()) {
+        setResults([])
+        return
+      }
+      const sortParam = sort === "price_asc" ? "price_asc" : sort === "price_desc" ? "price_desc" : "new"
+      setLoading(true)
+      try {
+        const r = await fetch(`/api/products?q=${encodeURIComponent(query.trim())}&sort=${sortParam}&limit=24`)
+        const json = await r.json()
+        if (json.data) setResults(json.data)
+      } catch {
+        // keep previous results on error
+      } finally {
+        setLoading(false)
+      }
+    }
+    search()
+  }, [query, sort])
+
+  const hasResults = results.length > 0
 
   const handleClearSearch = () => {
     router.push("/search")
@@ -151,9 +156,9 @@ function SearchContent() {
                   "Explore All Products"
                 )}
               </h1>
-              {hasResults && (
+              {(hasResults || loading) && (
                 <p className="text-sm text-gray-500 font-bold uppercase tracking-widest opacity-60">
-                  {results.length} items found
+                  {loading ? "Searching..." : `${results.length} items found`}
                 </p>
               )}
             </div>
@@ -185,7 +190,7 @@ function SearchContent() {
                 </div>
 
                 <div className="flex items-center gap-3 ml-auto">
-                  <Select defaultValue="relevance" onValueChange={(v) => toast.info(`Sorting by ${v}...`)}>
+                  <Select defaultValue="relevance" onValueChange={(v) => { if (v) setSort(v) }}>
                     <SelectTrigger className="w-[180px] h-11 bg-white border-gray-100 rounded-xl shadow-sm font-bold text-gray-700">
                       <div className="flex items-center gap-2">
                         <span className="text-gray-400 font-normal">Sort:</span>
@@ -219,7 +224,11 @@ function SearchContent() {
             )}
           </div>
 
-          {!hasResults ? (
+          {loading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+              {Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)}
+            </div>
+          ) : !hasResults ? (
             <div className="py-20 bg-white rounded-[40px] border border-gray-100 shadow-sm">
               <EmptyState
                 icon={<Search className="size-10" />}
@@ -245,7 +254,15 @@ function SearchContent() {
                 {results.map((product) => (
                   <ProductCard
                     key={product.id}
-                    {...product}
+                    id={product.id}
+                    slug={product.slug}
+                    name={product.name}
+                    nameBn={product.nameBn}
+                    image={product.images[0] ?? ""}
+                    price={product.price}
+                    salePrice={product.salePrice ?? undefined}
+                    stock={product.stock}
+                    isNew={product.isNew}
                   />
                 ))}
               </div>
