@@ -40,7 +40,7 @@ async function sendEmail(params: SendEmailParams) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "api-key": serverEnv.BREVO_API_KEY,
+      "api-key": serverEnv.BREVO_API_KEY as string,
     },
     body: JSON.stringify({
       sender: { name: FROM_NAME, email: FROM_EMAIL },

@@ -13,7 +13,6 @@
 import * as React from "react"
 import { 
   ShoppingBag, 
-  Users, 
   TrendingUp, 
   AlertTriangle, 
   ArrowRight,
@@ -23,30 +22,100 @@ import { StatsCard } from "@/components/admin/stats-card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 // ─────────────────────────────────────────────
-// MOCK DATA
+// TYPES
 // ─────────────────────────────────────────────
 
-const RECENT_ORDERS = [
-  { id: "VR-0001", customer: "Karim Ahmed", date: "2 mins ago", total: 4500, status: "pending", payment: "COD" },
-  { id: "VR-0002", customer: "Sultana Begum", date: "15 mins ago", total: 3200, status: "confirmed", payment: "bKash" },
-  { id: "VR-0003", customer: "Tanvir Hasan", date: "45 mins ago", total: 1250, status: "shipped", payment: "Nagad" },
-  { id: "VR-0004", customer: "Nabila Tabassum", date: "2 hours ago", total: 5800, status: "delivered", payment: "Card" },
-  { id: "VR-0005", customer: "Rafiqul Islam", date: "5 hours ago", total: 850, status: "pending", payment: "COD" },
-]
-
-const LOW_STOCK_PRODUCTS = [
-  { name: "Premium Kitchen Mixer Tap", sku: "VR-SAN-002", stock: 4, category: "Sanitary" },
-  { name: "Bubble Wrap (50 Meter)", sku: "VR-PKG-012", stock: 8, category: "Packaging" },
-  { name: "Luxury Emerald Gold Faucet", sku: "VR-SAN-001", stock: 2, category: "Sanitary" },
-]
+interface DashboardData {
+  today: {
+    orders: number
+    revenue: number
+  }
+  thisWeek: {
+    orders: number
+    revenue: number
+    changePercent: number
+  }
+  thisMonth: {
+    revenue: number
+  }
+  pendingOrders: number
+  lowStockAlerts: {
+    id: string
+    name: string
+    stock: number
+    slug: string
+  }[]
+  recentOrders: {
+    id: string
+    orderNumber: string
+    status: string
+    paymentStatus: string
+    total: number
+    customerName: string
+    createdAt: string
+  }[]
+}
 
 // ─────────────────────────────────────────────
 // COMPONENT
 // ─────────────────────────────────────────────
 
 export default function AdminDashboardPage() {
+  const [data, setData] = React.useState<DashboardData | null>(null)
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    async function fetchDashboard() {
+      try {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("sb-access-token="))
+          ?.split("=")[1]
+
+        const response = await fetch("/api/admin/dashboard", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard data")
+        }
+
+        const result = await response.json()
+        setData(result.data)
+      } catch (error: unknown) {
+        toast.error(error instanceof Error ? error.message : "An unexpected error occurred")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchDashboard()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-8 animate-pulse">
+        <div className="h-20 bg-gray-200 rounded-2xl w-1/3" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-32 bg-gray-200 rounded-2xl" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-8 h-96 bg-gray-200 rounded-3xl" />
+          <div className="lg:col-span-4 h-96 bg-gray-200 rounded-3xl" />
+        </div>
+      </div>
+    )
+  }
+
+  if (!data) return null
+
   return (
     <div className="flex flex-col gap-8 md:gap-10">
       
@@ -70,32 +139,32 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard 
           label="Today's Revenue" 
-          value="৳42,500" 
-          trend="up" 
-          trendValue="+12.5%" 
+          value={`৳${data.today.revenue.toLocaleString()}`} 
+          trend={data.thisWeek.changePercent >= 0 ? "up" : "down"} 
+          trendValue={`${data.thisWeek.changePercent >= 0 ? "+" : ""}${data.thisWeek.changePercent}%`} 
           icon={TrendingUp} 
         />
         <StatsCard 
           label="Pending Orders" 
-          value="18" 
-          trend="down" 
-          trendValue="-2 today" 
+          value={data.pendingOrders.toString()} 
+          trend={data.pendingOrders > 10 ? "up" : "down"} 
+          trendValue={data.pendingOrders > 10 ? "Needs action" : "Managed"} 
           icon={ShoppingBag} 
         />
         <StatsCard 
-          label="Total Customers" 
-          value="1,248" 
+          label="Today's Orders" 
+          value={data.today.orders.toString()} 
           trend="up" 
-          trendValue="+45 this week" 
-          icon={Users} 
+          trendValue="Live" 
+          icon={Package} 
         />
         <StatsCard 
           label="Low Stock Alerts" 
-          value="07" 
+          value={data.lowStockAlerts.length.toString().padStart(2, '0')} 
           trend="neutral" 
-          trendValue="Needs Action" 
+          trendValue="Check inventory" 
           icon={AlertTriangle} 
-          className="border-red-100 bg-red-50/10"
+          className={cn(data.lowStockAlerts.length > 0 && "border-red-100 bg-red-50/10")}
         />
       </div>
 
@@ -117,50 +186,54 @@ export default function AdminDashboardPage() {
                   <tr className="border-b border-gray-50 bg-gray-50/50">
                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Order ID</th>
                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Customer</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Date</th>
                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Total</th>
                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {RECENT_ORDERS.map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4">
-                        <span className="text-sm font-black text-gray-900">{order.id}</span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-sm font-bold text-gray-600">{order.customer}</span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-xs font-medium text-gray-400">{order.date}</span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-sm font-black text-gray-900">৳{order.total}</span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <Badge 
-                          variant={
-                            order.status === "delivered" ? "verified" : 
-                            order.status === "pending" ? "outline" : 
-                            "default"
-                          }
-                          className={cn(
-                            "uppercase text-[10px]",
-                            order.status === "pending" && "border-amber-200 text-amber-600 bg-amber-50",
-                            order.status === "confirmed" && "border-primary/30 text-primary bg-primary/5"
-                          )}
-                        >
-                          {order.status}
-                        </Badge>
-                      </td>
-                      <td className="px-6 py-4">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg">
-                          <ArrowRight className="size-4" />
-                        </Button>
+                  {data.recentOrders.length > 0 ? (
+                    data.recentOrders.map((order) => (
+                      <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-black text-gray-900">#{order.orderNumber}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-bold text-gray-600">{order.customerName}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-black text-gray-900">৳{order.total.toLocaleString()}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <Badge 
+                            variant={
+                              order.status === "delivered" ? "verified" : 
+                              order.status === "pending" ? "outline" : 
+                              "default"
+                            }
+                            className={cn(
+                              "uppercase text-[10px]",
+                              order.status === "pending" && "border-amber-200 text-amber-600 bg-amber-50",
+                              order.status === "confirmed" && "border-primary/30 text-primary bg-primary/5"
+                            )}
+                          >
+                            {order.status}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg">
+                            <ArrowRight className="size-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-12 text-center text-gray-500 font-bold">
+                        No orders yet.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -174,18 +247,23 @@ export default function AdminDashboardPage() {
           <div className="flex flex-col gap-6">
             <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Inventory Alerts</h2>
             <div className="flex flex-col gap-4">
-              {LOW_STOCK_PRODUCTS.map((prod) => (
-                <div key={prod.sku} className="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-between group hover:border-red-200 transition-colors">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-xs font-black text-gray-900 line-clamp-1">{prod.name}</span>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{prod.sku}</span>
+              {data.lowStockAlerts.length > 0 ? (
+                data.lowStockAlerts.map((prod) => (
+                  <div key={prod.id} className="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-between group hover:border-red-200 transition-colors">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-xs font-black text-gray-900 line-clamp-1">{prod.name}</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID: {prod.id}</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-1">
+                      <Badge variant="destructive" className="h-5 px-1.5 text-[10px]">{prod.stock} Left</Badge>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <Badge variant="destructive" className="h-5 px-1.5 text-[10px]">{prod.stock} Left</Badge>
-                    <span className="text-[10px] font-bold text-gray-400">{prod.category}</span>
-                  </div>
+                ))
+              ) : (
+                <div className="p-8 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                  <p className="text-xs font-bold text-gray-400">All products in stock!</p>
                 </div>
-              ))}
+              )}
               <Button variant="secondary" className="w-full rounded-xl bg-gray-100 border-none font-bold text-xs h-12 uppercase tracking-widest">
                 Manage Inventory
               </Button>
@@ -198,7 +276,7 @@ export default function AdminDashboardPage() {
               <Badge className="w-fit bg-primary text-emerald-950 font-black border-none uppercase tracking-widest text-[9px]">Admin Pro Tip</Badge>
               <h3 className="text-xl font-black uppercase tracking-tight">Bulk Order Efficiency</h3>
               <p className="text-primary/20/60 text-sm font-medium leading-relaxed">
-                You have 5 orders waiting for the same &quot;Emerald Faucet&quot; SKU. Print their labels together to save processing time.
+                Check pending orders frequently to ensure fast fulfillment for our Chattogram customers.
               </p>
               <Button className="mt-2 bg-white text-emerald-950 hover:bg-primary/5 font-black rounded-xl h-12 uppercase tracking-widest text-xs">
                 View Pending
@@ -214,3 +292,4 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
+

@@ -14,6 +14,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Phone, Lock, ArrowRight, ShieldCheck, Package2, ArrowLeft } from "lucide-react"
+import { usePostHog } from "posthog-js/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -24,41 +25,106 @@ import { toast } from "sonner"
 // ─────────────────────────────────────────────
 
 export default function AdminLoginPage() {
+  const posthog = usePostHog()
+  
   const [step, setStep] = React.useState<"phone" | "otp">("phone")
   const [phone, setPhone] = React.useState("")
   const [otp, setOtp] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleSendOTP = (e: React.FormEvent) => {
+  const formatPhone = (raw: string) => {
+    // Remove all non-digits
+    const digits = raw.replace(/\D/g, "")
+    // If it starts with 01, prepend +88
+    if (digits.startsWith("01") && digits.length === 11) {
+      return `+88${digits}`
+    }
+    // If it starts with 8801, prepend +
+    if (digits.startsWith("8801") && digits.length === 13) {
+      return `+${digits}`
+    }
+    // If it's already +8801...
+    if (raw.startsWith("+8801") && digits.length === 13) {
+      return raw
+    }
+    return null
+  }
+
+  const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!phone || phone.length < 11) {
-      toast.error("Please enter a valid phone number")
+    const formattedPhone = formatPhone(phone)
+    if (!formattedPhone) {
+      toast.error("Please enter a valid Bangladesh phone number (e.g., 01712XXXXXX)")
       return
     }
     
     setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const response = await fetch("/api/auth/otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: formattedPhone }),
+      })
+
+      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send OTP")
+      }
+
       setStep("otp")
       toast.success("OTP sent to your phone!")
-    }, 1500)
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "An unexpected error occurred")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleVerifyOTP = (e: React.FormEvent) => {
+  const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!otp || otp.length < 6) {
+    const formattedPhone = formatPhone(phone)
+    if (!formattedPhone || !otp || otp.length < 6) {
       toast.error("Please enter a valid 6-digit OTP")
       return
     }
 
     setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      toast.success("Welcome back, Super Admin!")
+    try {
+      const response = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: formattedPhone, token: otp }),
+      })
+
+      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(result.error || "Verification failed")
+      }
+
+      const { accessToken, expiresAt, user } = result.data
+
+      // Set cookie for middleware
+      // We use sb-access-token as expected by the middleware
+      const maxAge = expiresAt ? expiresAt - Math.floor(Date.now() / 1000) : 3600
+      document.cookie = `sb-access-token=${accessToken}; path=/; max-age=${maxAge}; SameSite=Lax`
+
+      // Identify with PostHog
+      posthog.identify(user.id, {
+        phone: user.phone,
+        role: "admin", // We assume they are logging into /admin so they should be admin
+      })
+      posthog.capture("admin_login_success")
+
+      toast.success("Welcome back, Administrator!")
+      
+      // Use router.push or window.location.href
+      // window.location.href is safer to ensure middleware picks up the new cookie on the next request
       window.location.href = "/admin"
-    }, 1500)
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "An unexpected error occurred")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

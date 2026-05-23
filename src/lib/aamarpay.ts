@@ -71,7 +71,7 @@ export async function initiateAamarPayPayment(
     type: "json",
   }
 
-  const url = AAMARPAY_URLS[serverEnv.AAMARPAY_MODE]
+  const url = AAMARPAY_URLS[serverEnv.AAMARPAY_MODE || "sandbox"]
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

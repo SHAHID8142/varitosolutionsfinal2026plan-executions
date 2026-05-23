@@ -19,8 +19,8 @@ export const r2Client = new S3Client({
   region: "auto",
   endpoint: serverEnv.CLOUDFLARE_R2_ENDPOINT,
   credentials: {
-    accessKeyId: serverEnv.CLOUDFLARE_R2_ACCESS_KEY_ID,
-    secretAccessKey: serverEnv.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
+    accessKeyId: serverEnv.CLOUDFLARE_R2_ACCESS_KEY_ID as string,
+    secretAccessKey: serverEnv.CLOUDFLARE_R2_SECRET_ACCESS_KEY as string,
   },
 })
 

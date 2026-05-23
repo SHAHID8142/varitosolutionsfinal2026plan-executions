@@ -14,9 +14,9 @@
 
 ## 📅 Last Updated
 
-- **Date:** 2026-05-23
-- **Updated by:** Claude Backend Agent
-- **Session summary:** Completed entire backend API layer. All 65 routes marked [READY] in API_SPEC.md. Built: public routes (banners, flash-deal, coupons/validate, payment/callback), admin flash-deals CRUD, courier booking (Steadfast/Pathao/RedX), order notes, categories/banners reorder. Added flashDeals table to schema. Created lib/errors.ts, lib/validate.ts, lib/courier.ts, constants/routes.ts, constants/payment-methods.ts.
+- **Date:** 2026-05-24
+- **Updated by:** Gemini UI/UX Agent
+- **Session summary:** Wired Admin Login (/admin/login) and Admin Dashboard (/admin) to real APIs. Resolved type errors in lib/aamarpay.ts, lib/brevo.ts, and lib/r2.ts. Integrated PostHog tracking into admin login. Ensured 100% pass on lint and type-check for modified files.
 
 ---
 
@@ -52,6 +52,9 @@
 - [x] **[GEMINI] PWA: manifest.json + theme/viewport config**
 - [x] **[GEMINI] PWA: "Add to Home Screen" install banner prompt**
 - [x] **[GEMINI] Facebook Messenger floating chat widget integrated**
+- [x] **[GEMINI] Admin Login Page wired** (Supabase OTP)
+- [x] **[GEMINI] Admin Dashboard wired** (Real stats API)
+- [x] **[GEMINI] Critical Type Fixes** (lib/aamarpay.ts, lib/brevo.ts, lib/r2.ts)
 
 ...
 - [x] **[GEMINI] Admin Content & Banner Management built (/admin/content)**
@@ -169,7 +172,8 @@
 - [x] `[CLAUDE]` In-app messaging system — Supabase Realtime broadcast, conversations + messages tables, 7 API routes, `<ChatWidget />` (shop) + `<MessagesInbox />` (admin)
 - [x] `[CLAUDE]` Homepage wired — /api/banners, /api/flash-deal, /api/categories, /api/products via Promise.allSettled; FlashDealStrip with countdown + progress bar
 - [x] `[CLAUDE]` Checkout coupon wired — CouponWidget calls POST /api/coupons/validate; live discount in total
-- [ ] `[GEMINI]` Wire remaining UI pages to real APIs (replace mock data with API calls)
+- [x] `[GEMINI]` Admin Login & Dashboard wired to real APIs
+- [/] `[GEMINI]` Wire remaining UI pages to real APIs (replace mock data with API calls)
 - [ ] Full end-to-end checkout test (COD + bKash + Nagad)
 - [ ] Mobile testing on real Android device (4GB RAM, slow 3G)
 - [ ] All LAUNCH_CHECKLIST.md items checked
