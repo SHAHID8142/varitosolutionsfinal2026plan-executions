@@ -235,7 +235,7 @@ export default function HomeContent() {
           fetch("/api/banners?position=hero").then(r => r.json()),
           fetch("/api/flash-deal").then(r => r.json()),
           fetch("/api/categories?featured=true&limit=6").then(r => r.json()),
-          fetch("/api/products?sort=new&limit=8").then(r => r.json()),
+          fetch("/api/products?sort=newest&limit=8").then(r => r.json()),
         ])
 
         if (bannersRes.status === "fulfilled" && bannersRes.value.data?.length) {
@@ -275,10 +275,10 @@ export default function HomeContent() {
   ]
 
   const displayProducts: ApiProduct[] = products.length ? products : [
-    { id: 1, name: "Luxury Gold Faucet", slug: "luxury-gold-faucet", images: ["https://placehold.co/400x400/10b981/white.png?text=Faucet"], price: "4500", salePrice: "3800", stock: 12, createdAt: new Date().toISOString() },
-    { id: 2, name: "Premium Kitchen Mixer Tap", slug: "premium-kitchen-mixer", images: ["https://placehold.co/400x400/10b981/white.png?text=Mixer"], price: "3200", salePrice: null, stock: 45, createdAt: new Date().toISOString() },
-    { id: 3, name: "Packaging Tape 6 Pack", slug: "packaging-tape-6-pack", images: ["https://placehold.co/400x400/10b981/white.png?text=Tape"], price: "850", salePrice: "720", stock: 150, createdAt: new Date().toISOString() },
-    { id: 4, name: "Anti-Rust Shower Set", slug: "anti-rust-shower-set", images: ["https://placehold.co/400x400/10b981/white.png?text=Shower"], price: "5800", salePrice: "5200", stock: 8, createdAt: new Date().toISOString() },
+    { id: 1, name: "Premium Ceramic Wall Tile 30x60", slug: "premium-ceramic-wall-tile-30x60", images: ["https://placehold.co/400x400/10b981/white.png?text=Tile"], price: "1200", salePrice: "999", stock: 500, createdAt: new Date().toISOString() },
+    { id: 2, name: "Luxury Shower Panel Set", slug: "luxury-shower-panel-set", images: ["https://placehold.co/400x400/10b981/white.png?text=Shower"], price: "25000", salePrice: "22000", stock: 25, createdAt: new Date().toISOString() },
+    { id: 3, name: "Budget Bathroom Faucet", slug: "budget-bathroom-faucet", images: ["https://placehold.co/400x400/10b981/white.png?text=Faucet"], price: "850", salePrice: "750", stock: 150, createdAt: new Date().toISOString() },
+    { id: 4, name: "Corrugated Box 30x20x15 cm", slug: "corrugated-box-30x20x15", images: ["https://placehold.co/400x400/10b981/white.png?text=Box"], price: "45", salePrice: null, stock: 5000, createdAt: new Date().toISOString() },
   ]
 
   return (

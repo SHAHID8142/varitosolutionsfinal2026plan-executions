@@ -37,7 +37,7 @@ export default function AllProductsPage() {
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    fetch("/api/products?limit=48&sort=new")
+    fetch("/api/products?limit=48&sort=newest")
       .then((r) => r.json())
       .then((json) => {
         if (json.data) setProducts(json.data)

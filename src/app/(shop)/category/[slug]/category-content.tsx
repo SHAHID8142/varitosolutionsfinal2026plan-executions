@@ -112,7 +112,7 @@ export default function CategoryContent() {
   const [products, setProducts] = React.useState<ApiProduct[]>([])
   const [total, setTotal] = React.useState(0)
   const [loading, setLoading] = React.useState(true)
-  const [sort, setSort] = React.useState("new")
+  const [sort, setSort] = React.useState("newest")
 
   const categoryName = slug
     .split("-")
@@ -180,7 +180,7 @@ export default function CategoryContent() {
                   </Button>
                 </div>
 
-                <Select defaultValue="new" onValueChange={(v) => { if (v) setSort(v) }}>
+                <Select defaultValue="newest" onValueChange={(v) => { if (v) setSort(v) }}>
                   <SelectTrigger className="w-[180px] h-11 bg-white border-gray-100 rounded-xl shadow-sm font-bold text-gray-700">
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400 font-normal">Sort:</span>
@@ -188,7 +188,7 @@ export default function CategoryContent() {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="new">Newest First</SelectItem>
+                    <SelectItem value="newest">Newest First</SelectItem>
                     <SelectItem value="price_asc">Price: Low to High</SelectItem>
                     <SelectItem value="price_desc">Price: High to Low</SelectItem>
                   </SelectContent>

@@ -14,22 +14,33 @@ import { z } from "zod"
 // ─────────────────────────────────────────────
 
 const serverEnvSchema = z.object({
+  // ── Required from day 1 ──────────────────────────────────────
   DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
   SUPABASE_URL: z.string().url("SUPABASE_URL must be a valid URL"),
   SUPABASE_ANON_KEY: z.string().min(1),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
-  CLOUDFLARE_R2_ENDPOINT: z.string().url("CLOUDFLARE_R2_ENDPOINT must be a valid URL"),
-  CLOUDFLARE_R2_ACCESS_KEY_ID: z.string().min(1),
-  CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string().min(1),
-  CLOUDFLARE_R2_BUCKET: z.string().min(1),
-  AAMARPAY_STORE_ID: z.string().min(1),
-  AAMARPAY_SIGNATURE_KEY: z.string().min(1),
-  AAMARPAY_MODE: z.enum(["sandbox", "live"]),
-  BREVO_API_KEY: z.string().min(1),
-  UPSTASH_REDIS_REST_URL: z.string().url("UPSTASH_REDIS_REST_URL must be a valid URL"),
-  UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
-  STEADFAST_API_KEY: z.string().min(1),
-  STEADFAST_API_SECRET: z.string().min(1),
+
+  // ── Required before payment goes live ────────────────────────
+  AAMARPAY_STORE_ID: z.string().min(1).optional(),
+  AAMARPAY_SIGNATURE_KEY: z.string().min(1).optional(),
+  AAMARPAY_MODE: z.enum(["sandbox", "live"]).optional(),
+
+  // ── Required before image uploads go live ────────────────────
+  CLOUDFLARE_R2_ENDPOINT: z.string().url().optional(),
+  CLOUDFLARE_R2_ACCESS_KEY_ID: z.string().min(1).optional(),
+  CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+  CLOUDFLARE_R2_BUCKET: z.string().min(1).optional(),
+
+  // ── Required before email goes live ──────────────────────────
+  BREVO_API_KEY: z.string().min(1).optional(),
+
+  // ── Required before rate limiting goes live ───────────────────
+  UPSTASH_REDIS_REST_URL: z.string().url().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
+
+  // ── Required before courier booking goes live ─────────────────
+  STEADFAST_API_KEY: z.string().min(1).optional(),
+  STEADFAST_API_SECRET: z.string().min(1).optional(),
 })
 
 const clientEnvSchema = z.object({
