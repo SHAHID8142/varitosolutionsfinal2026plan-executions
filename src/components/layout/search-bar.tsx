@@ -49,7 +49,7 @@ export function SearchBar({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
-      posthog.capture('search_performed', {
+      posthog?.capture('search_performed', {
         query: query.trim(),
       });
       if (onSearch) {

@@ -202,6 +202,10 @@
 - [x] `[CLAUDE]` Test: open Chrome DevTools → Application → Service Workers → verify registration
 - [x] `[CLAUDE]` **Phase Review & Self-Audit** — Verify "Add to Home Screen" prompt appears on Android Chrome. Ask user to test on real device.
 
+### Phase 6: Comprehensive QA Audit & Launch Sign-off
+- [ ] `[CLAUDE]` Run the full QA audit checklist in `QA.md` (all 15 sections)
+- [ ] `[CLAUDE]` Log all findings, fix any issues found, and complete the `QA Session Sign-Off` block in `QA.md`
+
 ---
 
 ## 🐛 BUG QUEUE

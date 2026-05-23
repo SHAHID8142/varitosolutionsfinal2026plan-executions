@@ -481,6 +481,12 @@ cat src/middleware.ts
 - [ ] Token verified via Supabase `auth.getUser()` — not just presence check
 - [ ] API routes (`/api/admin/*`) excluded from middleware (they handle own auth)
 
+### 4.10 Cookie Clock-Skew & Timezone Resilience
+```bash
+grep -n "document.cookie.*max-age" src/app --include="*.tsx" --include="*.ts"
+```
+- [ ] Any client-side cookies set with dynamic max-age (such as `sb-access-token`) are resilient against clock drift or timezone differences (e.g. they enforce a minimum safe fallback of `3600` if the diff yields `0` or negative numbers).
+
 ---
 
 ## §5 — Payment & Courier
@@ -900,6 +906,7 @@ grep -n "NEXT_PUBLIC_POSTHOG" src/lib/env.ts 2>/dev/null || grep -rn "POSTHOG" s
 - [ ] PostHog initialized with `NEXT_PUBLIC_POSTHOG_KEY` from env
 - [ ] `NEXT_PUBLIC_POSTHOG_HOST` set (not hardcoded EU/US endpoint)
 - [ ] PageView fires on route changes
+- [ ] **Adblocker Crash Resilience:** Every client-side call to `posthog.capture` or `posthog.identify` is safely optional-chained (`posthog?.`) or checked with `if (posthog)` to prevent crashes when adblockers block script loading.
 
 ### 13.2 No PII in Event Properties
 ```bash

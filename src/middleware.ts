@@ -55,9 +55,14 @@ export async function middleware(request: NextRequest) {
 
   // Verify token against Supabase
   try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.error("[middleware] Critical environment variables are missing! NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY is undefined.")
+      throw new Error("Missing Supabase configuration in environment variables.")
+    }
+
     const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       { auth: { autoRefreshToken: false, persistSession: false } }
     )
 
@@ -67,7 +72,8 @@ export async function middleware(request: NextRequest) {
       loginUrl.searchParams.set("next", pathname)
       return NextResponse.redirect(loginUrl)
     }
-  } catch {
+  } catch (error) {
+    console.error("[middleware] Verification error:", error)
     const loginUrl = new URL("/admin/login", request.url)
     return NextResponse.redirect(loginUrl)
   }

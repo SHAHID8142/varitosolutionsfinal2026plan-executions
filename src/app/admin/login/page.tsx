@@ -54,6 +54,7 @@ export default function AdminLoginPage() {
       })
 
       const result = await response.json()
+      console.log("[admin/login] API response:", response.status, result)
 
       if (!response.ok) {
         throw new Error(result.error ?? "Login failed. Please check your credentials.")
@@ -62,24 +63,30 @@ export default function AdminLoginPage() {
       const { accessToken, refreshToken, expiresAt, admin } = result.data
 
       // Store tokens in cookies for middleware to read
-      const maxAge = expiresAt ? expiresAt - Math.floor(Date.now() / 1000) : 3600
+      let maxAge = expiresAt ? expiresAt - Math.floor(Date.now() / 1000) : 3600
+      if (maxAge <= 0 || maxAge > 3600) {
+        maxAge = 3600 // Resilient fallback for timezone mismatches or clock drift
+      }
       document.cookie = `sb-access-token=${accessToken}; path=/; max-age=${maxAge}; SameSite=Lax`
       document.cookie = `sb-refresh-token=${refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`
+      console.log("[admin/login] Cookies set. Redirecting to /admin...")
 
       // Track login event with PostHog
-      posthog.identify(admin.id, {
+      posthog?.identify(admin.id, {
         email: admin.email,
         role: admin.role,
       })
-      posthog.capture("admin_login_success", { role: admin.role })
+      posthog?.capture("admin_login_success", { role: admin.role })
 
       toast.success(`Welcome back, ${admin.name ?? "Administrator"}!`)
 
       // Hard redirect so middleware picks up the new cookie fresh
       window.location.href = "/admin"
     } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : "An unexpected error occurred.")
-      posthog.capture("admin_login_failed", { email })
+      const msg = error instanceof Error ? error.message : "An unexpected error occurred."
+      console.error("[admin/login] Error:", msg)
+      toast.error(msg)
+      posthog?.capture("admin_login_failed", { email })
     } finally {
       setIsLoading(false)
     }
