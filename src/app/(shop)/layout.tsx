@@ -10,6 +10,7 @@
 
 import * as React from "react"
 import { AnnouncementBar } from "@/components/layout/announcement-bar"
+import { ChatWidget } from "@/components/shop/chat-widget"
 
 export default function ShopLayout({
   children,
@@ -20,6 +21,7 @@ export default function ShopLayout({
     <>
       <AnnouncementBar />
       {children}
+      <ChatWidget />
     </>
   )
 }

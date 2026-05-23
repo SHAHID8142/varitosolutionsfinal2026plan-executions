@@ -13,23 +13,24 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { 
-  LayoutDashboard, 
-  ShoppingBag, 
-  Package, 
-  Folders, 
-  Users, 
-  BarChart3, 
-  Image as ImageIcon, 
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Package,
+  Folders,
+  Users,
+  BarChart3,
+  Image as ImageIcon,
   Zap,
-  Ticket, 
-  Warehouse, 
-  Settings, 
-  ShieldAlert, 
+  Ticket,
+  Warehouse,
+  Settings,
+  ShieldAlert,
   History,
   ChevronLeft,
   Package2,
-  LogOut
+  LogOut,
+  MessageCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -45,6 +46,8 @@ interface SidebarItem {
   href: string
   icon: React.ElementType
   superAdminOnly?: boolean
+  /** If true, this item shows a live unread badge from the API */
+  showUnreadBadge?: boolean
 }
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
@@ -53,6 +56,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Products", href: "/admin/products", icon: Package },
   { label: "Categories", href: "/admin/categories", icon: Folders },
   { label: "Customers", href: "/admin/customers", icon: Users },
+  { label: "Messages", href: "/admin/messages", icon: MessageCircle, showUnreadBadge: true },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
   { label: "Banners & Content", href: "/admin/content", icon: ImageIcon },
   { label: "Flash Deals", href: "/admin/flash-deals", icon: Zap },
@@ -71,12 +75,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
  * Sidebar content component. 
  * Separated from layout to allow reuse in Mobile Drawer.
  */
-export function AdminSidebarContent({ 
-  isCollapsed = false, 
+export function AdminSidebarContent({
+  isCollapsed = false,
   onCollapse,
   onClose,
-  className 
-}: { 
+  className,
+}: {
   isCollapsed?: boolean
   onCollapse?: () => void
   onClose?: () => void
@@ -84,6 +88,26 @@ export function AdminSidebarContent({
 }) {
   const pathname = usePathname()
   const isSuperAdmin = true // TODO: Real auth
+  const [messagesUnread, setMessagesUnread] = React.useState(0)
+
+  // Poll admin unread message count every 60 seconds
+  React.useEffect(() => {
+    async function fetchUnread() {
+      try {
+        const res = await fetch("/api/admin/conversations/unread-count")
+        if (res.ok) {
+          const json = await res.json()
+          setMessagesUnread(json.data?.count ?? 0)
+        }
+      } catch {
+        // Non-fatal — sidebar badge is best-effort
+      }
+    }
+
+    fetchUnread()
+    const interval = setInterval(fetchUnread, 60_000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className={cn("h-full flex flex-col bg-white", className)}>
@@ -120,10 +144,17 @@ export function AdminSidebarContent({
                     : "text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-bold"
                 )}
               >
-                <Icon className={cn(
-                  "size-5 shrink-0",
-                  isActive ? "text-primary" : "text-gray-400 group-hover:text-gray-600"
-                )} />
+                <span className="relative shrink-0">
+                  <Icon className={cn(
+                    "size-5",
+                    isActive ? "text-primary" : "text-gray-400 group-hover:text-gray-600"
+                  )} />
+                  {item.showUnreadBadge && messagesUnread > 0 && (
+                    <span className="absolute -top-1 -right-1 size-4 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center leading-none">
+                      {messagesUnread > 9 ? "9+" : messagesUnread}
+                    </span>
+                  )}
+                </span>
                 
                 {!isCollapsed && (
                   <span className="text-sm truncate animate-in fade-in slide-in-from-left-1 duration-300">

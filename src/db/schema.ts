@@ -151,6 +151,7 @@ export const users = pgTable(
 export const usersRelations = relations(users, ({ many }) => ({
   addresses: many(addresses),
   orders: many(orders),
+  conversations: many(conversations, { relationName: "conversationCustomer" }),
 }))
 
 // ─────────────────────────────────────────────
@@ -454,6 +455,90 @@ export const flashDealsRelations = relations(flashDeals, ({ one }) => ({
   product: one(products, { fields: [flashDeals.productId], references: [products.id] }),
 }))
 
+// ─── CONVERSATIONS ──────────────────────────────────────────────────────────
+
+export const conversations = pgTable(
+  "conversations",
+  {
+    id: serial("id").primaryKey(),
+    customerId: uuid("customer_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    orderId: integer("order_id").references(() => orders.id, { onDelete: "set null" }),
+    subject: varchar("subject", { length: 200 }).default("Support Request").notNull(),
+    status: varchar("status", { length: 20 }).default("open").notNull(),
+    /** Denormalized counter — incremented when customer sends a message */
+    unreadStaff: integer("unread_staff").default(0).notNull(),
+    /** Denormalized counter — incremented when staff sends a message */
+    unreadCustomer: integer("unread_customer").default(0).notNull(),
+    lastMessageAt: timestamp("last_message_at").defaultNow().notNull(),
+    closedAt: timestamp("closed_at"),
+    closedBy: uuid("closed_by").references(() => users.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("conversations_customer_id_idx").on(table.customerId),
+    index("conversations_order_id_idx").on(table.orderId),
+    index("conversations_status_idx").on(table.status),
+    index("conversations_last_message_at_idx").on(table.lastMessageAt),
+  ]
+)
+
+export const conversationsRelations = relations(conversations, ({ one, many }) => ({
+  customer: one(users, {
+    fields: [conversations.customerId],
+    references: [users.id],
+    relationName: "conversationCustomer",
+  }),
+  order: one(orders, {
+    fields: [conversations.orderId],
+    references: [orders.id],
+  }),
+  closedByUser: one(users, {
+    fields: [conversations.closedBy],
+    references: [users.id],
+    relationName: "conversationClosedBy",
+  }),
+  messages: many(messages),
+}))
+
+// ─── MESSAGES ───────────────────────────────────────────────────────────────
+
+export const messages = pgTable(
+  "messages",
+  {
+    id: serial("id").primaryKey(),
+    conversationId: integer("conversation_id")
+      .references(() => conversations.id, { onDelete: "cascade" })
+      .notNull(),
+    senderId: uuid("sender_id")
+      .references(() => users.id)
+      .notNull(),
+    senderRole: varchar("sender_role", { length: 20 }).notNull(),
+    content: text("content").notNull(),
+    isRead: boolean("is_read").default(false).notNull(),
+    readAt: timestamp("read_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("messages_conversation_id_idx").on(table.conversationId),
+    index("messages_sender_id_idx").on(table.senderId),
+    index("messages_created_at_idx").on(table.createdAt),
+  ]
+)
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [messages.conversationId],
+    references: [conversations.id],
+  }),
+  sender: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
+  }),
+}))
+
 // ─────────────────────────────────────────────
 // TYPE EXPORTS
 // ─────────────────────────────────────────────
@@ -480,3 +565,7 @@ export type InventoryLogEntry = typeof inventoryLog.$inferSelect
 export type AuditLogEntry = typeof auditLog.$inferSelect
 export type FlashDeal = typeof flashDeals.$inferSelect
 export type NewFlashDeal = typeof flashDeals.$inferInsert
+export type Conversation = typeof conversations.$inferSelect
+export type NewConversation = typeof conversations.$inferInsert
+export type Message = typeof messages.$inferSelect
+export type NewMessage = typeof messages.$inferInsert
