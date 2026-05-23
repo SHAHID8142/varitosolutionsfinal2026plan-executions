@@ -166,7 +166,10 @@
 - [ ] `[HUMAN]` Run `npx tsx src/db/seed.ts` to seed categories, products, admin user
 
 ### Phase 6 — Wiring & Launch
-- [ ] `[GEMINI]` Wire all UI pages to real APIs (replace mock data with API calls)
+- [x] `[CLAUDE]` In-app messaging system — Supabase Realtime broadcast, conversations + messages tables, 7 API routes, `<ChatWidget />` (shop) + `<MessagesInbox />` (admin)
+- [x] `[CLAUDE]` Homepage wired — /api/banners, /api/flash-deal, /api/categories, /api/products via Promise.allSettled; FlashDealStrip with countdown + progress bar
+- [x] `[CLAUDE]` Checkout coupon wired — CouponWidget calls POST /api/coupons/validate; live discount in total
+- [ ] `[GEMINI]` Wire remaining UI pages to real APIs (replace mock data with API calls)
 - [ ] Full end-to-end checkout test (COD + bKash + Nagad)
 - [ ] Mobile testing on real Android device (4GB RAM, slow 3G)
 - [ ] All LAUNCH_CHECKLIST.md items checked

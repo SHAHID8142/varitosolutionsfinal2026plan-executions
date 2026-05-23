@@ -74,9 +74,9 @@
 - [x] `[GEMINI]` Build `src/app/error.tsx` — global error boundary page.
 - [x] `[GEMINI]` Build `src/app/loading.tsx` — global Suspense fallback (brand loader).
 - [x] `[GEMINI]` Build `src/app/not-found.tsx` — global 404 page with Bangla support.
-- [ ] `[GEMINI]` Homepage: wire up dynamic banner from `GET /api/banners` (once Claude marks [READY])
-- [ ] `[GEMINI]` Homepage: wire up flash deal countdown from `GET /api/flash-deal` (once Claude marks [READY])
-- [ ] `[GEMINI]` Checkout: wire up "Apply Coupon" button to `POST /api/coupons/validate` (once Claude marks [READY])
+- [x] `[GEMINI]` Homepage: wire up dynamic banner from `GET /api/banners` (once Claude marks [READY])
+- [x] `[GEMINI]` Homepage: wire up flash deal countdown from `GET /api/flash-deal` (once Claude marks [READY])
+- [x] `[GEMINI]` Checkout: wire up "Apply Coupon" button to `POST /api/coupons/validate` (once Claude marks [READY])
 - [x] `[GEMINI]` SEO: add dynamic OpenGraph + JSON-LD to category pages (`/category/[slug]`)
 - [x] `[GEMINI]` SEO: add structured data (Organization schema) to homepage and About page
 - [x] `[GEMINI]` Facebook Messenger chat widget — added floating widget.
