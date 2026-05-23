@@ -1,12 +1,24 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { plusJakartaSans, hindSiliguri } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/sonner";
 import { PostHogProvider } from "./posthog-provider";
 import { PostHogPageView } from "./posthog-pageview";
+import { FacebookMessenger } from "@/components/ui/facebook-messenger";
+import { PWAInstallPrompt } from "@/components/ui/pwa-install-prompt";
 import "./../styles/globals.css";
 
+export const viewport: Viewport = {
+  themeColor: "#10b981",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   metadataBase: new URL("https://varitosolutions.com"),
+// ... (rest of metadata)
   title: {
     default: "Varito Solutions | Premium Sanitary & Packaging Materials",
     template: "%s | Varito Solutions",
@@ -57,6 +69,8 @@ export default function RootLayout({
           <PostHogPageView />
           {children}
           <Toaster />
+          <FacebookMessenger />
+          <PWAInstallPrompt />
         </PostHogProvider>
       </body>
     </html>
