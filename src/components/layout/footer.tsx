@@ -5,7 +5,7 @@
  *              Updated to solid white background for brand logo visibility.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -48,6 +48,11 @@ const FOOTER_LINKS = {
   ],
 }
 
+/**
+ * Root layout footer with newsletter signup, navigation links, contact info,
+ * and payment/courier partner logos.
+ * Bottom padding accounts for the fixed mobile bottom-nav (pb-24 on mobile).
+ */
 export function Footer() {
   const [email, setEmail] = React.useState("")
 

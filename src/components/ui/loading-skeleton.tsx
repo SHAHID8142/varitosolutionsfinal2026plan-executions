@@ -6,7 +6,7 @@
  * @variants product-card | list-item | page | text
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 import { cn } from "@/lib/utils"
@@ -14,12 +14,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 /**
  * Skeleton for a product card in a grid.
+ * Button placeholder uses h-11 (44px) to match actual button touch target.
  */
 export function ProductCardSkeleton() {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-gray-100 p-3">
+    <div className="flex flex-col gap-3 rounded-2xl border border-[var(--color-border)] p-3">
       {/* Image placeholder */}
-      <Skeleton className="aspect-square w-full rounded-lg" />
+      <Skeleton className="aspect-square w-full rounded-xl" />
       {/* Title placeholder */}
       <div className="flex flex-col gap-2">
         <Skeleton className="h-4 w-3/4" />
@@ -27,8 +28,8 @@ export function ProductCardSkeleton() {
       </div>
       {/* Price placeholder */}
       <Skeleton className="h-6 w-1/3" />
-      {/* Button placeholder */}
-      <Skeleton className="h-10 w-full rounded-lg" />
+      {/* Button placeholder — h-11 matches 44px touch target of actual button */}
+      <Skeleton className="h-11 w-full rounded-xl" />
     </div>
   )
 }

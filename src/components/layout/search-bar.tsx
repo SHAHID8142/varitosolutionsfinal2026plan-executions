@@ -7,7 +7,7 @@
  * <SearchBar placeholder="Search for products..." />
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -24,6 +24,11 @@ interface SearchBarProps {
   onSearch?: (query: string) => void
 }
 
+/**
+ * Search input with suggestions dropdown.
+ * Fires a PostHog 'search_performed' event on submit.
+ * Navigates to /search?q= if no custom onSearch handler is provided.
+ */
 export function SearchBar({
   placeholder = "Search for products, categories...",
   className,

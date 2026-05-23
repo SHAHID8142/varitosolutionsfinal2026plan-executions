@@ -2,11 +2,12 @@
  * @file image-gallery.tsx
  * @description Product image gallery with main image preview and thumbnails.
  *              Optimized for mobile-first interaction.
+ *              Thumbnail buttons are 64×64px (above 44px minimum touch target).
  *
  * @props images (string array)
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -17,11 +18,23 @@ import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
+
 interface ImageGalleryProps {
   images: string[]
   className?: string
 }
 
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
+
+/**
+ * Product image gallery with main image and thumbnail strip.
+ * Navigation arrows appear on hover (desktop) and are always accessible via aria-label.
+ */
 export function ImageGallery({ images, className }: ImageGalleryProps) {
   const [activeIndex, setActiveIndex] = React.useState(0)
 
@@ -88,6 +101,8 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
+              aria-label={`View image ${index + 1}`}
+              aria-pressed={activeIndex === index}
               className={cn(
                 "relative aspect-square size-16 shrink-0 overflow-hidden rounded-lg border-2 transition-all",
                 activeIndex === index

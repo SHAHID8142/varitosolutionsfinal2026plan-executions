@@ -5,7 +5,7 @@
  *              and low stock highlighting.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -68,6 +68,11 @@ const MOCK_PRODUCTS: Product[] = [
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/**
+ * Admin product management table.
+ * Supports inline price and stock editing via click-to-edit pattern.
+ * Low stock (<10) highlighted in amber; out of stock in red.
+ */
 export function ProductsTable() {
   const [search, setSearch] = React.useState("")
   const [categoryFilter, setCategoryFilter] = React.useState("all")
@@ -178,7 +183,7 @@ export function ProductsTable() {
                           />
                         </div>
                         <div className="flex flex-col min-w-0">
-                          <span className="text-[8px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest">{prod.sku}</span>
+                          <span className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-widest">{prod.sku}</span>
                           <span className="text-xs md:text-sm font-black text-gray-900 truncate max-w-[120px] md:max-w-none">{prod.name}</span>
                         </div>
                       </div>
@@ -288,7 +293,7 @@ export function ProductsTable() {
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-gray-100 bg-white" disabled>
               <ChevronLeft className="size-4" />
             </Button>
-            <Button variant="outline" size="sm" className="h-9 px-4 rounded-xl border-emerald-100 bg-emerald-50 text-emerald-700 font-black">
+            <Button variant="outline" size="sm" className="h-9 px-4 rounded-xl border-primary/20 bg-primary/10 text-primary font-black">
               1
             </Button>
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-gray-100 bg-white">

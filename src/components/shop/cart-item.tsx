@@ -2,20 +2,29 @@
  * @file cart-item.tsx
  * @description Component for a single item in the shopping cart.
  *              Includes image, name, price, quantity selector, and remove action.
+ *              Uses formatPrice() for all BDT values for consistent ৳ formatting.
  *
  * @props id | name | price | image | quantity | onQuantityChange | onRemove
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
+
+// Needs "use client" because onQuantityChange and onRemove are event handler props
+"use client"
 
 import * as React from "react"
 import Image from "next/image"
 import { Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { formatPrice } from "@/lib/format-price"
 import { PriceTag } from "@/components/ui/price-tag"
 import { QuantitySelector } from "@/components/ui/quantity-selector"
 import { Button } from "@/components/ui/button"
+
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
 
 interface CartItemProps {
   id: string
@@ -29,6 +38,14 @@ interface CartItemProps {
   className?: string
 }
 
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
+
+/**
+ * Single line item in the shopping cart.
+ * Line total is calculated client-side for display; server recalculates at order creation.
+ */
 export function CartItem({
   name,
   price,
@@ -84,7 +101,7 @@ export function CartItem({
           <div className="text-right flex flex-col">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total</span>
             <span className="text-sm font-black text-gray-900">
-              ৳{((salePrice || price) * quantity).toLocaleString('en-IN')}
+              {formatPrice((salePrice ?? price) * quantity)}
             </span>
           </div>
         </div>

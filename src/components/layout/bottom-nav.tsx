@@ -5,7 +5,7 @@
  *              Respects mobile safe areas (home indicator).
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -24,6 +24,11 @@ const NAV_ITEMS = [
   { label: "Profile", icon: User, href: "/account" },
 ]
 
+/**
+ * Mobile-only bottom navigation bar.
+ * Hidden on lg+ screens. Respects iOS safe area via pb-[env(safe-area-inset-bottom)].
+ * Each nav item is 64px wide with a 16px icon — touches are handled by the full Link area.
+ */
 export function BottomNav() {
   const pathname = usePathname()
 

@@ -6,7 +6,7 @@
  *              Includes desktop navigation menu for easy access.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -48,6 +48,11 @@ const NAV_MENU = [
   { label: "New Arrivals", href: "/new", icon: Star },
 ]
 
+/**
+ * Root layout header with sticky glassmorphism effect.
+ * Uses scroll listener to add shadow when page scrolls past 20px.
+ * Desktop shows inline nav + search; mobile shows hamburger Sheet menu.
+ */
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const pathname = usePathname()

@@ -6,14 +6,17 @@
  * @props label | value | trend | trendValue | icon
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
-"use client"
-
+// No hooks or browser APIs — server component is safe here
 import * as React from "react"
-import { ArrowUpRight, ArrowDownRight, LucideIcon } from "lucide-react"
+import { ArrowUpRight, ArrowDownRight, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
 
 export interface StatsCardProps {
   label: string
@@ -24,6 +27,15 @@ export interface StatsCardProps {
   className?: string
 }
 
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
+
+/**
+ * Admin dashboard metric card.
+ * Shows an icon, a trend indicator, a label, and the current value.
+ * Icon area uses primary color tokens for hover transition.
+ */
 export function StatsCard({
   label,
   value,
@@ -34,19 +46,20 @@ export function StatsCard({
 }: StatsCardProps) {
   return (
     <div className={cn(
-      "group bg-white p-6 rounded-3xl border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/40",
+      "group bg-white p-6 rounded-2xl border border-[var(--color-border)] shadow-sm transition-all duration-200 hover:shadow-xl hover:shadow-gray-200/40",
       className
     )}>
       <div className="flex justify-between items-start mb-4">
-        <div className="size-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center transition-colors group-hover:bg-emerald-600 group-hover:text-white">
+        {/* Icon uses primary color tokens for consistency with design system */}
+        <div className="size-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-primary group-hover:text-primary-foreground">
           <Icon className="size-6" />
         </div>
-        
+
         {trend && trendValue && (
           <div className={cn(
             "flex items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider",
-            trend === "up" && "bg-emerald-50 text-emerald-600",
-            trend === "down" && "bg-red-50 text-red-600",
+            trend === "up" && "bg-primary/10 text-primary",
+            trend === "down" && "bg-destructive/10 text-destructive",
             trend === "neutral" && "bg-gray-50 text-gray-500"
           )}>
             {trend === "up" && <ArrowUpRight className="size-3" />}

@@ -5,7 +5,7 @@
  *              Optimized for high-volume processing with advanced filters and sorting.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -130,6 +130,10 @@ const WORKFLOW_TABS = [
 // SUB-COMPONENTS
 // ─────────────────────────────────────────────
 
+/**
+ * Compact scorecard widget showing courier trust level and delivery success rate.
+ * Uses primary/destructive/warning tokens for consistent color semantics.
+ */
 function CourierScorecard({ trust }: { trust: CourierTrust }) {
   const isHigh = trust.trustLevel === "high"
   const isLow = trust.trustLevel === "low"
@@ -137,8 +141,9 @@ function CourierScorecard({ trust }: { trust: CourierTrust }) {
   return (
     <div className={cn(
       "flex items-center gap-3 px-3 py-2 rounded-2xl border transition-all cursor-help",
-      isHigh ? "bg-emerald-50 border-emerald-100 text-emerald-700" : 
-      isLow ? "bg-red-50 border-red-100 text-red-700" : 
+      // primary = high trust, destructive = low trust, amber = medium trust
+      isHigh ? "bg-primary/10 border-primary/20 text-primary" :
+      isLow ? "bg-destructive/10 border-destructive/20 text-destructive" :
       "bg-amber-50 border-amber-100 text-amber-700"
     )}>
       {isHigh ? <ShieldCheck className="size-4 shrink-0" /> : isLow ? <ShieldAlert className="size-4 shrink-0" /> : <AlertCircle className="size-4 shrink-0" />}
@@ -154,6 +159,10 @@ function CourierScorecard({ trust }: { trust: CourierTrust }) {
 // MAIN COMPONENT
 // ─────────────────────────────────────────────
 
+/**
+ * Order management table with workflow tabs, advanced filters, and contextual actions.
+ * Tabs map to each stage of the order lifecycle; actions adapt to current status.
+ */
 export function OrdersTable() {
   const [search, setSearch] = React.useState("")
   const [activeTab, setActiveTab] = React.useState<string>("all")
@@ -342,8 +351,8 @@ export function OrdersTable() {
                 key={tab.id} 
                 value={tab.id}
                 className={cn(
-                  "h-10 rounded-full border border-gray-100 bg-white px-5 text-[10px] font-black tracking-widest transition-all",
-                  "data-selected:bg-emerald-600 data-selected:text-white data-selected:border-emerald-600 data-selected:shadow-lg data-selected:shadow-emerald-200"
+                  "h-10 rounded-full border border-gray-100 bg-white px-5 text-[10px] font-black tracking-widest transition-all duration-200",
+                  "data-selected:bg-primary data-selected:text-primary-foreground data-selected:border-primary data-selected:shadow-lg data-selected:shadow-primary/20"
                 )}
               >
                 {tab.label}
@@ -410,7 +419,7 @@ export function OrdersTable() {
                       <div className="flex items-center gap-1.5">
                         <Badge variant="outline" className={cn(
                           "text-[9px] font-black uppercase px-1.5 py-0",
-                          order.paymentStatus === "paid" ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-red-50 text-red-600 border-red-100"
+                          order.paymentStatus === "paid" ? "bg-primary/10 text-primary border-primary/20" : "bg-destructive/10 text-destructive border-destructive/20"
                         )}>
                           {order.paymentStatus}
                         </Badge>
@@ -477,7 +486,7 @@ export function OrdersTable() {
             <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-gray-100" disabled>
               <ChevronLeft className="size-4" />
             </Button>
-            <Button variant="outline" size="sm" className="h-10 px-5 rounded-xl border-emerald-200 bg-emerald-50 text-emerald-700 font-black">
+            <Button variant="outline" size="sm" className="h-10 px-5 rounded-xl border-primary/20 bg-primary/10 text-primary font-black">
               1
             </Button>
             <Button variant="outline" size="sm" className="h-10 px-5 rounded-xl border-gray-100 text-gray-500 font-bold hover:bg-gray-50">

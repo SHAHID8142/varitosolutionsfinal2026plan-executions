@@ -12,11 +12,15 @@
  * />
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
 
 interface EmptyStateProps {
   icon: React.ReactNode
@@ -26,6 +30,14 @@ interface EmptyStateProps {
   className?: string
 }
 
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
+
+/**
+ * Generic empty state with icon, title, description, and optional CTA.
+ * Used when lists, search results, or cart are empty.
+ */
 export function EmptyState({
   icon,
   title,
@@ -38,23 +50,23 @@ export function EmptyState({
       "flex flex-col items-center justify-center py-12 px-4 text-center",
       className
     )}>
-      {/* Icon with subtle background */}
+      {/* Icon container with subtle background */}
       <div className="size-20 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 mb-6">
-        {React.isValidElement(icon) 
-          ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { 
-              className: "size-10"
-            }) 
+        {React.isValidElement(icon)
+          ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, {
+              className: "size-10",
+            })
           : icon}
       </div>
 
-      {/* Title */}
+      {/* Title — text-lg is above the 16px (text-base) minimum */}
       <h3 className="text-lg font-bold text-gray-900 mb-2">
         {title}
       </h3>
 
-      {/* Description */}
+      {/* Description — text-base (16px) meets minimum readable font size */}
       {description && (
-        <p className="text-gray-500 max-w-xs mb-8">
+        <p className="text-base text-gray-500 max-w-xs mb-8">
           {description}
         </p>
       )}

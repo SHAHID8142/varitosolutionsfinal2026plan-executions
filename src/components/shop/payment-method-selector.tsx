@@ -2,11 +2,15 @@
  * @file payment-method-selector.tsx
  * @description Component for selecting a payment method during checkout.
  *              Options: COD (default), bKash, Nagad, Card.
+ *              COD is listed first and is the default selection per BD market norms.
  *              Shows appropriate brand colors and logos.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
+
+// Needs "use client" because of onClick event handlers on interactive buttons
+"use client"
 
 import * as React from "react"
 import { Check } from "lucide-react"
@@ -60,6 +64,11 @@ const METHODS = [
   },
 ] as const
 
+/**
+ * Controlled payment method selector.
+ * COD is the first option and default per Bangladesh market norms (COD-dominant).
+ * Each method button meets 44px touch target height via py-4 padding.
+ */
 export function PaymentMethodSelector({
   selected = "cod",
   onChange,

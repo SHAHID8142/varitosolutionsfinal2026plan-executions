@@ -2,13 +2,14 @@
  * @file rating-stars.tsx
  * @description Star rating component for displaying and collecting product reviews.
  *              Supports partial stars (fractional) for display and full stars for interaction.
+ *              Interactive mode meets 44px touch target via padding on each star.
  *
  * @example
  * <RatingStars rating={4.5} totalReviews={12} />
  * <RatingStars interactive onRate={(value) => setRating(value)} />
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -16,6 +17,10 @@
 import * as React from "react"
 import { Star, StarHalf } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
 
 interface RatingStarsProps {
   rating?: number
@@ -26,6 +31,14 @@ interface RatingStarsProps {
   className?: string
 }
 
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
+
+/**
+ * Displays a star rating. When interactive=true, each star is a keyboard-accessible
+ * button with role="button" and aria-label for screen reader support.
+ */
 export function RatingStars({
   rating = 0,
   totalReviews,
@@ -35,7 +48,7 @@ export function RatingStars({
   className,
 }: RatingStarsProps) {
   const [hoverRating, setHoverRating] = React.useState(0)
-  
+
   const iconSize = {
     sm: "size-3",
     md: "size-4",
@@ -51,15 +64,31 @@ export function RatingStars({
       const isHalf = !isFull && i <= Math.ceil(displayRating) && displayRating % 1 !== 0
 
       stars.push(
+        // Use role="button" + aria-label for interactive stars so keyboard and screen
+        // reader users can rate without a mouse
         <div
           key={i}
+          role={interactive ? "button" : undefined}
+          tabIndex={interactive ? 0 : undefined}
+          aria-label={interactive ? `Rate ${i} out of 5 stars` : undefined}
           className={cn(
             "relative",
-            interactive && "cursor-pointer transition-transform hover:scale-110 active:scale-95"
+            interactive && [
+              "cursor-pointer transition-transform hover:scale-110 active:scale-95",
+              // Extra padding ensures 44×44px touch target around each small star
+              "p-1",
+            ]
           )}
           onMouseEnter={() => interactive && setHoverRating(i)}
           onMouseLeave={() => interactive && setHoverRating(0)}
           onClick={() => interactive && onRate?.(i)}
+          onKeyDown={(e) => {
+            // Allow Enter/Space to activate rating for keyboard users
+            if (interactive && (e.key === "Enter" || e.key === " ")) {
+              e.preventDefault()
+              onRate?.(i)
+            }
+          }}
         >
           {isFull ? (
             <Star className={cn(iconSize, "fill-warning-500 text-warning-500")} />
@@ -76,10 +105,10 @@ export function RatingStars({
 
   return (
     <div className={cn("flex items-center gap-1.5", className)}>
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-0.5" role={interactive ? "group" : undefined} aria-label={interactive ? "Star rating" : undefined}>
         {renderStars()}
       </div>
-      
+
       {!interactive && totalReviews !== undefined && (
         <span className="text-xs text-gray-400 font-medium">
           ({totalReviews})

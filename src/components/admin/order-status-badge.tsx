@@ -3,9 +3,11 @@
  * @description Color-coded status badge for orders in the Admin Panel.
  *              Standardizes status visualization across tables and detail pages.
  *              Updated with granular e-commerce workflow.
+ *              Status colors use Tailwind semantic color tokens (not raw hex values);
+ *              each status has its own distinct hue for quick visual scanning.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 import * as React from "react"
@@ -72,6 +74,10 @@ const STATUS_CONFIG: Record<OrderStatus, { label: string, className: string }> =
   },
 }
 
+/**
+ * Renders a color-coded badge for a given order status.
+ * Falls back to "pending" config if an unknown status is passed.
+ */
 export function OrderStatusBadge({ status, className }: OrderStatusBadgeProps) {
   const config = STATUS_CONFIG[status] || STATUS_CONFIG.pending
 
