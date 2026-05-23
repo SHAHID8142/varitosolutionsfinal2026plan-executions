@@ -10,7 +10,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { orders } from "@/db/schema"
-import { and, count, desc, eq, gte, ilike, isNull, lt, lte, or } from "drizzle-orm"
+import { and, count, desc, eq, gte, ilike, lt, lte, or } from "drizzle-orm"
 import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 
 const listQuerySchema = z.object({

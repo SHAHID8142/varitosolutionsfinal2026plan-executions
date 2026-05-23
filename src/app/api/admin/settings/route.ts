@@ -10,7 +10,6 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { settings } from "@/db/schema"
-import { eq } from "drizzle-orm"
 import { requireAdmin, isAuthError, auditLog } from "@/lib/admin-auth"
 
 // ─────────────────────────────────────────────

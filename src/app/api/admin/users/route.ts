@@ -10,7 +10,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { users } from "@/db/schema"
-import { and, desc, ne } from "drizzle-orm"
+import { desc, ne } from "drizzle-orm"
 import { requireAdmin, isAuthError, auditLog } from "@/lib/admin-auth"
 import { supabaseAdmin } from "@/lib/auth"
 
