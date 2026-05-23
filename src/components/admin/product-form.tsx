@@ -124,9 +124,9 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                 <div className="grid grid-cols-1 gap-8">
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Product Name (English) *</label>
-                    <Input placeholder="e.g. Luxury Emerald Gold Faucet" className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900 focus:bg-white" required />
+                    <Input defaultValue={initialData?.name} placeholder="e.g. Luxury Emerald Gold Faucet" className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900 focus:bg-white" required />
                   </div>
-                  
+
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Product Name (Bengali)</label>
                     <Input placeholder="উন্নত মানের কল" className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900 focus:bg-white" />
@@ -135,7 +135,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Category *</label>
-                      <Select defaultValue="sanitary">
+                      <Select defaultValue={initialData?.category ?? "sanitary"}>
                         <SelectTrigger className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900">
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
@@ -147,7 +147,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                     </div>
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">SKU (Unique) *</label>
-                      <Input placeholder="VR-SAN-001" className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900 focus:bg-white uppercase" required />
+                      <Input defaultValue={initialData?.sku} placeholder="VR-SAN-001" className="h-14 rounded-2xl border-gray-100 bg-gray-50/50 font-bold text-gray-900 focus:bg-white uppercase" required />
                     </div>
                   </div>
 
@@ -181,11 +181,11 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                     <div className="flex flex-col gap-6">
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Cost Price (BDT) *</label>
-                        <Input type="number" placeholder="2200" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
+                        <Input type="number" defaultValue={initialData?.costPrice} placeholder="2200" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Selling Price (BDT) *</label>
-                        <Input type="number" placeholder="3800" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
+                        <Input type="number" defaultValue={initialData?.price} placeholder="3800" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Sale Price (Optional)</label>
@@ -201,7 +201,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                     <div className="flex flex-col gap-6">
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Initial Stock *</label>
-                        <Input type="number" placeholder="100" className="h-12 rounded-xl border-blue-100 bg-white font-bold" required />
+                        <Input type="number" defaultValue={initialData?.stock} placeholder="100" className="h-12 rounded-xl border-blue-100 bg-white font-bold" required />
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Minimum Order Qty</label>

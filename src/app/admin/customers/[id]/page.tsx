@@ -2,77 +2,144 @@
  * @file page.tsx
  * @path /admin/customers/[id]
  * @description Detailed view of a single customer for administrators.
- *              Includes profile info, order history, and total value.
+ *              Fetches from GET /api/admin/customers/[id].
+ *              Supports ban/unban via PATCH /api/admin/users/[id].
  *
- * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @owner    Gemini Design Agent / Claude Backend Agent
+ * @updated  2026-05-24
  */
 
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
-import { 
-  ArrowLeft, 
-  User, 
-  MapPin, 
-  Phone, 
+import { useParams } from "next/navigation"
+import {
+  ArrowLeft,
+  User,
+  Phone,
   Mail,
   ShoppingBag,
   Ban,
   CheckCircle2,
   MoreVertical,
-  History
+  History,
+  AlertCircle,
+  Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { adminFetch, adminHeaders } from "@/lib/admin-fetch"
 
 // ─────────────────────────────────────────────
-// MOCK DATA
+// TYPES
 // ─────────────────────────────────────────────
 
-const CUSTOMER = {
-  id: "C-5820",
-  name: "Karim Ahmed",
-  phone: "01711122233",
-  email: "karim.ahmed@example.com",
-  joinedDate: "January 15, 2026",
-  status: "active",
-  totalOrders: 12,
-  totalSpent: 45200,
-  addresses: [
-    { type: "Home", text: "House 12, Road 4, Sector 7, Uttara, Dhaka-1230", isDefault: true },
-    { type: "Office", text: "Flat 4A, Plot 10, Agrabad C/A, Chattogram", isDefault: false },
-  ],
-  orders: [
-    { id: "VR-2026-0001", date: "May 22, 2026", total: 12610, status: "pending", payment: "COD" },
-    { id: "VR-2026-0005", date: "May 10, 2026", total: 4500, status: "delivered", payment: "bKash" },
-    { id: "VR-2026-0012", date: "April 28, 2026", total: 3200, status: "delivered", payment: "Nagad" },
-    { id: "VR-2026-0024", date: "April 05, 2026", total: 8500, status: "returned", payment: "COD" },
-  ]
+interface CustomerDetail {
+  id: string
+  name: string | null
+  phone: string | null
+  email: string | null
+  isBanned: boolean
+  banReason: string | null
+  createdAt: string
+  stats: { orderCount: number; totalSpent: number }
+  recentOrders: {
+    id: string
+    orderNumber: string
+    status: string
+    total: number
+    createdAt: string
+  }[]
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-BD", { year: "numeric", month: "short", day: "numeric" })
 }
 
 // ─────────────────────────────────────────────
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/** Admin customer detail page — live data from API with ban/unban action. */
 export default function CustomerDetailPage() {
-  const [isBanned, setIsBanned] = React.useState(CUSTOMER.status === "banned")
+  const params = useParams()
+  const customerId = params.id as string
 
-  const handleToggleBan = () => {
-    setIsBanned(!isBanned)
-    toast.success(`Customer account ${!isBanned ? "banned" : "reactivated"} successfully`)
+  const [customer, setCustomer] = React.useState<CustomerDetail | null>(null)
+  const [loading, setLoading] = React.useState(true)
+  const [notFound, setNotFound] = React.useState(false)
+  const [isTogglingBan, setIsTogglingBan] = React.useState(false)
+
+  React.useEffect(() => {
+    async function load() {
+      const { data, error, status } = await adminFetch<CustomerDetail>(`/api/admin/customers/${customerId}`)
+      if (status === 404) { setNotFound(true); setLoading(false); return }
+      if (error || !data) { toast.error(error ?? "Failed to load customer"); setLoading(false); return }
+      setCustomer(data)
+      setLoading(false)
+    }
+    load()
+  }, [customerId])
+
+  const handleToggleBan = async () => {
+    if (!customer) return
+    setIsTogglingBan(true)
+    try {
+      const res = await fetch(`/api/admin/users/${customerId}`, {
+        method: "PATCH",
+        headers: adminHeaders(),
+        body: JSON.stringify({
+          isBanned: !customer.isBanned,
+          banReason: customer.isBanned ? null : "Banned by admin",
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) { toast.error(json.error ?? "Failed to update"); return }
+      setCustomer((prev) => prev ? { ...prev, isBanned: !prev.isBanned } : prev)
+      toast.success(`Account ${customer.isBanned ? "reactivated" : "banned"} successfully`)
+    } catch {
+      toast.error("Network error. Please try again.")
+    } finally {
+      setIsTogglingBan(false)
+    }
   }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  if (notFound || !customer) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-64 gap-4 text-center">
+        <AlertCircle className="size-12 text-red-400" />
+        <h2 className="text-xl font-black text-gray-900">Customer Not Found</h2>
+        <Link href="/admin/customers">
+          <Button variant="outline" className="mt-2">Back to Customers</Button>
+        </Link>
+      </div>
+    )
+  }
+
+  const displayName = customer.name ?? customer.phone ?? "Unknown Customer"
 
   return (
     <div className="flex flex-col gap-10">
-      
+
       {/* Header Area */}
       <div className="flex flex-col gap-6">
-        <Link 
-          href="/admin/customers" 
+        <Link
+          href="/admin/customers"
           className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-primary transition-colors w-fit uppercase tracking-widest"
         >
           <ArrowLeft className="size-4" /> Back to Customers
@@ -85,51 +152,56 @@ export default function CustomerDetailPage() {
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight uppercase">{CUSTOMER.name}</h1>
-                <Badge variant={isBanned ? "destructive" : "verified"} className="uppercase text-[10px] px-2 h-5">
-                  {isBanned ? "Banned" : "Active"}
+                <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight uppercase">{displayName}</h1>
+                <Badge variant={customer.isBanned ? "destructive" : "verified"} className="uppercase text-[10px] px-2 h-5">
+                  {customer.isBanned ? "Banned" : "Active"}
                 </Badge>
               </div>
-              <span className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Customer ID: #{CUSTOMER.id}</span>
+              <span className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">
+                Member since {formatDate(customer.createdAt)}
+              </span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <Button 
-              variant={isBanned ? "secondary" : "outline"}
+            <Button
+              variant={customer.isBanned ? "secondary" : "outline"}
+              loading={isTogglingBan}
               className={cn(
                 "h-12 px-6 rounded-xl gap-2 font-black uppercase tracking-widest text-xs",
-                !isBanned && "text-red-600 border-red-100 hover:bg-red-50 hover:text-red-700"
+                !customer.isBanned && "text-red-600 border-red-100 hover:bg-red-50 hover:text-red-700"
               )}
               onClick={handleToggleBan}
             >
-              {isBanned ? <><CheckCircle2 className="size-4" /> Reactivate Account</> : <><Ban className="size-4" /> Ban Customer</>}
-            </Button>
-            <Button className="h-12 px-8 rounded-xl font-black shadow-lg shadow-primary/20 uppercase tracking-widest text-xs">
-              Edit Profile
+              {customer.isBanned
+                ? <><CheckCircle2 className="size-4" /> Reactivate Account</>
+                : <><Ban className="size-4" /> Ban Customer</>
+              }
             </Button>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        
-        {/* LEFT COLUMN: Activity & History */}
+
+        {/* LEFT COLUMN: Metrics & Order History */}
         <div className="lg:col-span-8 flex flex-col gap-8">
-          
-          {/* Metrics Grid */}
+
+          {/* Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm flex flex-col gap-1">
               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Spent</span>
-              <span className="text-2xl font-black text-gray-900">৳{CUSTOMER.totalSpent.toLocaleString()}</span>
+              <span className="text-2xl font-black text-gray-900">৳{customer.stats.totalSpent.toLocaleString()}</span>
             </div>
             <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm flex flex-col gap-1">
               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Orders</span>
-              <span className="text-2xl font-black text-gray-900">{CUSTOMER.totalOrders}</span>
+              <span className="text-2xl font-black text-gray-900">{customer.stats.orderCount}</span>
             </div>
             <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm flex flex-col gap-1">
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Member Since</span>
-              <span className="text-lg font-black text-gray-900 truncate">{CUSTOMER.joinedDate.split(',')[1]}</span>
+              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</span>
+              <span className={cn("text-lg font-black", customer.isBanned ? "text-red-600" : "text-primary")}>
+                {customer.isBanned ? "Banned" : "Active"}
+              </span>
             </div>
           </div>
 
@@ -140,109 +212,100 @@ export default function CustomerDetailPage() {
                 <History className="text-primary size-6" /> Order History
               </h2>
             </div>
-            
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-gray-50/50 border-b border-gray-50">
-                    <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Order ID</th>
-                    <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Date</th>
-                    <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Amount</th>
-                    <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
-                    <th className="px-8 py-4 text-right"></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {CUSTOMER.orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-8 py-5">
-                        <span className="text-sm font-black text-gray-900">{order.id}</span>
-                      </td>
-                      <td className="px-8 py-5">
-                        <span className="text-xs font-bold text-gray-500">{order.date}</span>
-                      </td>
-                      <td className="px-8 py-5">
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-sm font-black text-gray-900">৳{order.total.toLocaleString()}</span>
-                          <span className="text-[9px] font-bold text-gray-400 uppercase">{order.payment}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-5">
-                        <Badge variant="outline" className="uppercase text-[9px] font-black px-2">
-                          {order.status}
-                        </Badge>
-                      </td>
-                      <td className="px-8 py-5 text-right">
-                        <Link href={`/admin/orders/${order.id}`}>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
-                            <MoreVertical className="size-4" />
-                          </Button>
-                        </Link>
-                      </td>
+
+            {customer.recentOrders.length === 0 ? (
+              <div className="p-12 flex flex-col items-center gap-3 text-center">
+                <ShoppingBag className="size-10 text-gray-200" />
+                <p className="text-sm font-bold text-gray-400">No orders yet</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="bg-gray-50/50 border-b border-gray-50">
+                      <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Order</th>
+                      <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Date</th>
+                      <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Amount</th>
+                      <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
+                      <th className="px-8 py-4 text-right"></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {customer.recentOrders.map((order) => (
+                      <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-8 py-5">
+                          <span className="text-sm font-black text-gray-900">{order.orderNumber}</span>
+                        </td>
+                        <td className="px-8 py-5">
+                          <span className="text-xs font-bold text-gray-500">{formatDate(order.createdAt)}</span>
+                        </td>
+                        <td className="px-8 py-5">
+                          <span className="text-sm font-black text-gray-900">৳{order.total.toLocaleString()}</span>
+                        </td>
+                        <td className="px-8 py-5">
+                          <Badge variant="outline" className="uppercase text-[9px] font-black px-2">
+                            {order.status}
+                          </Badge>
+                        </td>
+                        <td className="px-8 py-5 text-right">
+                          <Link href={`/admin/orders/${order.id}`}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
+                              <MoreVertical className="size-4" />
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </section>
 
         </div>
 
-        {/* RIGHT COLUMN: Profile Details */}
+        {/* RIGHT COLUMN: Contact Info */}
         <div className="lg:col-span-4 flex flex-col gap-10">
-          
-          {/* Contact Info */}
+
           <section className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm flex flex-col gap-8">
             <h2 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Contact Details</h2>
-            
-            <div className="flex flex-col gap-6">
-              <div className="flex items-start gap-4">
-                <Phone className="size-5 text-primary shrink-0 mt-0.5" />
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone Number</span>
-                  <a href={`tel:${CUSTOMER.phone}`} className="text-sm font-black text-gray-900 hover:text-primary transition-colors">{CUSTOMER.phone}</a>
-                </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <Mail className="size-5 text-primary shrink-0 mt-0.5" />
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</span>
-                  <a href={`mailto:${CUSTOMER.email}`} className="text-sm font-bold text-gray-700 hover:text-primary transition-colors">{CUSTOMER.email}</a>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Saved Addresses */}
-          <section className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm flex flex-col gap-8">
-            <h2 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Delivery Addresses</h2>
-            
             <div className="flex flex-col gap-6">
-              {CUSTOMER.addresses.map((addr, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-50">
-                  <MapPin className="size-5 text-primary shrink-0 mt-0.5" />
+              {customer.phone && (
+                <div className="flex items-start gap-4">
+                  <Phone className="size-5 text-primary shrink-0 mt-0.5" />
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black text-gray-900 uppercase tracking-widest">{addr.type}</span>
-                      {addr.isDefault && <Badge className="text-[8px] h-3.5 px-1 bg-primary text-white border-none uppercase">Default</Badge>}
-                    </div>
-                    <p className="text-xs font-bold text-gray-500 leading-relaxed">{addr.text}</p>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone Number</span>
+                    <a href={`tel:${customer.phone}`} className="text-sm font-black text-gray-900 hover:text-primary transition-colors">{customer.phone}</a>
                   </div>
                 </div>
-              ))}
+              )}
+
+              {customer.email && (
+                <div className="flex items-start gap-4">
+                  <Mail className="size-5 text-primary shrink-0 mt-0.5" />
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</span>
+                    <a href={`mailto:${customer.email}`} className="text-sm font-bold text-gray-700 hover:text-primary transition-colors">{customer.email}</a>
+                  </div>
+                </div>
+              )}
+
+              {!customer.phone && !customer.email && (
+                <p className="text-sm text-gray-400 font-medium">No contact details on file.</p>
+              )}
             </div>
           </section>
 
-          {/* Internal CRM / Staff Notes */}
-          <section className="bg-blue-50 p-8 rounded-[40px] border border-blue-100 flex flex-col gap-4">
-            <h3 className="text-sm font-black text-blue-900 uppercase tracking-widest flex items-center gap-2">
-              <ShoppingBag className="size-4" /> Buying Behavior
-            </h3>
-            <p className="text-xs font-medium text-blue-700 leading-relaxed">
-              Frequent buyer of Sanitary items. High average order value. Usually pays via bKash. Preferred delivery time: Afternoon.
-            </p>
-          </section>
+          {customer.isBanned && customer.banReason && (
+            <section className="bg-red-50 p-8 rounded-[40px] border border-red-100 flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <Ban className="size-5 text-red-600" />
+                <h3 className="text-sm font-black text-red-900 uppercase tracking-widest">Ban Reason</h3>
+              </div>
+              <p className="text-xs font-medium text-red-700 leading-relaxed">{customer.banReason}</p>
+            </section>
+          )}
 
         </div>
 
