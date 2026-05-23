@@ -102,7 +102,7 @@ export default function FlashDealsPage() {
       {/* Info Callout */}
       <div className="flex items-start gap-4 p-6 rounded-3xl bg-blue-50 border border-blue-100 text-blue-800">
         <Info className="size-6 shrink-0 mt-0.5" />
-        <div className="space-y-1">
+        <div className="flex flex-col gap-1">
           <p className="font-black uppercase tracking-tight text-sm">Active Deal Rule</p>
           <p className="text-sm font-medium opacity-90 leading-relaxed">
             Only one flash deal can be active at a time. If you create a deal that overlaps with an existing one, 

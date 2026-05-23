@@ -162,7 +162,7 @@ export function FlashDealsTable({ deals }: { deals: FlashDeal[] }) {
           <div className="size-20 rounded-full bg-gray-50 flex items-center justify-center text-gray-200">
             <Zap size={40} />
           </div>
-          <div className="space-y-1">
+          <div className="flex flex-col gap-1">
             <h3 className="text-lg font-black text-gray-900 uppercase tracking-tight">No Flash Deals Found</h3>
             <p className="text-gray-500 font-medium">Create your first timed promotion to boost sales.</p>
           </div>

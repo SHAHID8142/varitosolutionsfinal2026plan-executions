@@ -36,7 +36,7 @@ export default function Error({
       <Header />
       
       <main className="flex-1 flex items-center justify-center p-4 bg-gray-50">
-        <div className="max-w-md w-full text-center space-y-8 py-20">
+        <div className="max-w-md w-full text-center flex flex-col gap-8 py-20">
           {/* Visual Element */}
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse opacity-50" />
@@ -46,7 +46,7 @@ export default function Error({
           </div>
 
           {/* Text Content */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">
               কিছু ভুল হয়েছে
             </h1>

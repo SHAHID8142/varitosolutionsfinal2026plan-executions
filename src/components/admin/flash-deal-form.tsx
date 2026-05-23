@@ -97,7 +97,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
     <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       {/* Main Configuration */}
-      <div className="lg:col-span-2 space-y-8">
+      <div className="lg:col-span-2 flex flex-col gap-8">
         <Card className="rounded-3xl border-gray-100 shadow-sm overflow-hidden">
           <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-8">
             <div className="flex items-center gap-3">
@@ -110,9 +110,9 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-8 space-y-6">
+          <CardContent className="p-8 flex flex-col gap-6">
             {/* Product Selection */}
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                 <Package className="size-4" /> Select Product <span className="text-red-500">*</span>
               </label>
@@ -135,7 +135,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
 
             {/* Pricing Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                   <DollarSign className="size-4" /> Flash Price (BDT) <span className="text-red-500">*</span>
                 </label>
@@ -157,7 +157,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                   <Package className="size-4" /> Quantity Cap (Optional)
                 </label>
@@ -174,7 +174,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
 
             {/* Schedule Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                   <Calendar className="size-4" /> Start Time <span className="text-red-500">*</span>
                 </label>
@@ -189,7 +189,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                   <Clock className="size-4" /> End Time <span className="text-red-500">*</span>
                 </label>
@@ -209,7 +209,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
       </div>
 
       {/* Sidebar / Preview */}
-      <div className="space-y-8">
+      <div className="flex flex-col gap-8">
         <Card className="rounded-3xl border-primary/20 shadow-xl shadow-primary/5 bg-primary/5 overflow-hidden">
           <CardHeader className="bg-primary/5 border-b border-primary/20">
             <CardTitle className="text-lg font-black uppercase tracking-tight text-primary flex items-center gap-2">
@@ -217,13 +217,13 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8">
-            <div className="space-y-6">
+            <div className="flex flex-col gap-6">
               {formData.productId ? (
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div className="aspect-square rounded-2xl bg-white border border-primary/20 flex items-center justify-center text-primary/30">
                     <Package size={64} strokeWidth={1} />
                   </div>
-                  <div className="space-y-1">
+                  <div className="flex flex-col gap-1">
                     <h3 className="font-black text-gray-900 leading-tight">{selectedProduct?.name}</h3>
                     <div className="flex items-center gap-2">
                       <span className="text-xl font-black text-primary">৳{formData.flashPrice || "0"}</span>
@@ -256,7 +256,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
 
         {/* Action Card */}
         <Card className="rounded-3xl border-gray-100 shadow-sm">
-          <CardContent className="p-6 space-y-4">
+          <CardContent className="p-6 flex flex-col gap-4">
             <Button 
               type="submit" 
               className="w-full h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-primary/20"

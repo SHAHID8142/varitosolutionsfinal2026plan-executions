@@ -22,7 +22,7 @@ export default function NotFound() {
       <Header />
       
       <main className="flex-1 flex items-center justify-center p-4 bg-gray-50">
-        <div className="max-w-md w-full text-center space-y-8 py-20">
+        <div className="max-w-md w-full text-center flex flex-col gap-8 py-20">
           {/* Visual Element */}
           <div className="relative inline-block">
             <div className="text-[120px] font-black text-primary/20 leading-none select-none">
@@ -36,7 +36,7 @@ export default function NotFound() {
           </div>
 
           {/* Text Content */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">
               পৃষ্ঠাটি পাওয়া যায়নি
             </h1>
