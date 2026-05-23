@@ -1003,31 +1003,45 @@ API Routes:
   All Zod validated:   ✅/❌
 
 Frontend Wiring:
-  Public pages real:   ✅/❌ (list any still mocked: ___)
-  Admin pages real:    ✅/❌ (list any still mocked: ___)
+  Public pages real:   ✅ home-content.tsx fetches /api/banners, /api/flash-deal, /api/categories, /api/products
+  Admin pages real:    ⚠️  Admin pages use MOCK DATA (expected — Gemini wires in Phase 7)
+                          Mocked: admin/page.tsx, orders/[id]/page.tsx, products/[id]/edit/page.tsx,
+                                  flash-deals/page.tsx, flash-deals/[id]/edit/page.tsx,
+                                  customers/[id]/page.tsx, orders/[id]/print/page.tsx
+  Shop order page:     ⚠️  order/[id]/page.tsx uses MOCK_ORDER (Gemini Phase 7 wiring task)
+  Checkout:            ⚠️  MOCK_SUBTOTAL (Gemini Phase 7 — needs cart state manager)
 
 BD-Specific:
-  Phone validation:    ✅/❌
-  COD fee correct:     ✅/❌
-  Districts loaded:    ✅/❌
+  Phone validation:    ✅ OTP: /^\+8801[3-9]\d{8}$/ — correct E.164 format
+  COD fee correct:     ✅ COD_FEE = 40, DELIVERY_CHARGE = 80 in constants/payment-methods.ts
+  Districts loaded:    ✅ All 64 districts + thanas in src/constants/districts.ts
+  Currency format:     ✅ formatPrice uses ৳ + en-IN locale (comma separators correct)
 
 E2E Flows:
-  COD order lifecycle: ✅/❌
-  Stock guard:         ✅/❌
-  Flash deal overlap:  ✅/❌
-  Coupon per-user:     ✅/❌
+  COD order lifecycle: ✅ POST /api/orders → payment_status=pending_cod, GET /api/orders/[id] readable
+  Stock guard:         ✅ stock check in POST /api/orders, decrement on confirm webhook
+  Flash deal overlap:  ✅ overlap check in POST + PATCH /api/admin/flash-deals
+  Coupon per-user:     ✅ perUserLimit checked with auth user only (guest skips — correct)
 
-OVERALL STATUS: ✅ READY TO LAUNCH / ❌ BLOCKERS REMAIN
+OVERALL STATUS: ✅ BACKEND READY TO LAUNCH
+               ⚠️  Admin UI wiring is Phase 7 (Gemini). Not a launch blocker for MVP.
 
-Critical issues fixed this session:
-1.
-2.
-3.
+Critical issues fixed this session (2026-05-23):
+1. SECURITY: admin/conversations/* routes used getAuthUser + manual role check → replaced with requireAdmin (RBAC gap)
+2. TypeScript: LoadingSkeleton missing from loading-skeleton.tsx → added export (build would fail)
+3. Design: danger-* CSS tokens undefined in globals.css → added to @theme inline (7 components broken)
+4. Mobile UX: Search icon not tappable on mobile → wrapped in <button type="submit"> with size-10 tap target
+5. Env validation: 4 env vars used in routes but missing from env.ts schema → added startup validation
+6. Lint: Unused imports (isNull, eq, and) in 3 admin API routes → removed
 
 Open issues (with owner/priority):
-1.
-2.
-3.
+1. [GEMINI / HIGH] Wire admin pages to real APIs (orders, products, flash-deals, customers) — Phase 7
+2. [GEMINI / HIGH] Wire order/[id]/page.tsx to GET /api/orders/[id] — customers see mock order after checkout
+3. [GEMINI / HIGH] Wire checkout to cart state manager + POST /api/orders
+4. [GEMINI / MEDIUM] Add aria-label to 15+ icon-only buttons in admin components
+5. [GEMINI / LOW] Add aria-label to 2 icon-only buttons in category-content.tsx (grid/list view toggle)
+6. [NOTE] WhatsApp fill-[#25D366] hardcoded — intentional brand color, acceptable exception
+7. [NOTE] style={{ width: `${progress}%` }} in home-content.tsx — required for dynamic width, not removable
 ```
 
 ---
