@@ -1,19 +1,20 @@
 /**
  * @file page.tsx
  * @path /admin/login
- * @description Admin login page with phone OTP verification.
- *              Step-based flow: 1. Enter Phone -> 2. Verify OTP.
+ * @description Admin login page with email + password authentication.
+ *              Calls POST /api/admin/auth/login, stores the JWT in a cookie,
+ *              then redirects to /admin dashboard.
  *              Strictly for authorized business administrators only.
  *
- * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @owner    Gemini Design Agent (UI) + Antigravity Inspector (logic wiring)
+ * @updated  2026-05-24
  */
 
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
-import { Phone, Lock, ArrowRight, ShieldCheck, Package2, ArrowLeft } from "lucide-react"
+import { Mail, Lock, ArrowRight, ShieldCheck, Package2 } from "lucide-react"
 import { usePostHog } from "posthog-js/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,118 +25,76 @@ import { toast } from "sonner"
 // COMPONENT
 // ─────────────────────────────────────────────
 
+/**
+ * AdminLoginPage — Email + password login form for admin portal.
+ * On success, saves the Supabase access token as a cookie and redirects to /admin.
+ */
 export default function AdminLoginPage() {
   const posthog = usePostHog()
-  
-  const [step, setStep] = React.useState<"phone" | "otp">("phone")
-  const [phone, setPhone] = React.useState("")
-  const [otp, setOtp] = React.useState("")
+
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const formatPhone = (raw: string) => {
-    // Remove all non-digits
-    const digits = raw.replace(/\D/g, "")
-    // If it starts with 01, prepend +88
-    if (digits.startsWith("01") && digits.length === 11) {
-      return `+88${digits}`
-    }
-    // If it starts with 8801, prepend +
-    if (digits.startsWith("8801") && digits.length === 13) {
-      return `+${digits}`
-    }
-    // If it's already +8801...
-    if (raw.startsWith("+8801") && digits.length === 13) {
-      return raw
-    }
-    return null
-  }
-
-  const handleSendOTP = async (e: React.FormEvent) => {
+  // ─── Form submit handler ─────────────────────
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const formattedPhone = formatPhone(phone)
-    if (!formattedPhone) {
-      toast.error("Please enter a valid Bangladesh phone number (e.g., 01712XXXXXX)")
-      return
-    }
-    
-    setIsLoading(true)
-    try {
-      const response = await fetch("/api/auth/otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: formattedPhone }),
-      })
 
-      const result = await response.json()
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to send OTP")
-      }
-
-      setStep("otp")
-      toast.success("OTP sent to your phone!")
-    } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : "An unexpected error occurred")
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const formattedPhone = formatPhone(phone)
-    if (!formattedPhone || !otp || otp.length < 6) {
-      toast.error("Please enter a valid 6-digit OTP")
+    if (!email.trim() || !password.trim()) {
+      toast.error("Please enter both email and password.")
       return
     }
 
     setIsLoading(true)
     try {
-      const response = await fetch("/api/auth/verify", {
+      const response = await fetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: formattedPhone, token: otp }),
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       })
 
       const result = await response.json()
+
       if (!response.ok) {
-        throw new Error(result.error || "Verification failed")
+        throw new Error(result.error ?? "Login failed. Please check your credentials.")
       }
 
-      const { accessToken, expiresAt, user } = result.data
+      const { accessToken, refreshToken, expiresAt, admin } = result.data
 
-      // Set cookie for middleware
-      // We use sb-access-token as expected by the middleware
+      // Store tokens in cookies for middleware to read
       const maxAge = expiresAt ? expiresAt - Math.floor(Date.now() / 1000) : 3600
       document.cookie = `sb-access-token=${accessToken}; path=/; max-age=${maxAge}; SameSite=Lax`
+      document.cookie = `sb-refresh-token=${refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`
 
-      // Identify with PostHog
-      posthog.identify(user.id, {
-        phone: user.phone,
-        role: "admin", // We assume they are logging into /admin so they should be admin
+      // Track login event with PostHog
+      posthog.identify(admin.id, {
+        email: admin.email,
+        role: admin.role,
       })
-      posthog.capture("admin_login_success")
+      posthog.capture("admin_login_success", { role: admin.role })
 
-      toast.success("Welcome back, Administrator!")
-      
-      // Use router.push or window.location.href
-      // window.location.href is safer to ensure middleware picks up the new cookie on the next request
+      toast.success(`Welcome back, ${admin.name ?? "Administrator"}!`)
+
+      // Hard redirect so middleware picks up the new cookie fresh
       window.location.href = "/admin"
     } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : "An unexpected error occurred")
+      toast.error(error instanceof Error ? error.message : "An unexpected error occurred.")
+      posthog.capture("admin_login_failed", { email })
     } finally {
       setIsLoading(false)
     }
   }
 
+  // ─── Render ──────────────────────────────────
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-emerald-950 relative overflow-hidden">
-      
+
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-900/30 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-900/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
 
       <div className="w-full max-w-[480px] z-10">
-        
+
         {/* Branding */}
         <div className="flex flex-col items-center gap-6 mb-12">
           <div className="size-20 rounded-[2rem] bg-primary flex items-center justify-center text-white shadow-2xl shadow-primary/20">
@@ -143,7 +102,10 @@ export default function AdminLoginPage() {
           </div>
           <div className="flex flex-col items-center text-center gap-2">
             <h1 className="text-3xl font-black text-white tracking-tight uppercase">Varito Solutions</h1>
-            <Badge variant="secondary" className="bg-primary/30 text-primary/60 border-primary/30 uppercase tracking-widest text-[10px] px-3">
+            <Badge
+              variant="secondary"
+              className="bg-primary/30 text-primary/60 border-primary/30 uppercase tracking-widest text-[10px] px-3"
+            >
               Admin Gateway
             </Badge>
           </div>
@@ -151,90 +113,71 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[32px] md:rounded-[40px] p-6 md:p-12 shadow-2xl">
-          
-          {step === "phone" ? (
-            <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="flex flex-col gap-2">
-                <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">Security Login</h2>
-                <p className="text-primary/20/60 text-xs md:text-sm font-medium leading-relaxed">Enter your registered admin phone number to receive a secure access code.</p>
+          <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+
+            <div className="flex flex-col gap-2">
+              <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">
+                Security Login
+              </h2>
+              <p className="text-white/40 text-xs md:text-sm font-medium leading-relaxed">
+                Enter your administrator email and password to access the dashboard.
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="flex flex-col gap-4 md:gap-5">
+              {/* Email */}
+              <div className="relative">
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
+                <Input
+                  id="admin-email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="admin@varitosolutions.com"
+                  className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-white/20 text-base md:text-lg font-bold focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
 
-              <form onSubmit={handleSendOTP} className="flex flex-col gap-4 md:gap-6">
-                <div className="relative">
-                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
-                  <Input 
-                    type="tel" 
-                    placeholder="01712XXXXXX" 
-                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-primary text-base md:text-lg font-bold focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
+              {/* Password */}
+              <div className="relative">
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
+                <Input
+                  id="admin-password"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="••••••••••••"
+                  className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-white/20 text-base md:text-lg font-bold focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
 
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="h-14 md:h-16 rounded-2xl bg-primary hover:bg-primary/90 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-primary/10"
-                  loading={isLoading}
-                >
-                  Send Access Code <ArrowRight className="size-5" />
-                </Button>
-              </form>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <button 
-                onClick={() => setStep("phone")}
-                className="flex items-center gap-2 text-[10px] md:text-xs font-black text-primary/60 uppercase tracking-widest hover:text-white transition-colors w-fit"
+              <Button
+                id="admin-login-btn"
+                type="submit"
+                size="lg"
+                className="h-14 md:h-16 rounded-2xl bg-primary hover:bg-primary/90 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-primary/10 mt-2"
+                loading={isLoading}
               >
-                <ArrowLeft className="size-4" /> Change Number
-              </button>
-
-              <div className="flex flex-col gap-2">
-                <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">Verify Identity</h2>
-                <p className="text-primary/20/60 text-xs md:text-sm font-medium">
-                  We&apos;ve sent a 6-digit code to <span className="text-primary/40 font-bold">{phone}</span>.
-                </p>
-              </div>
-
-              <form onSubmit={handleVerifyOTP} className="flex flex-col gap-4 md:gap-6">
-                <div className="relative">
-                  <Lock className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
-                  <Input 
-                    type="text" 
-                    maxLength={6}
-                    placeholder="X X X X X X" 
-                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-primary text-lg md:text-2xl font-black tracking-[0.3em] md:tracking-[0.5em] focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all text-center"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
-                </div>
-
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="h-14 md:h-16 rounded-2xl bg-primary hover:bg-primary/90 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-primary/10"
-                  loading={isLoading}
-                >
-                  Enter Dashboard <ShieldCheck className="size-6" />
-                </Button>
-
-                <div className="flex justify-center">
-                  <button type="button" className="text-[10px] md:text-xs font-bold text-primary hover:underline">
-                    Resend code in 0:45
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+                Enter Dashboard <ShieldCheck className="size-6" />
+                {!isLoading && <ArrowRight className="size-5" />}
+              </Button>
+            </form>
+          </div>
         </div>
 
         {/* Footer Info */}
         <div className="mt-12 flex flex-col items-center gap-6">
-          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] text-center max-w-[300px] leading-relaxed">
+          <p className="text-[10px] font-black text-primary/40 uppercase tracking-[0.3em] text-center max-w-[300px] leading-relaxed">
             Strictly authorized business use only. All access attempts are logged and monitored.
           </p>
-          <Link href="/" className="text-xs font-bold text-primary hover:text-white transition-colors underline underline-offset-4">
+          <Link
+            href="/"
+            className="text-xs font-bold text-primary/60 hover:text-white transition-colors underline underline-offset-4"
+          >
             Return to Public Store
           </Link>
         </div>
