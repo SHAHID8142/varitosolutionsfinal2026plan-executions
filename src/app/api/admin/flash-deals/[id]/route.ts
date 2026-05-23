@@ -1,9 +1,9 @@
 /**
  * @file api/admin/flash-deals/[id]/route.ts
- * @description Admin: update or deactivate a flash deal.
+ * @description Admin: get, update, or deactivate a single flash deal.
  *
  * @owner    Claude Backend Agent
- * @updated  2026-05-23
+ * @updated  2026-05-24
  */
 
 import { NextResponse } from "next/server"
@@ -12,6 +12,70 @@ import { db } from "@/lib/db"
 import { flashDeals, products } from "@/db/schema"
 import { and, eq, ne, lte, sql } from "drizzle-orm"
 import { requireAdmin, isAuthError, auditLog } from "@/lib/admin-auth"
+
+// ─────────────────────────────────────────────
+// GET /api/admin/flash-deals/[id]
+// ─────────────────────────────────────────────
+
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const admin = await requireAdmin(request)
+  if (isAuthError(admin)) return admin
+
+  const { id } = await params
+  const dealId = parseInt(id, 10)
+  if (isNaN(dealId)) {
+    return NextResponse.json({ error: "Invalid deal ID", code: "INVALID_ID" }, { status: 400 })
+  }
+
+  const [deal] = await db
+    .select({
+      id: flashDeals.id,
+      productId: flashDeals.productId,
+      flashPrice: flashDeals.flashPrice,
+      maxQty: flashDeals.maxQty,
+      soldQty: flashDeals.soldQty,
+      isActive: flashDeals.isActive,
+      startsAt: flashDeals.startsAt,
+      endsAt: flashDeals.endsAt,
+      createdAt: flashDeals.createdAt,
+      product: {
+        id: products.id,
+        name: products.name,
+        slug: products.slug,
+        price: products.price,
+        images: products.images,
+      },
+    })
+    .from(flashDeals)
+    .innerJoin(products, eq(flashDeals.productId, products.id))
+    .where(eq(flashDeals.id, dealId))
+    .limit(1)
+
+  if (!deal) {
+    return NextResponse.json({ error: "Flash deal not found", code: "NOT_FOUND" }, { status: 404 })
+  }
+
+  return NextResponse.json({
+    data: {
+      id: deal.id,
+      productId: String(deal.productId),
+      flashPrice: String(parseFloat(deal.flashPrice)),
+      maxQty: deal.maxQty ? String(deal.maxQty) : "",
+      soldQty: deal.soldQty,
+      isActive: deal.isActive,
+      startsAt: deal.startsAt.toISOString().slice(0, 16),
+      endsAt: deal.endsAt.toISOString().slice(0, 16),
+      createdAt: deal.createdAt.toISOString(),
+      product: {
+        id: String(deal.product.id),
+        name: deal.product.name,
+        slug: deal.product.slug,
+        price: parseFloat(deal.product.price),
+        images: deal.product.images ?? [],
+      },
+    },
+  })
+}
 
 const updateSchema = z.object({
   flashPrice: z.number().positive().optional(),
