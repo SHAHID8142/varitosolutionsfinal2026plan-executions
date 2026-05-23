@@ -26,7 +26,7 @@ export default function AdminInventoryPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <Warehouse className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Inventory</h1>
@@ -34,7 +34,7 @@ export default function AdminInventoryPage() {
           <p className="text-gray-500 font-medium">Track stock movements, process restocks, and audit inventory history.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button className="rounded-xl font-black shadow-lg shadow-emerald-500/20">
+          <Button className="rounded-xl font-black shadow-lg shadow-primary/20">
             <Plus className="mr-2 size-4" /> Bulk Restock
           </Button>
         </div>
@@ -46,7 +46,7 @@ export default function AdminInventoryPage() {
           onClick={() => setActiveTab("log")}
           className={cn(
             "flex items-center gap-2 px-6 h-12 rounded-2xl transition-all font-black text-xs uppercase tracking-widest",
-            activeTab === "log" ? "bg-emerald-600 text-white shadow-lg" : "text-gray-400 hover:text-gray-600"
+            activeTab === "log" ? "bg-primary text-white shadow-lg" : "text-gray-400 hover:text-gray-600"
           )}
         >
           <History className="size-4" /> Stock Movement Log
@@ -55,7 +55,7 @@ export default function AdminInventoryPage() {
           onClick={() => setActiveTab("stocktake")}
           className={cn(
             "flex items-center gap-2 px-6 h-12 rounded-2xl transition-all font-black text-xs uppercase tracking-widest",
-            activeTab === "stocktake" ? "bg-emerald-600 text-white shadow-lg" : "text-gray-400 hover:text-gray-600"
+            activeTab === "stocktake" ? "bg-primary text-white shadow-lg" : "text-gray-400 hover:text-gray-600"
           )}
         >
           <Package className="size-4" /> Digital Stocktake

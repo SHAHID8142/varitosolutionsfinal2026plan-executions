@@ -234,9 +234,9 @@ export default function ProductDetailPage() {
               {/* Title & Reviews */}
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-2">
-                  {PRODUCT.isNew && <Badge variant="default" className="bg-emerald-500">New Arrival</Badge>}
+                  {PRODUCT.isNew && <Badge variant="default" className="bg-primary">New Arrival</Badge>}
                   {PRODUCT.stock > 0 ? (
-                    <Badge variant="verified" className="bg-emerald-50 text-emerald-600 border-emerald-100 uppercase">In Stock</Badge>
+                    <Badge variant="verified" className="bg-primary/5 text-primary border-primary/20 uppercase">In Stock</Badge>
                   ) : (
                     <Badge variant="destructive" className="uppercase">Out of Stock</Badge>
                   )}
@@ -255,8 +255,8 @@ export default function ProductDetailPage() {
 
               {/* Price & Description */}
               <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-1 p-6 rounded-2xl bg-emerald-50/50 border border-emerald-100/50">
-                  <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest">Special Price</span>
+                <div className="flex flex-col gap-1 p-6 rounded-2xl bg-primary/5 border border-primary/20/50">
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest">Special Price</span>
                   <PriceTag price={PRODUCT.price} salePrice={PRODUCT.salePrice} size="lg" />
                 </div>
 
@@ -273,7 +273,7 @@ export default function ProductDetailPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                  <Button onClick={handleAddToCart} size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-emerald-500/20 gap-3 font-black">
+                  <Button onClick={handleAddToCart} size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-primary/20 gap-3 font-black">
                     <ShoppingCart className="size-6" /> Add to Cart
                   </Button>
                   <Button onClick={handleOrderNow} variant="accent" size="lg" className="flex-1 py-7 text-lg shadow-xl shadow-orange-500/20 gap-3 font-black">

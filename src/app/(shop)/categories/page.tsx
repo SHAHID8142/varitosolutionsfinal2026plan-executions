@@ -97,13 +97,13 @@ export default function CategoriesPage() {
                  <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight leading-tight">
                    Bulk Packaging or <span className="text-primary">Sanitary Supplies?</span>
                  </h2>
-                 <p className="text-emerald-100/70 text-lg md:text-xl font-medium leading-relaxed">
+                 <p className="text-primary/20/70 text-lg md:text-xl font-medium leading-relaxed">
                    We provide customized quotes for high-volume orders. Connect with our dedicated sales team for industry-leading trade pricing and direct delivery.
                  </p>
                </div>
 
                <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0">
-                 <Button onClick={handleWholesaleQuote} size="lg" className="h-16 px-10 rounded-2xl bg-white text-emerald-950 hover:bg-emerald-50 font-black uppercase tracking-widest text-sm shadow-xl shadow-black/20">
+                 <Button onClick={handleWholesaleQuote} size="lg" className="h-16 px-10 rounded-2xl bg-white text-emerald-950 hover:bg-primary/5 font-black uppercase tracking-widest text-sm shadow-xl shadow-black/20">
                    Get Wholesale Quote <ArrowRight className="ml-2 size-5" />
                  </Button>
                  <a 
@@ -112,7 +112,7 @@ export default function CategoriesPage() {
                    rel="noopener noreferrer"
                    className="w-full sm:w-auto"
                  >
-                   <Button variant="outline" size="lg" className="w-full h-16 px-10 rounded-2xl border-emerald-800 text-white hover:bg-emerald-800/50 font-black uppercase tracking-widest text-sm gap-3">
+                   <Button variant="outline" size="lg" className="w-full h-16 px-10 rounded-2xl border-primary/80 text-white hover:bg-primary/30 font-black uppercase tracking-widest text-sm gap-3">
                      <WhatsAppIcon className="size-6 fill-[#25D366]" /> Chat on WhatsApp
                    </Button>
                  </a>

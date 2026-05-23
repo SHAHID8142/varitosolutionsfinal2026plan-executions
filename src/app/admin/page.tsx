@@ -60,7 +60,7 @@ export default function AdminDashboardPage() {
           <Button variant="outline" className="flex-1 md:flex-none h-11 md:h-12 rounded-xl font-bold border-gray-200 bg-white">
             Export Report
           </Button>
-          <Button className="flex-1 md:flex-none h-11 md:h-12 rounded-xl font-black shadow-lg shadow-emerald-500/20">
+          <Button className="flex-1 md:flex-none h-11 md:h-12 rounded-xl font-black shadow-lg shadow-primary/20">
             New Product +
           </Button>
         </div>
@@ -105,7 +105,7 @@ export default function AdminDashboardPage() {
         <div className="lg:col-span-8 flex flex-col gap-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Recent Orders</h2>
-            <Button variant="ghost" size="sm" className="text-emerald-600 font-bold hover:bg-emerald-50">
+            <Button variant="ghost" size="sm" className="text-primary font-bold hover:bg-primary/5">
               View All Orders <ArrowRight className="ml-2 size-4" />
             </Button>
           </div>
@@ -148,7 +148,7 @@ export default function AdminDashboardPage() {
                           className={cn(
                             "uppercase text-[10px]",
                             order.status === "pending" && "border-amber-200 text-amber-600 bg-amber-50",
-                            order.status === "confirmed" && "border-emerald-200 text-emerald-600 bg-emerald-50"
+                            order.status === "confirmed" && "border-primary/30 text-primary bg-primary/5"
                           )}
                         >
                           {order.status}
@@ -195,16 +195,16 @@ export default function AdminDashboardPage() {
           {/* Quick Actions / Tips */}
           <div className="p-8 rounded-[40px] bg-emerald-950 text-white flex flex-col gap-6 relative overflow-hidden">
             <div className="relative z-10 flex flex-col gap-4">
-              <Badge className="w-fit bg-emerald-500 text-emerald-950 font-black border-none uppercase tracking-widest text-[9px]">Admin Pro Tip</Badge>
+              <Badge className="w-fit bg-primary text-emerald-950 font-black border-none uppercase tracking-widest text-[9px]">Admin Pro Tip</Badge>
               <h3 className="text-xl font-black uppercase tracking-tight">Bulk Order Efficiency</h3>
-              <p className="text-emerald-100/60 text-sm font-medium leading-relaxed">
+              <p className="text-primary/20/60 text-sm font-medium leading-relaxed">
                 You have 5 orders waiting for the same &quot;Emerald Faucet&quot; SKU. Print their labels together to save processing time.
               </p>
-              <Button className="mt-2 bg-white text-emerald-950 hover:bg-emerald-50 font-black rounded-xl h-12 uppercase tracking-widest text-xs">
+              <Button className="mt-2 bg-white text-emerald-950 hover:bg-primary/5 font-black rounded-xl h-12 uppercase tracking-widest text-xs">
                 View Pending
               </Button>
             </div>
-            <Package className="absolute -bottom-10 -right-10 size-48 text-emerald-900/40 rotate-12" />
+            <Package className="absolute -bottom-10 -right-10 size-48 text-primary/30 rotate-12" />
           </div>
 
         </div>

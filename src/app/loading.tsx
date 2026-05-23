@@ -16,10 +16,10 @@ export default function Loading() {
       {/* Animated Brand Mark */}
       <div className="relative">
         {/* Outer pulse ring */}
-        <div className="absolute inset-0 size-24 rounded-full bg-emerald-100 animate-ping opacity-75" />
+        <div className="absolute inset-0 size-24 rounded-full bg-primary/10 animate-ping opacity-75" />
         
         {/* Inner container */}
-        <div className="relative size-24 bg-primary rounded-3xl flex items-center justify-center shadow-xl shadow-emerald-500/30">
+        <div className="relative size-24 bg-primary rounded-3xl flex items-center justify-center shadow-xl shadow-primary/30">
           <Package className="size-12 text-white animate-bounce duration-1000" strokeWidth={1.5} />
         </div>
       </div>

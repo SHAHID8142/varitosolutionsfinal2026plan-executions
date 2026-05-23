@@ -29,7 +29,7 @@ export default function AdminProductsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <Package className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Products</h1>
@@ -41,7 +41,7 @@ export default function AdminProductsPage() {
             <Download className="mr-2 size-4" /> Export Catalogue
           </Button>
           <Link href="/admin/products/new">
-            <Button className="rounded-xl font-black shadow-lg shadow-emerald-500/20">
+            <Button className="rounded-xl font-black shadow-lg shadow-primary/20">
               <Plus className="mr-2 size-4" /> Add New Product
             </Button>
           </Link>

@@ -38,7 +38,7 @@ function SidebarLink({ href, icon: Icon, label, active }: { href: string, icon: 
   return (
     <Link 
       href={href}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${active ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${active ? 'bg-primary text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}
     >
       <Icon className="size-5" />
       <span className="text-sm uppercase tracking-wider">{label}</span>
@@ -56,7 +56,7 @@ function SettingItem({ icon: Icon, title, description, actionLabel, onClick }: {
   return (
     <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between gap-6">
       <div className="flex items-center gap-4">
-        <div className="size-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+        <div className="size-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center shrink-0">
           <Icon className="size-6" />
         </div>
         <div className="flex flex-col gap-0.5">
@@ -137,10 +137,10 @@ export default function SettingsPage() {
               <section className="mt-10 p-10 rounded-[40px] bg-emerald-950 text-white relative overflow-hidden">
                 <div className="relative z-10 flex flex-col gap-4 max-w-lg">
                   <h2 className="text-3xl font-black uppercase tracking-tight">Need Help?</h2>
-                  <p className="text-emerald-200/80 font-medium">
+                  <p className="text-primary/30/80 font-medium">
                     Our support team is available 24/7 to help you with any account or order issues.
                   </p>
-                  <Button variant="primary" className="w-fit bg-emerald-500 hover:bg-emerald-400 text-white font-black px-8 h-12 mt-2">
+                  <Button variant="primary" className="w-fit bg-primary hover:bg-primary/90 text-white font-black px-8 h-12 mt-2">
                     Contact Support
                   </Button>
                 </div>

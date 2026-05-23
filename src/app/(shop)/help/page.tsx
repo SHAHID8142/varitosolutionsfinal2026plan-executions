@@ -108,30 +108,30 @@ export default function HelpPage() {
         {/* Immersive Support Hero */}
         <section className="relative pt-16 pb-32 bg-emerald-950 text-white overflow-hidden">
           {/* Abstract Background Elements */}
-          <div className="absolute top-0 right-0 size-[500px] bg-emerald-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
-          <div className="absolute bottom-0 left-0 size-[400px] bg-emerald-600/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4" />
+          <div className="absolute top-0 right-0 size-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
+          <div className="absolute bottom-0 left-0 size-[400px] bg-primary/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4" />
           
           <div className="container mx-auto px-4 relative z-10 text-center">
             <Breadcrumb
               items={[{ label: "Help Center" }]}
-              className="mb-8 justify-center [&_*]:text-emerald-100/40"
+              className="mb-8 justify-center [&_*]:text-primary/20/40"
             />
             
             <div className="flex flex-col items-center gap-6 mb-12">
-              <div className="size-16 rounded-[24px] bg-emerald-500/20 backdrop-blur-xl border border-emerald-400/20 flex items-center justify-center text-emerald-400">
+              <div className="size-16 rounded-[24px] bg-primary/20 backdrop-blur-xl border border-primary/20 flex items-center justify-center text-primary/60">
                 <LifeBuoy className="size-8" />
               </div>
               <h1 className="text-4xl md:text-7xl font-black tracking-tight uppercase leading-none">
-                How can we <span className="text-emerald-400">help you?</span>
+                How can we <span className="text-primary/60">help you?</span>
               </h1>
-              <p className="text-emerald-100/60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+              <p className="text-primary/20/60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
                 Find answers, track orders, or get in touch with our premium support team.
               </p>
             </div>
             
             {/* Premium Floating Search Bar */}
             <div className="max-w-3xl mx-auto relative group">
-              <div className="absolute -inset-1 bg-emerald-500/20 rounded-[28px] blur-xl opacity-50 group-focus-within:opacity-100 transition-opacity" />
+              <div className="absolute -inset-1 bg-primary/20 rounded-[28px] blur-xl opacity-50 group-focus-within:opacity-100 transition-opacity" />
               <div className="relative flex items-center bg-white rounded-[24px] shadow-2xl overflow-hidden border border-white/10">
                 <div className="pl-6 text-gray-400">
                   <Search className="size-6" />
@@ -159,13 +159,13 @@ export default function HelpPage() {
               className={cn(
                 "flex flex-col items-center gap-3 p-6 rounded-[32px] border transition-all duration-300 flex-1 min-w-[140px] max-w-[200px] group",
                 activeCategory === "all" 
-                  ? 'bg-emerald-600 border-emerald-500 text-white shadow-[0_20px_50px_rgba(16,185,129,0.3)]' 
+                  ? 'bg-primary border-primary text-white shadow-[0_20px_50px_rgba(16,185,129,0.3)]' 
                   : 'bg-white/80 backdrop-blur-md border-gray-100 text-gray-600 hover:bg-white hover:shadow-xl hover:-translate-y-1'
               )}
             >
               <div className={cn(
                 "size-12 rounded-[18px] flex items-center justify-center transition-colors",
-                activeCategory === "all" ? 'bg-white/20' : 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white'
+                activeCategory === "all" ? 'bg-white/20' : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
               )}>
                 <HelpCircle className="size-6" />
               </div>
@@ -182,13 +182,13 @@ export default function HelpPage() {
                   className={cn(
                     "flex flex-col items-center gap-3 p-6 rounded-[32px] border transition-all duration-300 flex-1 min-w-[140px] max-w-[200px] group",
                     isActive 
-                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-[0_20px_50px_rgba(16,185,129,0.3)]' 
+                      ? 'bg-primary border-primary text-white shadow-[0_20px_50px_rgba(16,185,129,0.3)]' 
                       : 'bg-white/80 backdrop-blur-md border-gray-100 text-gray-600 hover:bg-white hover:shadow-xl hover:-translate-y-1'
                   )}
                 >
                   <div className={cn(
                     "size-12 rounded-[18px] flex items-center justify-center transition-colors",
-                    isActive ? 'bg-white/20' : 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white'
+                    isActive ? 'bg-white/20' : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
                   )}>
                     <Icon className="size-6" />
                   </div>
@@ -209,9 +209,9 @@ export default function HelpPage() {
                   <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight uppercase">
                     {activeCategory === "all" ? "Common Questions" : FAQ_CATEGORIES.find(c => c.id === activeCategory)?.label}
                   </h2>
-                  <div className="h-1.5 w-24 bg-emerald-500 rounded-full" />
+                  <div className="h-1.5 w-24 bg-primary rounded-full" />
                 </div>
-                <Badge variant="secondary" className="w-fit bg-emerald-50 text-emerald-700 border-emerald-100 font-bold px-4 py-1.5 rounded-full">
+                <Badge variant="secondary" className="w-fit bg-primary/5 text-primary border-primary/20 font-bold px-4 py-1.5 rounded-full">
                   {filteredFaqs.length} SEARCH RESULTS
                 </Badge>
               </div>
@@ -222,9 +222,9 @@ export default function HelpPage() {
                     <AccordionItem 
                       key={i} 
                       value={`item-${i}`} 
-                      className="bg-white border border-gray-100 rounded-[24px] px-8 overflow-hidden shadow-sm hover:shadow-md hover:border-emerald-100 transition-all group data-[state=open]:border-emerald-500 data-[state=open]:ring-4 data-[state=open]:ring-emerald-500/5"
+                      className="bg-white border border-gray-100 rounded-[24px] px-8 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/20 transition-all group data-[state=open]:border-primary data-[state=open]:ring-4 data-[state=open]:ring-primary/100/5"
                     >
-                      <AccordionTrigger className="py-8 text-lg font-black text-gray-900 hover:no-underline group-hover:text-emerald-600 transition-colors">
+                      <AccordionTrigger className="py-8 text-lg font-black text-gray-900 hover:no-underline group-hover:text-primary transition-colors">
                         {faq.q}
                       </AccordionTrigger>
                       <AccordionContent className="pb-8 text-gray-600 font-medium text-base leading-relaxed border-t border-gray-50 pt-6">
@@ -248,25 +248,25 @@ export default function HelpPage() {
 
               {/* Direct Support Contact Refined */}
               <div className="mt-20 relative">
-                <div className="absolute inset-0 bg-emerald-600 rounded-[48px] blur-3xl opacity-10" />
+                <div className="absolute inset-0 bg-primary rounded-[48px] blur-3xl opacity-10" />
                 <div className="relative bg-emerald-950 rounded-[48px] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden shadow-2xl">
                   {/* Decor */}
-                  <div className="absolute top-0 right-0 size-80 bg-emerald-500/5 rounded-full translate-x-1/4 -translate-y-1/4" />
+                  <div className="absolute top-0 right-0 size-80 bg-primary/5 rounded-full translate-x-1/4 -translate-y-1/4" />
                   
                   <div className="flex flex-col gap-6 text-center lg:text-left max-w-xl">
-                    <Badge className="w-fit bg-emerald-500 text-white font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] text-[10px] mx-auto lg:mx-0">
+                    <Badge className="w-fit bg-primary text-white font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] text-[10px] mx-auto lg:mx-0">
                       Still Stuck?
                     </Badge>
                     <h3 className="text-3xl md:text-5xl font-black text-white leading-tight">
-                      Our support team <br />is <span className="text-emerald-400 font-black italic">online now.</span>
+                      Our support team <br />is <span className="text-primary/60 font-black italic">online now.</span>
                     </h3>
-                    <p className="text-emerald-100/60 text-lg font-medium leading-relaxed">
+                    <p className="text-primary/20/60 text-lg font-medium leading-relaxed">
                       Don&apos;t spend time searching. Talk to a real person from Varito Solutions and get your issue resolved in minutes.
                     </p>
                   </div>
 
                   <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 w-full sm:w-auto">
-                    <Button size="lg" className="h-20 px-10 rounded-[20px] gap-4 font-black text-lg bg-emerald-500 hover:bg-emerald-400 shadow-[0_15px_40px_rgba(16,185,129,0.3)] transition-all active:scale-95">
+                    <Button size="lg" className="h-20 px-10 rounded-[20px] gap-4 font-black text-lg bg-primary hover:bg-primary/90 shadow-[0_15px_40px_rgba(16,185,129,0.3)] transition-all active:scale-95">
                       <MessageCircle className="size-7" /> WhatsApp Us
                     </Button>
                     <Button variant="ghost" size="lg" className="h-20 px-10 rounded-[20px] gap-4 font-black text-lg text-white border-2 border-white/10 hover:bg-white/5 transition-all">

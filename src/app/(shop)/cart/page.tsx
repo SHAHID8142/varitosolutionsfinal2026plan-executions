@@ -128,7 +128,7 @@ export default function CartPage() {
                 ))}
 
                 {/* Secure Checkout Note */}
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 mt-4">
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-primary/5 text-primary border border-primary/20 mt-4">
                   <ShieldCheck className="size-5 shrink-0" />
                   <p className="text-xs font-bold uppercase tracking-wide">
                     100% Secure Checkout | Verified by Varito Solutions
@@ -146,7 +146,7 @@ export default function CartPage() {
                 />
 
                 <Link href="/checkout">
-                  <Button size="lg" className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3">
+                  <Button size="lg" className="w-full py-8 text-xl font-black shadow-xl shadow-primary/20 gap-3">
                     Proceed to Checkout <ArrowRight className="size-6" />
                   </Button>
                 </Link>

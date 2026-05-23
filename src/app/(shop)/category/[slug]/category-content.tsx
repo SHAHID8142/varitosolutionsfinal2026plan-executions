@@ -254,7 +254,7 @@ export default function CategoryContent() {
                       <SidebarFilters />
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100">
-                      <Button className="w-full py-6 text-lg shadow-lg shadow-emerald-500/20">
+                      <Button className="w-full py-6 text-lg shadow-lg shadow-primary/20">
                         Show {PRODUCTS.length} Results
                       </Button>
                     </div>

@@ -72,12 +72,12 @@ export default function AdminLoginPage() {
         
         {/* Branding */}
         <div className="flex flex-col items-center gap-6 mb-12">
-          <div className="size-20 rounded-[2rem] bg-emerald-600 flex items-center justify-center text-white shadow-2xl shadow-emerald-500/20">
+          <div className="size-20 rounded-[2rem] bg-primary flex items-center justify-center text-white shadow-2xl shadow-primary/20">
             <Package2 className="size-10" />
           </div>
           <div className="flex flex-col items-center text-center gap-2">
             <h1 className="text-3xl font-black text-white tracking-tight uppercase">Varito Solutions</h1>
-            <Badge variant="secondary" className="bg-emerald-800/50 text-emerald-400 border-emerald-700/50 uppercase tracking-widest text-[10px] px-3">
+            <Badge variant="secondary" className="bg-primary/30 text-primary/60 border-primary/30 uppercase tracking-widest text-[10px] px-3">
               Admin Gateway
             </Badge>
           </div>
@@ -90,16 +90,16 @@ export default function AdminLoginPage() {
             <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex flex-col gap-2">
                 <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">Security Login</h2>
-                <p className="text-emerald-100/60 text-xs md:text-sm font-medium leading-relaxed">Enter your registered admin phone number to receive a secure access code.</p>
+                <p className="text-primary/20/60 text-xs md:text-sm font-medium leading-relaxed">Enter your registered admin phone number to receive a secure access code.</p>
               </div>
 
               <form onSubmit={handleSendOTP} className="flex flex-col gap-4 md:gap-6">
                 <div className="relative">
-                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-emerald-400" />
+                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
                   <Input 
                     type="tel" 
                     placeholder="01712XXXXXX" 
-                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-emerald-800 text-base md:text-lg font-bold focus:bg-white/10 focus:ring-4 focus:ring-emerald-500/20 transition-all"
+                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-primary text-base md:text-lg font-bold focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="h-14 md:h-16 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-emerald-500/10"
+                  className="h-14 md:h-16 rounded-2xl bg-primary hover:bg-primary/90 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-primary/10"
                   loading={isLoading}
                 >
                   Send Access Code <ArrowRight className="size-5" />
@@ -119,26 +119,26 @@ export default function AdminLoginPage() {
             <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button 
                 onClick={() => setStep("phone")}
-                className="flex items-center gap-2 text-[10px] md:text-xs font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors w-fit"
+                className="flex items-center gap-2 text-[10px] md:text-xs font-black text-primary/60 uppercase tracking-widest hover:text-white transition-colors w-fit"
               >
                 <ArrowLeft className="size-4" /> Change Number
               </button>
 
               <div className="flex flex-col gap-2">
                 <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">Verify Identity</h2>
-                <p className="text-emerald-100/60 text-xs md:text-sm font-medium">
-                  We&apos;ve sent a 6-digit code to <span className="text-emerald-300 font-bold">{phone}</span>.
+                <p className="text-primary/20/60 text-xs md:text-sm font-medium">
+                  We&apos;ve sent a 6-digit code to <span className="text-primary/40 font-bold">{phone}</span>.
                 </p>
               </div>
 
               <form onSubmit={handleVerifyOTP} className="flex flex-col gap-4 md:gap-6">
                 <div className="relative">
-                  <Lock className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-emerald-400" />
+                  <Lock className="absolute left-5 top-1/2 -translate-y-1/2 size-5 text-primary/60" />
                   <Input 
                     type="text" 
                     maxLength={6}
                     placeholder="X X X X X X" 
-                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-emerald-800 text-lg md:text-2xl font-black tracking-[0.3em] md:tracking-[0.5em] focus:bg-white/10 focus:ring-4 focus:ring-emerald-500/20 transition-all text-center"
+                    className="h-14 md:h-16 pl-14 pr-6 rounded-2xl bg-white/5 border-white/10 text-white placeholder:text-primary text-lg md:text-2xl font-black tracking-[0.3em] md:tracking-[0.5em] focus:bg-white/10 focus:ring-4 focus:ring-primary/20 transition-all text-center"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                   />
@@ -147,14 +147,14 @@ export default function AdminLoginPage() {
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="h-14 md:h-16 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-emerald-500/10"
+                  className="h-14 md:h-16 rounded-2xl bg-primary hover:bg-primary/90 text-emerald-950 font-black text-base md:text-lg gap-3 shadow-xl shadow-primary/10"
                   loading={isLoading}
                 >
                   Enter Dashboard <ShieldCheck className="size-6" />
                 </Button>
 
                 <div className="flex justify-center">
-                  <button type="button" className="text-[10px] md:text-xs font-bold text-emerald-500 hover:underline">
+                  <button type="button" className="text-[10px] md:text-xs font-bold text-primary hover:underline">
                     Resend code in 0:45
                   </button>
                 </div>
@@ -165,10 +165,10 @@ export default function AdminLoginPage() {
 
         {/* Footer Info */}
         <div className="mt-12 flex flex-col items-center gap-6">
-          <p className="text-[10px] font-black text-emerald-800 uppercase tracking-[0.3em] text-center max-w-[300px] leading-relaxed">
+          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] text-center max-w-[300px] leading-relaxed">
             Strictly authorized business use only. All access attempts are logged and monitored.
           </p>
-          <Link href="/" className="text-xs font-bold text-emerald-500 hover:text-white transition-colors underline underline-offset-4">
+          <Link href="/" className="text-xs font-bold text-primary hover:text-white transition-colors underline underline-offset-4">
             Return to Public Store
           </Link>
         </div>

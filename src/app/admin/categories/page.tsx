@@ -25,7 +25,7 @@ export default function AdminCategoriesPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <Folders className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Categories</h1>
@@ -33,7 +33,7 @@ export default function AdminCategoriesPage() {
           <p className="text-gray-500 font-medium">Organize your products into logical groups for better customer navigation.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button className="rounded-xl font-black shadow-lg shadow-emerald-500/20">
+          <Button className="rounded-xl font-black shadow-lg shadow-primary/20">
             <Plus className="mr-2 size-4" /> New Category
           </Button>
         </div>
@@ -61,21 +61,21 @@ export default function AdminCategoriesPage() {
           <section className="bg-emerald-950 p-8 rounded-[40px] text-white flex flex-col gap-6 relative overflow-hidden">
             <div className="relative z-10 flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <Info className="size-5 text-emerald-400" />
+                <Info className="size-5 text-primary/60" />
                 <h3 className="text-sm font-black uppercase tracking-widest">Hierarchy Guide</h3>
               </div>
               <ul className="flex flex-col gap-4">
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">1</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Drag and drop rows to reorder how they appear in the customer menu.</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">1</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Drag and drop rows to reorder how they appear in the customer menu.</p>
                 </li>
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">2</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Deactivating a parent category will hide all its subcategories from the store.</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">2</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Deactivating a parent category will hide all its subcategories from the store.</p>
                 </li>
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">3</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Categories with products cannot be deleted. Move products first.</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">3</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Categories with products cannot be deleted. Move products first.</p>
                 </li>
               </ul>
             </div>

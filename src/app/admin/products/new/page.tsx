@@ -23,7 +23,7 @@ export default function NewProductPage() {
       <div className="flex flex-col gap-6">
         <Link 
           href="/admin/products" 
-          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors w-fit uppercase tracking-widest"
+          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-primary transition-colors w-fit uppercase tracking-widest"
         >
           <ArrowLeft className="size-4" /> Back to Products
         </Link>
@@ -31,7 +31,7 @@ export default function NewProductPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-4">
-              <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
                 <PackagePlus className="size-6" />
               </div>
               <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">New Product</h1>

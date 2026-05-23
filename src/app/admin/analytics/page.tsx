@@ -40,7 +40,7 @@ export default function AdminAnalyticsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <BarChart3 className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Analytics</h1>
@@ -50,7 +50,7 @@ export default function AdminAnalyticsPage() {
         
         <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-white border border-gray-100 shadow-sm">
           <Calendar className="size-4 text-gray-400 ml-2" />
-          <Button variant="ghost" size="sm" className="rounded-xl font-bold text-emerald-600 bg-emerald-50">Last 7 Days</Button>
+          <Button variant="ghost" size="sm" className="rounded-xl font-bold text-primary bg-primary/5">Last 7 Days</Button>
           <Button variant="ghost" size="sm" className="rounded-xl font-bold text-gray-400 hover:text-gray-600">30 Days</Button>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function AdminAnalyticsPage() {
               className={cn(
                 "flex items-center gap-3 px-8 h-14 rounded-2xl transition-all duration-300 shrink-0",
                 isActive 
-                  ? "bg-emerald-600 text-white font-black shadow-lg shadow-emerald-200" 
+                  ? "bg-primary text-white font-black shadow-lg shadow-primary/20" 
                   : "text-gray-400 hover:bg-gray-50 hover:text-gray-600 font-bold"
               )}
             >

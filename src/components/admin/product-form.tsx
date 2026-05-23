@@ -283,7 +283,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
               <Globe className="size-4" /> SEO Preview (Auto)
             </h3>
             <div className="flex flex-col gap-2">
-              <span className="text-emerald-700 text-sm font-black underline line-clamp-1">https://varito.com/product/luxury-emerald-gold...</span>
+              <span className="text-primary text-sm font-black underline line-clamp-1">https://varito.com/product/luxury-emerald-gold...</span>
               <span className="text-blue-700 text-lg font-black line-clamp-2">Luxury Emerald Gold Faucet - Varito Solutions</span>
               <p className="text-gray-500 text-xs line-clamp-2 font-medium">Premium quality sanitary ware at the best price in Bangladesh...</p>
             </div>

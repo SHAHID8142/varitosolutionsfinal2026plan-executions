@@ -25,11 +25,11 @@ export default function NotFound() {
         <div className="max-w-md w-full text-center space-y-8 py-20">
           {/* Visual Element */}
           <div className="relative inline-block">
-            <div className="text-[120px] font-black text-emerald-100 leading-none select-none">
+            <div className="text-[120px] font-black text-primary/20 leading-none select-none">
               404
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white p-6 rounded-3xl shadow-xl shadow-emerald-500/10 border border-emerald-50">
+              <div className="bg-white p-6 rounded-3xl shadow-xl shadow-primary/10 border border-primary/10">
                 <Search className="size-16 text-primary" strokeWidth={1.5} />
               </div>
             </div>
@@ -51,19 +51,19 @@ export default function NotFound() {
           {/* Action Buttons */}
           <div className="grid grid-cols-1 gap-3 pt-4">
             <Link href="/" passHref>
-              <Button size="lg" className="w-full rounded-2xl h-14 font-black uppercase tracking-widest text-sm shadow-lg shadow-emerald-500/20">
+              <Button size="lg" className="w-full rounded-2xl h-14 font-black uppercase tracking-widest text-sm shadow-lg shadow-primary/20">
                 <Home className="mr-2 size-5" /> হোম পেজে ফিরে যান
               </Button>
             </Link>
             
             <div className="grid grid-cols-2 gap-3">
               <Link href="/products" passHref>
-                <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-emerald-100 text-emerald-700">
+                <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-primary/20 text-primary">
                   পণ্য দেখুন
                 </Button>
               </Link>
               <Link href="/contact" passHref>
-                <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-emerald-100 text-emerald-700">
+                <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-primary/20 text-primary">
                   যোগাযোগ
                 </Button>
               </Link>

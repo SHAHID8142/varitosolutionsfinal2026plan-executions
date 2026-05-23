@@ -89,14 +89,14 @@ const NEW_ARRIVALS = [
  */
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-emerald-50 py-16 lg:py-24">
+    <section className="relative overflow-hidden bg-primary/5 py-16 lg:py-24">
       {/* Background Decor */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 rounded-full bg-emerald-100/50 blur-3xl" />
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 rounded-full bg-primary/10/50 blur-3xl" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 size-96 rounded-full bg-accent-100/30 blur-3xl" />
 
       <div className="container relative mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
         <div className="flex flex-col gap-8 max-w-xl">
-          <Badge variant="verified" className="w-fit bg-white text-emerald-600 border-emerald-100">
+          <Badge variant="verified" className="w-fit bg-white text-primary border-primary/20">
             Trusted by 5,000+ Customers
           </Badge>
           
@@ -111,7 +111,7 @@ function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/products" className="flex-1 sm:flex-none">
-              <Button size="lg" className="w-full px-10 py-7 text-lg shadow-xl shadow-emerald-500/20 rounded-2xl">
+              <Button size="lg" className="w-full px-10 py-7 text-lg shadow-xl shadow-primary/20 rounded-2xl">
                 Shop Now <ArrowRight className="ml-2 size-5" />
               </Button>
             </Link>
@@ -123,17 +123,17 @@ function Hero() {
           </div>
 
           {/* Quick Stats */}
-          <div className="flex flex-wrap items-center gap-8 mt-4 pt-8 border-t border-emerald-100">
+          <div className="flex flex-wrap items-center gap-8 mt-4 pt-8 border-t border-primary/20">
             <div className="flex items-center gap-2">
-              <Truck className="size-5 text-emerald-500" />
+              <Truck className="size-5 text-primary" />
               <span className="text-sm font-bold text-gray-700">Free Shipping*</span>
             </div>
             <div className="flex items-center gap-2">
-              <ShieldCheck className="size-5 text-emerald-500" />
+              <ShieldCheck className="size-5 text-primary" />
               <span className="text-sm font-bold text-gray-700">Verified Quality</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap className="size-5 text-emerald-500" />
+              <Zap className="size-5 text-primary" />
               <span className="text-sm font-bold text-gray-700">Same Day Dispatch</span>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function HomeContent() {
         </section>
 
         {/* Trust Banner */}
-        <section className="py-20 bg-emerald-600 text-white overflow-hidden relative">
+        <section className="py-20 bg-primary text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 opacity-10 -translate-y-1/2 translate-x-1/4">
             <Package size={300} strokeWidth={1} />
           </div>
@@ -237,12 +237,12 @@ export default function HomeContent() {
               <h2 className="text-3xl md:text-5xl font-black leading-tight uppercase tracking-tight">
                 Bulk Orders for Construction or Business?
               </h2>
-              <p className="text-emerald-50 text-lg md:text-xl font-medium opacity-90 leading-relaxed">
+              <p className="text-white/90 text-lg md:text-xl font-medium opacity-90 leading-relaxed">
                 We offer special wholesale pricing for developers, contractors, and retail shop owners. 
                 Get direct delivery with the most competitive rates in Bangladesh.
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
-                <Button onClick={handleWholesaleQuote} size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-black px-10 h-16 rounded-2xl shadow-xl shadow-black/10 uppercase tracking-widest text-sm">
+                <Button onClick={handleWholesaleQuote} size="lg" className="bg-white text-primary hover:bg-primary/5 font-black px-10 h-16 rounded-2xl shadow-xl shadow-black/10 uppercase tracking-widest text-sm">
                   Get Wholesale Quote
                 </Button>
                 <a 

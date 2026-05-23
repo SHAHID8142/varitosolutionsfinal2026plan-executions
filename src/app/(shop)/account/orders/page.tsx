@@ -119,12 +119,12 @@ export default function MyOrdersPage() {
               </div>
 
               {/* Support Note */}
-              <div className="mt-12 p-6 rounded-3xl bg-emerald-600 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl shadow-emerald-500/20">
+              <div className="mt-12 p-6 rounded-3xl bg-primary text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl shadow-primary/20">
                 <div className="flex flex-col gap-1 text-center sm:text-left">
                   <h3 className="text-lg font-black tracking-tight">Need help with an order?</h3>
-                  <p className="text-sm text-emerald-50 opacity-90 font-medium">Our customer support is available 24/7 for your assistance.</p>
+                  <p className="text-sm text-white/90 opacity-90 font-medium">Our customer support is available 24/7 for your assistance.</p>
                 </div>
-                <Button variant="secondary" className="bg-white text-emerald-600 font-black px-8">
+                <Button variant="secondary" className="bg-white text-primary font-black px-8">
                   Contact Support
                 </Button>
               </div>

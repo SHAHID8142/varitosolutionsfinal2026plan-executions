@@ -58,7 +58,7 @@ export default function CheckoutPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Checkout</h1>
-                <Badge variant="verified" className="h-7 px-3 bg-emerald-50 text-emerald-600 border-emerald-100 flex gap-1.5 items-center">
+                <Badge variant="verified" className="h-7 px-3 bg-primary/5 text-primary border-primary/20 flex gap-1.5 items-center">
                   <Lock className="size-3" /> Secure Transaction
                 </Badge>
               </div>
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
               {/* 1. Delivery Address */}
               <section className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 px-1">
-                  <div className="size-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-black text-sm">1</div>
+                  <div className="size-8 rounded-full bg-primary text-white flex items-center justify-center font-black text-sm">1</div>
                   <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Delivery Address</h2>
                 </div>
                 <AddressForm />
@@ -82,7 +82,7 @@ export default function CheckoutPage() {
               {/* 2. Payment Method */}
               <section className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 px-1">
-                  <div className="size-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-black text-sm">2</div>
+                  <div className="size-8 rounded-full bg-primary text-white flex items-center justify-center font-black text-sm">2</div>
                   <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Payment Method</h2>
                 </div>
                 <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
@@ -95,7 +95,7 @@ export default function CheckoutPage() {
 
               {/* Secure Checkout Note */}
               <div className="flex items-center gap-3 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
-                <ShieldCheck className="size-10 text-emerald-500 shrink-0" />
+                <ShieldCheck className="size-10 text-primary shrink-0" />
                 <div className="flex flex-col gap-0.5">
                   <span className="text-sm font-black text-gray-900 uppercase tracking-wide">SSL Secure Payment</span>
                   <p className="text-xs text-gray-500 font-medium leading-relaxed">
@@ -117,7 +117,7 @@ export default function CheckoutPage() {
 
               <Button 
                 size="lg" 
-                className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3"
+                className="w-full py-8 text-xl font-black shadow-xl shadow-primary/20 gap-3"
                 onClick={handlePlaceOrder}
                 loading={isPlacingOrder}
               >

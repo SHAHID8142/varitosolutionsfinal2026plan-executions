@@ -48,14 +48,14 @@ export default function AdminSettingsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <Settings className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Settings</h1>
           </div>
           <p className="text-gray-500 font-medium">Global configuration for your e-commerce platform.</p>
         </div>
-        <Button onClick={handleSave} className="rounded-xl font-black shadow-lg shadow-emerald-500/20 gap-2 h-12 px-8">
+        <Button onClick={handleSave} className="rounded-xl font-black shadow-lg shadow-primary/20 gap-2 h-12 px-8">
           <Save className="size-5" /> Save All Changes
         </Button>
       </div>
@@ -74,7 +74,7 @@ export default function AdminSettingsPage() {
                 className={cn(
                   "flex items-center gap-3 px-6 h-12 rounded-2xl transition-all duration-300",
                   isActive 
-                    ? "bg-emerald-50 text-emerald-700 font-black" 
+                    ? "bg-primary/5 text-primary font-black" 
                     : "text-gray-400 hover:bg-gray-50 hover:text-gray-600 font-bold"
                 )}
               >
@@ -134,7 +134,7 @@ export default function AdminSettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="bg-gray-50 p-6 rounded-[32px] border border-gray-100 flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="size-8 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-emerald-600">
+                      <div className="size-8 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-primary">
                         <MapPin className="size-4" />
                       </div>
                       <span className="text-sm font-black text-gray-900 uppercase tracking-widest">Inside Dhaka</span>
@@ -159,13 +159,13 @@ export default function AdminSettingsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-6 rounded-[32px] bg-emerald-50 border border-emerald-100">
+                <div className="flex items-center justify-between p-6 rounded-[32px] bg-primary/5 border border-primary/20">
                   <div className="flex flex-col">
                     <span className="text-sm font-black text-emerald-900">Free Shipping Threshold</span>
-                    <span className="text-xs font-bold text-emerald-600">Free delivery on orders above this amount.</span>
+                    <span className="text-xs font-bold text-primary">Free delivery on orders above this amount.</span>
                   </div>
                   <div className="w-32">
-                    <Input type="number" defaultValue="5000" className="h-12 rounded-xl border-emerald-200 bg-white font-black text-center" />
+                    <Input type="number" defaultValue="5000" className="h-12 rounded-xl border-primary/30 bg-white font-black text-center" />
                   </div>
                 </div>
               </section>
@@ -187,24 +187,24 @@ export default function AdminSettingsPage() {
                       </div>
                       <div className="flex flex-col">
                         <span className="text-sm font-black text-gray-900 uppercase tracking-widest">bKash (AamarPay)</span>
-                        <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Connected</span>
+                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Connected</span>
                       </div>
                     </div>
                     <Button variant="ghost" className="rounded-xl font-bold text-gray-400">Configure</Button>
                   </div>
 
                   {/* Cash on Delivery */}
-                  <div className="flex items-center justify-between p-6 rounded-[32px] border border-gray-100 bg-emerald-50/30 border-emerald-100">
+                  <div className="flex items-center justify-between p-6 rounded-[32px] border border-gray-100 bg-primary/5 border-primary/20">
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-2xl bg-white border border-emerald-100 flex items-center justify-center shrink-0 text-emerald-600">
+                      <div className="size-12 rounded-2xl bg-white border border-primary/20 flex items-center justify-center shrink-0 text-primary">
                         <DollarSign className="size-6" />
                       </div>
                       <div className="flex flex-col">
                         <span className="text-sm font-black text-emerald-900 uppercase tracking-widest">Cash on Delivery</span>
-                        <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Enabled Globally</span>
+                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Enabled Globally</span>
                       </div>
                     </div>
-                    <div className="w-12 h-6 bg-emerald-600 rounded-full relative">
+                    <div className="w-12 h-6 bg-primary rounded-full relative">
                       <div className="absolute right-1 top-1 size-4 bg-white rounded-full shadow-sm" />
                     </div>
                   </div>

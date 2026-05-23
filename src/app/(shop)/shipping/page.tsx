@@ -61,8 +61,8 @@ export default function ShippingPage() {
       <main className="flex-1">
         
         {/* Hero Section */}
-        <section className="py-20 bg-emerald-50 relative overflow-hidden text-center">
-          <div className="absolute bottom-0 right-0 size-96 bg-emerald-100/50 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        <section className="py-20 bg-primary/5 relative overflow-hidden text-center">
+          <div className="absolute bottom-0 right-0 size-96 bg-primary/10/50 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
           
           <div className="container mx-auto px-4 relative z-10">
             <Breadcrumb
@@ -143,7 +143,7 @@ export default function ShippingPage() {
                     { step: "04", title: "Fast Delivery", desc: "Delivered directly to your doorstep." },
                   ].map((s, i) => (
                     <div key={i} className="flex gap-5">
-                      <div className="text-2xl font-black text-emerald-100 leading-none">{s.step}</div>
+                      <div className="text-2xl font-black text-primary/20 leading-none">{s.step}</div>
                       <div className="flex flex-col gap-1">
                         <h4 className="font-black text-gray-900 leading-none">{s.title}</h4>
                         <p className="text-sm text-gray-500 font-medium">{s.desc}</p>
@@ -153,9 +153,9 @@ export default function ShippingPage() {
                 </div>
               </div>
 
-              <div className="p-8 rounded-3xl bg-emerald-600 text-white flex flex-col gap-4 shadow-xl shadow-emerald-500/20">
+              <div className="p-8 rounded-3xl bg-primary text-white flex flex-col gap-4 shadow-xl shadow-primary/20">
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 className="size-6 text-emerald-200" />
+                  <CheckCircle2 className="size-6 text-primary/30" />
                   <span className="font-black uppercase tracking-widest text-sm">Live Tracking</span>
                 </div>
                 <p className="text-sm font-medium opacity-90 leading-relaxed">Every order includes a tracking number sent via SMS the moment your package is dispatched.</p>

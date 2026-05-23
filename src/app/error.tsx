@@ -68,13 +68,13 @@ export default function Error({
             <Button 
               onClick={reset}
               size="lg" 
-              className="w-full rounded-2xl h-14 font-black uppercase tracking-widest text-sm shadow-lg shadow-emerald-500/20"
+              className="w-full rounded-2xl h-14 font-black uppercase tracking-widest text-sm shadow-lg shadow-primary/20"
             >
               <RefreshCcw className="mr-2 size-5" /> আবার চেষ্টা করুন
             </Button>
             
             <Link href="/" passHref>
-              <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-emerald-100 text-emerald-700">
+              <Button variant="outline" size="lg" className="w-full rounded-2xl h-14 font-bold bg-white border-primary/20 text-primary">
                 <Home className="mr-2 size-5" /> হোমে ফিরে যান
               </Button>
             </Link>

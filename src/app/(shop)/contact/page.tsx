@@ -57,7 +57,7 @@ function InfoCard({ icon: Icon, title, content, subContent, href, iconClassName 
 
   return (
     <div className="flex items-start gap-5 p-6 rounded-3xl bg-white border border-gray-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
-      <div className={`size-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${iconClassName || 'bg-emerald-50 text-emerald-600'}`}>
+      <div className={`size-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${iconClassName || 'bg-primary/5 text-primary'}`}>
         <Icon className="size-6" />
       </div>
       {href ? (
@@ -98,15 +98,15 @@ export default function ContactPage() {
         
         {/* Header Section */}
         <section className="py-12 md:py-20 bg-emerald-950 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 size-96 bg-emerald-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 right-0 size-96 bg-primary/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
           
           <div className="container mx-auto px-4 relative z-10 text-center">
             <Breadcrumb
               items={[{ label: "Contact Us" }]}
-              className="mb-8 justify-center [&_*]:text-emerald-100/60"
+              className="mb-8 justify-center [&_*]:text-primary/20/60"
             />
             <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase mb-6">Get in Touch</h1>
-            <p className="text-emerald-100/80 text-lg md:text-xl font-medium max-w-2xl mx-auto">
+            <p className="text-primary/20/80 text-lg md:text-xl font-medium max-w-2xl mx-auto">
               Have a question about our products or need a bulk quote? We&apos;re here to help you build better.
             </p>
           </div>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                 content="Chat on WhatsApp" 
                 subContent="Fastest response time"
                 href="https://wa.me/8801814214220"
-                iconClassName="bg-emerald-500 text-white"
+                iconClassName="bg-primary text-white"
               />
               <InfoCard 
                 icon={Mail} 
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 className="bg-white p-8 md:p-12 rounded-[32px] border border-gray-100 shadow-xl flex flex-col gap-8"
               >
                 <div className="flex flex-col gap-2">
-                  <Badge variant="verified" className="w-fit bg-emerald-50 text-emerald-600 border-emerald-100 font-bold uppercase tracking-wider">
+                  <Badge variant="verified" className="w-fit bg-primary/5 text-primary border-primary/20 font-bold uppercase tracking-wider">
                     Quick Response
                   </Badge>
                   <h2 className="text-3xl font-black text-gray-900 tracking-tight">Send us a Message</h2>
@@ -188,7 +188,7 @@ export default function ContactPage() {
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3 rounded-2xl"
+                  className="w-full py-8 text-xl font-black shadow-xl shadow-primary/20 gap-3 rounded-2xl"
                   loading={isSubmitting}
                 >
                   <Send className="size-6" /> Send Message
@@ -204,7 +204,7 @@ export default function ContactPage() {
           {/* FAQ Preview */}
           <section className="mt-24">
              <div className="flex flex-col items-center text-center gap-4 mb-12">
-               <div className="size-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+               <div className="size-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary">
                  <MessageSquare className="size-6" />
                </div>
                <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Quick Help</h2>
@@ -226,7 +226,7 @@ export default function ContactPage() {
              
              <div className="mt-12 text-center">
                <Link href="/help">
-                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-emerald-50 rounded-xl">
+                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-primary/5 rounded-xl">
                     Visit Help Center <ArrowRight className="ml-2 size-4" />
                  </Button>
                </Link>

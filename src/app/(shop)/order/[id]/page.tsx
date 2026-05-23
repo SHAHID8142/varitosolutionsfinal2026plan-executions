@@ -72,8 +72,8 @@ export default function OrderConfirmationPage() {
           
           {/* Success Header */}
           <div className="flex flex-col items-center text-center gap-6 mb-12">
-            <div className="size-20 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 animate-in zoom-in-50 duration-500">
-              <CheckCircle2 className="size-12 fill-emerald-600 text-white stroke-[2.5px]" />
+            <div className="size-20 rounded-full bg-primary/10 flex items-center justify-center text-primary animate-in zoom-in-50 duration-500">
+              <CheckCircle2 className="size-12 fill-primary text-white stroke-[2.5px]" />
             </div>
             <div className="flex flex-col gap-2">
               <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">
@@ -84,7 +84,7 @@ export default function OrderConfirmationPage() {
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              <Badge variant="verified" className="bg-emerald-50 text-emerald-600 border-emerald-100 py-1.5 px-4 rounded-full font-bold">
+              <Badge variant="verified" className="bg-primary/5 text-primary border-primary/20 py-1.5 px-4 rounded-full font-bold">
                 SMS Confirmation Sent
               </Badge>
               <Badge variant="cod" className="py-1.5 px-4 rounded-full font-bold uppercase">
@@ -101,7 +101,7 @@ export default function OrderConfirmationPage() {
               {/* Items List */}
               <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
                 <h2 className="text-lg font-black text-gray-900 uppercase tracking-tight mb-6 flex items-center gap-2">
-                  <Package className="size-5 text-emerald-600" /> Order Items
+                  <Package className="size-5 text-primary" /> Order Items
                 </h2>
                 <div className="flex flex-col gap-4">
                   {MOCK_ORDER.items.map((item, i) => (
@@ -135,7 +135,7 @@ export default function OrderConfirmationPage() {
                   </div>
                   <div className="flex justify-between items-center pt-2">
                     <span className="text-base font-black text-gray-900 uppercase tracking-tight">Total Amount</span>
-                    <span className="text-2xl font-black text-emerald-600">{formatPrice(MOCK_ORDER.total)}</span>
+                    <span className="text-2xl font-black text-primary">{formatPrice(MOCK_ORDER.total)}</span>
                   </div>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function OrderConfirmationPage() {
               {/* Delivery Details */}
               <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
                 <h2 className="text-lg font-black text-gray-900 uppercase tracking-tight mb-6 flex items-center gap-2">
-                  <Truck className="size-5 text-emerald-600" /> Delivery Details
+                  <Truck className="size-5 text-primary" /> Delivery Details
                 </h2>
                 <div className="flex flex-col gap-4">
                   <div className="flex gap-4">
@@ -174,13 +174,13 @@ export default function OrderConfirmationPage() {
 
             {/* RIGHT: Actions */}
             <div className="md:col-span-5 flex flex-col gap-6">
-              <div className="bg-emerald-600 rounded-3xl p-8 text-white flex flex-col gap-6 shadow-xl shadow-emerald-600/20">
+              <div className="bg-primary rounded-3xl p-8 text-white flex flex-col gap-6 shadow-xl shadow-primary/20">
                 <h3 className="text-xl font-black">Need any help?</h3>
-                <p className="text-emerald-50 opacity-90 font-medium">
+                <p className="text-white/90 opacity-90 font-medium">
                   If you have any questions regarding your order, feel free to contact our support team. We are available 24/7.
                 </p>
                 <div className="flex flex-col gap-3">
-                  <Button variant="secondary" className="w-full bg-white text-emerald-600 font-black py-6">
+                  <Button variant="secondary" className="w-full bg-white text-primary font-black py-6">
                     Track Order Status
                   </Button>
                   <Button variant="ghost" className="w-full text-white hover:bg-white/10 font-bold border border-white/20">
@@ -191,7 +191,7 @@ export default function OrderConfirmationPage() {
 
               <div className="flex flex-col gap-4">
                 <Link href="/">
-                  <Button variant="primary" size="lg" className="w-full py-8 text-lg font-black shadow-lg shadow-emerald-500/10">
+                  <Button variant="primary" size="lg" className="w-full py-8 text-lg font-black shadow-lg shadow-primary/10">
                     <ShoppingBag className="size-5 mr-2" /> Continue Shopping
                   </Button>
                 </Link>

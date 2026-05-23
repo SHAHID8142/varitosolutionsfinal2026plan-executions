@@ -31,7 +31,7 @@ export default function AdminContentPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <ImageIcon className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Content</h1>
@@ -52,7 +52,7 @@ export default function AdminContentPage() {
               className={cn(
                 "flex items-center gap-3 px-8 h-14 rounded-2xl transition-all duration-300 shrink-0",
                 isActive 
-                  ? "bg-emerald-600 text-white font-black shadow-lg shadow-emerald-200" 
+                  ? "bg-primary text-white font-black shadow-lg shadow-primary/20" 
                   : "text-gray-400 hover:bg-gray-50 hover:text-gray-600 font-bold"
               )}
             >
@@ -88,25 +88,25 @@ export default function AdminContentPage() {
           <section className="bg-emerald-950 p-8 rounded-[40px] text-white flex flex-col gap-6 relative overflow-hidden">
             <div className="relative z-10 flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <Info className="size-5 text-emerald-400" />
+                <Info className="size-5 text-primary/60" />
                 <h3 className="text-sm font-black uppercase tracking-widest">Image Guidelines</h3>
               </div>
               <ul className="flex flex-col gap-4">
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">1</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Hero banners: 1200x400px (3:1 aspect ratio).</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">1</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Hero banners: 1200x400px (3:1 aspect ratio).</p>
                 </li>
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">2</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Keep text away from the edges to avoid mobile cropping.</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">2</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Keep text away from the edges to avoid mobile cropping.</p>
                 </li>
                 <li className="flex gap-3">
-                  <div className="size-5 rounded-full bg-emerald-800 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">3</div>
-                  <p className="text-xs font-medium text-emerald-100/60 leading-relaxed">Use high-contrast PNG or WebP for crisp text rendering.</p>
+                  <div className="size-5 rounded-full bg-primary/80 flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">3</div>
+                  <p className="text-xs font-medium text-primary/20/60 leading-relaxed">Use high-contrast PNG or WebP for crisp text rendering.</p>
                 </li>
               </ul>
             </div>
-            <ImageIcon className="absolute -right-8 -bottom-8 size-48 text-emerald-900/40 rotate-12" />
+            <ImageIcon className="absolute -right-8 -bottom-8 size-48 text-primary/30 rotate-12" />
           </section>
 
           <section className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm flex flex-col gap-6">

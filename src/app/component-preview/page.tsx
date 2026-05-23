@@ -193,7 +193,7 @@ export default function ComponentPreviewPage() {
             </div>
             <div className="flex flex-col gap-4">
               <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">Glassmorphism</span>
-              <div className="relative h-32 rounded-2xl overflow-hidden bg-emerald-500 p-6 flex items-center justify-center">
+              <div className="relative h-32 rounded-2xl overflow-hidden bg-primary p-6 flex items-center justify-center">
                 <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-4 text-white font-bold shadow-xl">
                   Backdrop Blur Effect
                 </div>

@@ -60,7 +60,7 @@ export default function OrderPrintPage() {
         <Button 
           variant="ghost" 
           size="sm" 
-          className="rounded-xl h-10 px-4 gap-2 font-bold text-gray-500 hover:text-emerald-600"
+          className="rounded-xl h-10 px-4 gap-2 font-bold text-gray-500 hover:text-primary"
           onClick={() => window.history.back()}
         >
           <ArrowLeft className="size-4" /> Exit
@@ -71,7 +71,7 @@ export default function OrderPrintPage() {
         <Button 
           variant={view === "invoice" ? "secondary" : "ghost"}
           size="sm" 
-          className={view === "invoice" ? "bg-emerald-50 text-emerald-700 font-black rounded-xl h-10 px-6 gap-2" : "rounded-xl h-10 px-6 gap-2 font-bold text-gray-500"}
+          className={view === "invoice" ? "bg-primary/5 text-primary font-black rounded-xl h-10 px-6 gap-2" : "rounded-xl h-10 px-6 gap-2 font-bold text-gray-500"}
           onClick={() => setView("invoice")}
         >
           <FileText className="size-4" /> A4 Invoice
@@ -79,7 +79,7 @@ export default function OrderPrintPage() {
         <Button 
           variant={view === "label" ? "secondary" : "ghost"}
           size="sm" 
-          className={view === "label" ? "bg-emerald-50 text-emerald-700 font-black rounded-xl h-10 px-6 gap-2" : "rounded-xl h-10 px-6 gap-2 font-bold text-gray-500"}
+          className={view === "label" ? "bg-primary/5 text-primary font-black rounded-xl h-10 px-6 gap-2" : "rounded-xl h-10 px-6 gap-2 font-bold text-gray-500"}
           onClick={() => setView("label")}
         >
           <Tag className="size-4" /> Thermal Label
@@ -90,7 +90,7 @@ export default function OrderPrintPage() {
         <Button 
           onClick={handlePrint}
           size="sm" 
-          className="rounded-xl h-10 px-6 gap-2 font-black shadow-lg shadow-emerald-500/20"
+          className="rounded-xl h-10 px-6 gap-2 font-black shadow-lg shadow-primary/20"
         >
           <Printer className="size-4" /> Print Document
         </Button>

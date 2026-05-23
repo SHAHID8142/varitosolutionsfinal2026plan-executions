@@ -42,7 +42,7 @@ function SidebarLink({ href, icon: Icon, label, active }: { href: string, icon: 
   return (
     <Link 
       href={href}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${active ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${active ? 'bg-primary text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}
     >
       <Icon className="size-5" />
       <span className="text-sm uppercase tracking-wider">{label}</span>
@@ -196,7 +196,7 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-white p-6 rounded-3xl border border-primary ring-4 ring-primary/5 shadow-sm flex flex-col gap-4 relative">
                     <div className="flex items-center justify-between">
-                      <Badge variant="verified" className="bg-emerald-50 text-emerald-600">Home</Badge>
+                      <Badge variant="verified" className="bg-primary/5 text-primary">Home</Badge>
                       <button 
                         className="text-gray-400 hover:text-gray-900 transition-colors"
                         onClick={() => handleEditAddress("Home")}

@@ -73,14 +73,14 @@ export default function CustomerDetailPage() {
       <div className="flex flex-col gap-6">
         <Link 
           href="/admin/customers" 
-          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors w-fit uppercase tracking-widest"
+          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-primary transition-colors w-fit uppercase tracking-widest"
         >
           <ArrowLeft className="size-4" /> Back to Customers
         </Link>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
-            <div className="size-16 md:size-20 rounded-3xl bg-emerald-600 flex items-center justify-center text-white shadow-xl shadow-emerald-200">
+            <div className="size-16 md:size-20 rounded-3xl bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/20">
               <User className="size-8 md:size-10" />
             </div>
             <div className="flex flex-col">
@@ -105,7 +105,7 @@ export default function CustomerDetailPage() {
             >
               {isBanned ? <><CheckCircle2 className="size-4" /> Reactivate Account</> : <><Ban className="size-4" /> Ban Customer</>}
             </Button>
-            <Button className="h-12 px-8 rounded-xl font-black shadow-lg shadow-emerald-500/20 uppercase tracking-widest text-xs">
+            <Button className="h-12 px-8 rounded-xl font-black shadow-lg shadow-primary/20 uppercase tracking-widest text-xs">
               Edit Profile
             </Button>
           </div>
@@ -137,7 +137,7 @@ export default function CustomerDetailPage() {
           <section className="bg-white rounded-[40px] border border-gray-100 shadow-sm overflow-hidden flex flex-col">
             <div className="p-8 border-b border-gray-50 flex items-center justify-between">
               <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight flex items-center gap-3">
-                <History className="text-emerald-600 size-6" /> Order History
+                <History className="text-primary size-6" /> Order History
               </h2>
             </div>
             
@@ -197,18 +197,18 @@ export default function CustomerDetailPage() {
             
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
-                <Phone className="size-5 text-emerald-600 shrink-0 mt-0.5" />
+                <Phone className="size-5 text-primary shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone Number</span>
-                  <a href={`tel:${CUSTOMER.phone}`} className="text-sm font-black text-gray-900 hover:text-emerald-600 transition-colors">{CUSTOMER.phone}</a>
+                  <a href={`tel:${CUSTOMER.phone}`} className="text-sm font-black text-gray-900 hover:text-primary transition-colors">{CUSTOMER.phone}</a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <Mail className="size-5 text-emerald-600 shrink-0 mt-0.5" />
+                <Mail className="size-5 text-primary shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</span>
-                  <a href={`mailto:${CUSTOMER.email}`} className="text-sm font-bold text-gray-700 hover:text-emerald-600 transition-colors">{CUSTOMER.email}</a>
+                  <a href={`mailto:${CUSTOMER.email}`} className="text-sm font-bold text-gray-700 hover:text-primary transition-colors">{CUSTOMER.email}</a>
                 </div>
               </div>
             </div>
@@ -221,11 +221,11 @@ export default function CustomerDetailPage() {
             <div className="flex flex-col gap-6">
               {CUSTOMER.addresses.map((addr, i) => (
                 <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-50">
-                  <MapPin className="size-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <MapPin className="size-5 text-primary shrink-0 mt-0.5" />
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-black text-gray-900 uppercase tracking-widest">{addr.type}</span>
-                      {addr.isDefault && <Badge className="text-[8px] h-3.5 px-1 bg-emerald-500 text-white border-none uppercase">Default</Badge>}
+                      {addr.isDefault && <Badge className="text-[8px] h-3.5 px-1 bg-primary text-white border-none uppercase">Default</Badge>}
                     </div>
                     <p className="text-xs font-bold text-gray-500 leading-relaxed">{addr.text}</p>
                   </div>

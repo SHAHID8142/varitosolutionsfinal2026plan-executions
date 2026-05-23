@@ -84,7 +84,7 @@ export default function FlashDealsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center">
               <Zap className="size-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">Flash Deals</h1>
@@ -93,7 +93,7 @@ export default function FlashDealsPage() {
         </div>
         
         <Link href="/admin/flash-deals/new">
-          <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase tracking-widest text-sm shadow-xl shadow-emerald-500/20">
+          <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase tracking-widest text-sm shadow-xl shadow-primary/20">
             <Plus className="mr-2 size-5" /> New Flash Deal
           </Button>
         </Link>

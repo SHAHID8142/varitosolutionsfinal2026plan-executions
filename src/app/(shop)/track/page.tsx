@@ -55,15 +55,15 @@ export default function TrackOrderPage() {
         
         {/* Immersive Header */}
         <section className="py-16 md:py-24 bg-emerald-950 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 size-96 bg-emerald-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 right-0 size-96 bg-primary/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
           
           <div className="container mx-auto px-4 relative z-10 text-center">
             <Breadcrumb
               items={[{ label: "Track Order" }]}
-              className="mb-8 justify-center [&_*]:text-emerald-100/60"
+              className="mb-8 justify-center [&_*]:text-primary/20/60"
             />
             <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase mb-6">Track Your Order</h1>
-            <p className="text-emerald-100/80 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+            <p className="text-primary/20/80 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
               Enter your order details below to see the current status of your delivery.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function TrackOrderPage() {
               className="bg-white p-8 md:p-12 rounded-[40px] border border-gray-100 shadow-2xl flex flex-col gap-8"
             >
               <div className="flex flex-col gap-2">
-                <Badge variant="verified" className="w-fit bg-emerald-50 text-emerald-600 border-emerald-100 font-bold uppercase tracking-wider">
+                <Badge variant="verified" className="w-fit bg-primary/5 text-primary border-primary/20 font-bold uppercase tracking-wider">
                   Real-time Updates
                 </Badge>
                 <h2 className="text-3xl font-black text-gray-900 tracking-tight">Order Details</h2>
@@ -105,14 +105,14 @@ export default function TrackOrderPage() {
               <Button 
                 type="submit" 
                 size="lg" 
-                className="w-full py-8 text-xl font-black shadow-xl shadow-emerald-500/20 gap-3"
+                className="w-full py-8 text-xl font-black shadow-xl shadow-primary/20 gap-3"
                 loading={isSearching}
               >
                 <Search className="size-6" /> Track Order Status
               </Button>
 
               <div className="flex items-start gap-3 p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                <Info className="size-5 text-emerald-600 shrink-0 mt-0.5" />
+                <Info className="size-5 text-primary shrink-0 mt-0.5" />
                 <p className="text-xs text-gray-500 font-medium leading-relaxed">
                   The Order ID was sent to your phone via SMS and also listed in the confirmation email you received after placing your order.
                 </p>
@@ -122,7 +122,7 @@ export default function TrackOrderPage() {
             {/* Quick Trust Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
-                <div className="size-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+                <div className="size-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
                   <Truck className="size-6" />
                 </div>
                 <div className="flex flex-col">
@@ -131,7 +131,7 @@ export default function TrackOrderPage() {
                 </div>
               </div>
               <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
-                <div className="size-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+                <div className="size-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
                   <ShieldCheck className="size-6" />
                 </div>
                 <div className="flex flex-col">
@@ -145,7 +145,7 @@ export default function TrackOrderPage() {
             <div className="text-center py-8">
                <p className="text-gray-500 font-medium mb-4">Can&apos;t find your order details?</p>
                <Link href="/contact">
-                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-emerald-50">
+                 <Button variant="ghost" className="font-black uppercase tracking-widest text-primary hover:bg-primary/5">
                     Contact Support <ArrowRight className="ml-2 size-4" />
                  </Button>
                </Link>
