@@ -43,7 +43,7 @@ export function FlashDealsTable({ deals }: { deals: FlashDeal[] }) {
   const getStatusBadge = (status: FlashDealStatus) => {
     switch (status) {
       case "active":
-        return <Badge className="bg-emerald-500 text-white border-transparent">Active</Badge>
+        return <Badge className="bg-primary text-white border-transparent">Active</Badge>
       case "scheduled":
         return <Badge className="bg-blue-500 text-white border-transparent">Scheduled</Badge>
       case "expired":
@@ -93,7 +93,7 @@ export function FlashDealsTable({ deals }: { deals: FlashDeal[] }) {
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="text-sm font-black text-emerald-600">৳{deal.flashPrice}</span>
+                      <span className="text-sm font-black text-primary">৳{deal.flashPrice}</span>
                       <span className="text-xs text-gray-400 font-bold line-through">৳{deal.product?.price}</span>
                     </div>
                   </td>
@@ -109,7 +109,7 @@ export function FlashDealsTable({ deals }: { deals: FlashDeal[] }) {
                       {deal.maxQty && (
                         <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-emerald-500 rounded-full" 
+                            className="h-full bg-primary rounded-full" 
                             style={{ width: `${Math.min(100, (deal.soldQty / deal.maxQty) * 100)}%` }}
                           />
                         </div>
@@ -135,7 +135,7 @@ export function FlashDealsTable({ deals }: { deals: FlashDeal[] }) {
                             </>
                           ) : (
                             <>
-                              <Power className="mr-2 size-4 text-emerald-400" /> Activate Deal
+                              <Power className="mr-2 size-4 text-primary/60" /> Activate Deal
                             </>
                           )}
                         </DropdownMenuItem>

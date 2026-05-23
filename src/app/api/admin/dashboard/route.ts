@@ -9,13 +9,9 @@
 
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { orders, products, orderItems } from "@/db/schema"
-import { and, eq, gte, lt, lte, isNull, count, sum, desc } from "drizzle-orm"
+import { orders, products } from "@/db/schema"
+import { and, count, desc, eq, gte, isNull, lt, lte, sum } from "drizzle-orm"
 import { requireAdmin, isAuthError } from "@/lib/admin-auth"
-
-// ─────────────────────────────────────────────
-// HANDLER
-// ─────────────────────────────────────────────
 
 export async function GET(request: Request) {
   const admin = await requireAdmin(request)
@@ -29,67 +25,47 @@ export async function GET(request: Request) {
   lastWeekStart.setDate(lastWeekStart.getDate() - 7)
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
 
-  // Parallel queries for performance
   const [
-    todayOrders,
-    thisWeekOrders,
-    lastWeekOrders,
-    thisMonthRevenue,
-    pendingOrders,
+    todayStats,
+    thisWeekStats,
+    lastWeekStats,
+    monthStats,
+    pendingStats,
     lowStockProducts,
     recentOrders,
   ] = await Promise.all([
-    // Today orders + revenue
     db
       .select({ count: count(), revenue: sum(orders.total) })
       .from(orders)
-      .where(and(gte(orders.createdAt, todayStart), isNull(orders.deletedAt))),
+      .where(gte(orders.createdAt, todayStart)),
 
-    // This week
     db
       .select({ count: count(), revenue: sum(orders.total) })
       .from(orders)
-      .where(
-        and(
-          gte(orders.createdAt, weekStart),
-          lt(orders.createdAt, now),
-          isNull(orders.deletedAt)
-        )
-      ),
+      .where(and(gte(orders.createdAt, weekStart), lt(orders.createdAt, now))),
 
-    // Last week (for % change)
     db
       .select({ count: count(), revenue: sum(orders.total) })
       .from(orders)
-      .where(
-        and(
-          gte(orders.createdAt, lastWeekStart),
-          lt(orders.createdAt, weekStart),
-          isNull(orders.deletedAt)
-        )
-      ),
+      .where(and(gte(orders.createdAt, lastWeekStart), lt(orders.createdAt, weekStart))),
 
-    // This month revenue
     db
       .select({ revenue: sum(orders.total) })
       .from(orders)
-      .where(and(gte(orders.createdAt, monthStart), isNull(orders.deletedAt))),
+      .where(gte(orders.createdAt, monthStart)),
 
-    // Pending orders
     db
       .select({ count: count() })
       .from(orders)
-      .where(and(eq(orders.status, "pending"), isNull(orders.deletedAt))),
+      .where(eq(orders.status, "pending")),
 
-    // Low stock (< 10 units)
     db
       .select({ id: products.id, name: products.name, stock: products.stock, slug: products.slug })
       .from(products)
-      .where(and(lte(products.stock, 10), isNull(products.deletedAt), eq(products.isActive, true)))
+      .where(and(isNull(products.deletedAt), eq(products.isActive, true), lte(products.stock, 10)))
       .orderBy(products.stock)
       .limit(10),
 
-    // Recent 10 orders
     db
       .select({
         id: orders.id,
@@ -97,17 +73,16 @@ export async function GET(request: Request) {
         status: orders.status,
         paymentStatus: orders.paymentStatus,
         total: orders.total,
-        shippingName: orders.shippingName,
+        customerName: orders.customerName,
         createdAt: orders.createdAt,
       })
       .from(orders)
-      .where(isNull(orders.deletedAt))
       .orderBy(desc(orders.createdAt))
       .limit(10),
   ])
 
-  const thisWeekRevenue = parseFloat(String(thisWeekOrders[0].revenue ?? 0))
-  const lastWeekRevenue = parseFloat(String(lastWeekOrders[0].revenue ?? 0))
+  const thisWeekRevenue = parseFloat(String(thisWeekStats[0].revenue ?? 0))
+  const lastWeekRevenue = parseFloat(String(lastWeekStats[0].revenue ?? 0))
   const weekChangePercent =
     lastWeekRevenue === 0
       ? 100
@@ -116,18 +91,18 @@ export async function GET(request: Request) {
   return NextResponse.json({
     data: {
       today: {
-        orders: Number(todayOrders[0].count),
-        revenue: parseFloat(String(todayOrders[0].revenue ?? 0)),
+        orders: Number(todayStats[0].count),
+        revenue: parseFloat(String(todayStats[0].revenue ?? 0)),
       },
       thisWeek: {
-        orders: Number(thisWeekOrders[0].count),
+        orders: Number(thisWeekStats[0].count),
         revenue: thisWeekRevenue,
         changePercent: weekChangePercent,
       },
       thisMonth: {
-        revenue: parseFloat(String(thisMonthRevenue[0].revenue ?? 0)),
+        revenue: parseFloat(String(monthStats[0].revenue ?? 0)),
       },
-      pendingOrders: Number(pendingOrders[0].count),
+      pendingOrders: Number(pendingStats[0].count),
       lowStockAlerts: lowStockProducts.map((p) => ({
         id: String(p.id),
         name: p.name,
@@ -140,8 +115,8 @@ export async function GET(request: Request) {
         status: o.status,
         paymentStatus: o.paymentStatus,
         total: parseFloat(o.total),
-        customerName: o.shippingName,
-        createdAt: o.createdAt?.toISOString(),
+        customerName: o.customerName,
+        createdAt: o.createdAt.toISOString(),
       })),
     },
   })

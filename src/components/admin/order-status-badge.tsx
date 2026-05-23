@@ -54,7 +54,7 @@ const STATUS_CONFIG: Record<OrderStatus, { label: string, className: string }> =
   },
   delivered: {
     label: "Delivered",
-    className: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    className: "bg-primary/5 text-primary border-primary/20",
   },
   not_received: {
     label: "Not Received",

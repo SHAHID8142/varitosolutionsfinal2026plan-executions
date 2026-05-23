@@ -88,13 +88,16 @@ export async function POST(request: Request) {
 
   if (isPaid) {
     sendOrderConfirmationEmail({
-      to: `${order.customerPhone}@varito.com.bd`,
       customerName: order.customerName,
+      customerPhone: order.customerPhone,
       orderNumber: order.orderNumber,
       items: [],
-      total: parseFloat(order.total),
+      subtotal: parseFloat(order.total),
       deliveryCharge: 0,
+      codFee: 0,
+      total: parseFloat(order.total),
       paymentMethod: "online",
+      address: { district: "", thana: "" },
     }).catch(() => {})
   }
 

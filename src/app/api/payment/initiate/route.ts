@@ -73,7 +73,6 @@ export async function POST(request: Request) {
   try {
     const redirectUrl = await initiateAamarPayPayment({
       orderId: String(order.id),
-      orderNumber: order.orderNumber,
       amount: parseFloat(order.total),
       customerName: order.customerName,
       customerPhone: order.customerPhone,

@@ -89,6 +89,7 @@ export function SearchBar({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         placeholder={placeholder}
+        aria-label="Search"
         className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-gray-400"
       />
 

@@ -92,19 +92,19 @@ export function InventoryLog() {
                   <td className="px-6 py-5">
                     <div className="flex flex-col">
                       <span className="text-sm font-black text-gray-900 truncate">{log.product}</span>
-                      <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{log.sku}</span>
+                      <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{log.sku}</span>
                     </div>
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-2">
                       {log.amount > 0 ? (
-                        <ArrowUpCircle className="size-4 text-emerald-500" />
+                        <ArrowUpCircle className="size-4 text-primary" />
                       ) : (
                         <ArrowDownCircle className="size-4 text-red-500" />
                       )}
                       <span className={cn(
                         "text-sm font-black",
-                        log.amount > 0 ? "text-emerald-600" : "text-red-600"
+                        log.amount > 0 ? "text-primary" : "text-red-600"
                       )}>
                         {log.amount > 0 ? `+${log.amount}` : log.amount}
                       </span>

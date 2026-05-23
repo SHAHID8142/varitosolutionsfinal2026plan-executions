@@ -9,7 +9,7 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { orders } from "@/db/schema"
-import { count, isNull, sql } from "drizzle-orm"
+import { count, sql, sum } from "drizzle-orm"
 import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 
 export async function GET(request: Request) {
@@ -18,22 +18,17 @@ export async function GET(request: Request) {
 
   const [byStatus, byPaymentMethod] = await Promise.all([
     db
-      .select({
-        status: orders.status,
-        count: count(),
-      })
+      .select({ status: orders.status, count: count() })
       .from(orders)
-      .where(isNull(orders.deletedAt))
       .groupBy(orders.status),
 
     db
       .select({
         method: orders.paymentMethod,
         count: count(),
-        revenue: sql<string>`SUM(${orders.total})`,
+        revenue: sum(orders.total),
       })
       .from(orders)
-      .where(isNull(orders.deletedAt))
       .groupBy(orders.paymentMethod),
   ])
 
@@ -43,7 +38,7 @@ export async function GET(request: Request) {
       byPaymentMethod: byPaymentMethod.map((r) => ({
         method: r.method,
         count: Number(r.count),
-        revenue: parseFloat(r.revenue ?? "0"),
+        revenue: parseFloat(String(r.revenue ?? 0)),
       })),
     },
   })

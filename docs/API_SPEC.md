@@ -34,7 +34,7 @@ Authorization: Bearer <supabase-jwt-token>   (for authenticated routes)
 
 ## Public Routes (No Auth Required)
 
-### `[ ]` GET /api/products
+### `[READY]` GET /api/products
 List products with pagination, filtering, and search.
 
 **Query params:**
@@ -74,7 +74,7 @@ type Product = {
 
 ---
 
-### `[ ]` GET /api/products/[slug]
+### `[READY]` GET /api/products/[slug]
 Get single product by slug.
 
 **Response:**
@@ -107,7 +107,7 @@ type ProductDetail = {
 
 ---
 
-### `[ ]` GET /api/categories
+### `[READY]` GET /api/categories
 Get category tree.
 
 **Response:**
@@ -131,7 +131,7 @@ type Category = {
 
 ## Order Routes
 
-### `[ ]` POST /api/orders
+### `[READY]` POST /api/orders
 Create a new order. Works for both guests and authenticated users.
 
 **Request body:**
@@ -180,7 +180,7 @@ Create a new order. Works for both guests and authenticated users.
 
 ---
 
-### `[ ]` GET /api/orders/[orderNumber]
+### `[READY]` GET /api/orders/[orderNumber]
 Get order status by order number (public, no auth — uses order number as token).
 
 **Response:**
@@ -206,7 +206,7 @@ type PaymentStatus = "pending" | "pending_cod" | "paid" | "failed" | "refunded"
 
 ## Payment Routes
 
-### `[ ]` POST /api/payment/initiate
+### `[READY]` POST /api/payment/initiate
 Start aamarPay payment session.
 
 **Request:**
@@ -221,7 +221,7 @@ Start aamarPay payment session.
 
 ---
 
-### `[ ]` POST /api/payment/webhook
+### `[READY]` POST /api/payment/webhook
 aamarPay webhook. **MUST verify signature before processing.**
 
 **Internal — aamarPay calls this directly.**
@@ -237,14 +237,14 @@ aamarPay webhook. **MUST verify signature before processing.**
 
 ## Auth Routes
 
-### `[ ]` POST /api/auth/otp
+### `[READY]` POST /api/auth/otp
 Send OTP to phone number via Supabase.
 
 **Request:** `{ phone: string }` (format: `+880XXXXXXXXXX`)  
 **Response:** `{ data: { message: "OTP sent" } }`  
 **Rate limit:** 5 requests per phone per 10 minutes  
 
-### `[ ]` POST /api/auth/verify
+### `[READY]` POST /api/auth/verify
 Verify OTP and return session.
 
 **Request:** `{ phone: string; otp: string }`  

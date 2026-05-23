@@ -5,7 +5,7 @@
  *              Responsive: Includes hamburger menu for mobile navigation.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -74,7 +74,7 @@ export function AdminHeader() {
           <Input 
             type="text" 
             placeholder="Search..." 
-            className="h-11 pl-11 pr-4 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-emerald-50 transition-all text-sm font-medium"
+            className="h-11 pl-11 pr-4 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all text-sm font-medium"
             aria-label="Search admin panel"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,7 +92,7 @@ export function AdminHeader() {
         <Button 
           variant="ghost" 
           size="sm" 
-          className="hidden md:flex gap-2 text-xs font-black uppercase tracking-wider text-gray-500 hover:text-emerald-600 rounded-lg"
+          className="hidden md:flex gap-2 text-xs font-black uppercase tracking-wider text-gray-500 hover:text-primary rounded-lg"
           onClick={() => window.open('/', '_blank')}
         >
           View Store <ExternalLink className="size-3" />
@@ -111,9 +111,9 @@ export function AdminHeader() {
           <DropdownMenuTrigger className="pl-1 pr-1 lg:pl-2 h-12 gap-3 hover:bg-gray-50 rounded-xl flex items-center cursor-pointer outline-none group">
               <div className="flex flex-col items-end text-right hidden lg:flex">
                 <span className="text-sm font-black text-gray-900 leading-none">Shahidul Islam</span>
-                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mt-1">Super Admin</span>
+                <span className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Super Admin</span>
               </div>
-              <div className="size-9 lg:size-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 shadow-sm border border-emerald-200 group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
+              <div className="size-9 lg:size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shadow-sm border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
                 <User className="size-5 lg:size-6" />
               </div>
           </DropdownMenuTrigger>

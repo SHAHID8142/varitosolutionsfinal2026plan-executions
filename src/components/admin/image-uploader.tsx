@@ -5,7 +5,7 @@
  *              Shows previews and allows setting a main image.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -61,14 +61,24 @@ export function ImageUploader({ images, onChange, maxImages = 5 }: ImageUploader
       <div 
         className={cn(
           "relative h-48 rounded-3xl border-2 border-dashed flex flex-col items-center justify-center gap-3 transition-all duration-300 group overflow-hidden",
-          isDragging ? "border-emerald-500 bg-emerald-50/50" : "border-gray-200 bg-gray-50/50 hover:border-emerald-200 hover:bg-emerald-50/30",
+          isDragging ? "border-primary bg-primary/5" : "border-gray-200 bg-gray-50/50 hover:border-primary/40 hover:bg-primary/5",
           images.length >= maxImages && "opacity-50 pointer-events-none"
         )}
         onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
         onDragLeave={() => setIsDragging(false)}
-        onDrop={(e) => { e.preventDefault(); setIsDragging(false); }}
+        onDrop={(e) => {
+          e.preventDefault()
+          setIsDragging(false)
+          const newImages = [...images]
+          Array.from(e.dataTransfer.files).forEach(() => {
+            if (newImages.length < maxImages) {
+              newImages.push("https://placehold.co/400x400/10b981/white.png?text=Uploaded")
+            }
+          })
+          onChange(newImages)
+        }}
       >
-        <div className="size-12 rounded-2xl bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+        <div className="size-12 rounded-2xl bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-primary transition-colors shadow-sm">
           <Upload className="size-6" />
         </div>
         <div className="flex flex-col items-center text-center">
@@ -93,7 +103,7 @@ export function ImageUploader({ images, onChange, maxImages = 5 }: ImageUploader
               key={i} 
               className={cn(
                 "relative aspect-square rounded-2xl border bg-white overflow-hidden group/item shadow-sm",
-                i === 0 ? "border-emerald-500 ring-4 ring-emerald-50" : "border-gray-100"
+                i === 0 ? "border-primary ring-4 ring-primary/10" : "border-gray-100"
               )}
             >
               <Image src={img} alt={`Preview ${i}`} fill className="object-cover" />
@@ -101,19 +111,20 @@ export function ImageUploader({ images, onChange, maxImages = 5 }: ImageUploader
               {/* Overlay Controls */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/item:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
                 {i !== 0 && (
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    className="h-8 px-2 text-[10px] font-black uppercase tracking-widest text-white hover:bg-emerald-500"
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 px-2 text-[10px] font-black uppercase tracking-widest text-white hover:bg-primary"
                     onClick={() => setMainImage(i)}
                   >
                     Set Main
                   </Button>
                 )}
-                <Button 
-                  size="icon" 
-                  variant="ghost" 
+                <Button
+                  size="icon"
+                  variant="ghost"
                   className="size-8 rounded-lg text-white hover:bg-red-500"
+                  aria-label={`Remove image ${i + 1}`}
                   onClick={() => removeImage(i)}
                 >
                   <X className="size-4" />
@@ -122,7 +133,7 @@ export function ImageUploader({ images, onChange, maxImages = 5 }: ImageUploader
 
               {/* Status Badges */}
               {i === 0 && (
-                <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[8px] font-black uppercase tracking-widest flex items-center gap-1 shadow-lg">
+                <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-primary text-white text-[8px] font-black uppercase tracking-widest flex items-center gap-1 shadow-lg">
                   <Star className="size-2 fill-current" /> Main Image
                 </div>
               )}

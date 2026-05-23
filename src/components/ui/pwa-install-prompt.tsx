@@ -73,9 +73,9 @@ export function PWAInstallPrompt() {
     )}>
       <div className="bg-gray-900 text-white p-5 rounded-[2rem] shadow-2xl border border-white/10 flex items-center gap-4 relative overflow-hidden">
         {/* Background Accent */}
-        <div className="absolute top-0 right-0 size-24 bg-emerald-500/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-2xl" />
+        <div className="absolute top-0 right-0 size-24 bg-primary/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-2xl" />
         
-        <div className="size-12 rounded-2xl bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20">
+        <div className="size-12 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
           <Smartphone className="size-6 text-white" />
         </div>
 
@@ -88,7 +88,7 @@ export function PWAInstallPrompt() {
           <Button 
             onClick={handleInstall}
             size="sm" 
-            className="h-10 rounded-xl px-4 font-black text-xs uppercase tracking-widest bg-emerald-500 hover:bg-emerald-400"
+            className="h-10 rounded-xl px-4 font-black text-xs uppercase tracking-widest bg-primary hover:bg-primary/90"
           >
             <Download className="mr-1.5 size-3" /> Install
           </Button>

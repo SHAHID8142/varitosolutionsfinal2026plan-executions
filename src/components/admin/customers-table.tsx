@@ -5,7 +5,7 @@
  *              high-level metrics for each customer.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -110,7 +110,7 @@ export function CustomerTable() {
               className={cn(
                 "px-4 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all",
                 statusFilter === status
-                  ? "bg-white text-emerald-600 shadow-sm"
+                  ? "bg-white text-primary shadow-sm"
                   : "text-gray-400 hover:text-gray-600"
               )}
             >
@@ -138,7 +138,7 @@ export function CustomerTable() {
                 <tr key={cust.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex items-center gap-3 md:gap-4">
-                      <div className="size-8 md:size-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-[10px] md:text-xs shrink-0">
+                      <div className="size-8 md:size-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black text-[10px] md:text-xs shrink-0">
                         {cust.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                       </div>
                       <div className="flex flex-col min-w-0">
@@ -150,7 +150,7 @@ export function CustomerTable() {
                   <td className="px-4 md:px-6 py-4 md:py-5">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-1.5 text-[10px] md:text-xs font-bold text-gray-700">
-                        <ShoppingBag className="size-3 text-emerald-500" />
+                        <ShoppingBag className="size-3 text-primary" />
                         <span>{cust.orderCount} <span className="hidden md:inline">Orders</span></span>
                       </div>
                       <span className="text-[9px] md:text-[10px] font-black text-gray-900">৳{cust.totalSpent.toLocaleString()}</span>
@@ -189,7 +189,7 @@ export function CustomerTable() {
                             {cust.status === "active" ? (
                               <><Ban className="mr-2 size-4 text-red-500" /> Ban Customer</>
                             ) : (
-                              <><CheckCircle2 className="mr-2 size-4 text-emerald-500" /> Unban Customer</>
+                              <><CheckCircle2 className="mr-2 size-4 text-primary" /> Unban Customer</>
                             )}
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
@@ -210,7 +210,7 @@ export function CustomerTable() {
                         <User className="size-8" />
                       </div>
                       <p className="text-sm font-bold text-gray-500">No customers found</p>
-                      <Button variant="ghost" onClick={() => {setSearch(""); setStatusFilter("all")}} className="text-emerald-600 font-bold">
+                      <Button variant="ghost" onClick={() => {setSearch(""); setStatusFilter("all")}} className="text-primary font-bold">
                         Clear filters
                       </Button>
                     </div>
@@ -230,7 +230,7 @@ export function CustomerTable() {
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-gray-100 bg-white" disabled>
               <ChevronLeft className="size-4" />
             </Button>
-            <Button variant="outline" size="sm" className="h-9 px-4 rounded-xl border-emerald-100 bg-emerald-50 text-emerald-700 font-black">
+            <Button variant="outline" size="sm" className="h-9 px-4 rounded-xl border-primary/20 bg-primary/5 text-primary font-black">
               1
             </Button>
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-gray-100 bg-white">

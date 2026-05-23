@@ -10,7 +10,7 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { categories } from "@/db/schema"
-import { isNull, asc } from "drizzle-orm"
+import { asc } from "drizzle-orm"
 import { publicApiRatelimit, getClientIp } from "@/lib/ratelimit"
 import type { CategoryNode } from "@/types/category"
 
@@ -35,7 +35,6 @@ export async function GET(request: Request) {
       parentId: categories.parentId,
     })
     .from(categories)
-    .where(isNull(categories.deletedAt))
     .orderBy(asc(categories.sortOrder), asc(categories.name))
 
   // Build tree in memory — avoids recursive SQL on small dataset

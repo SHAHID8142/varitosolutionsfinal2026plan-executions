@@ -57,10 +57,10 @@ export function RevenueAnalytics() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm flex flex-col gap-4">
           <div className="flex justify-between items-start">
-            <div className="size-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="size-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center">
               <DollarSign className="size-6" />
             </div>
-            <div className="flex items-center gap-1 text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg uppercase">
+            <div className="flex items-center gap-1 text-[10px] font-black text-primary bg-primary/5 px-2 py-1 rounded-lg uppercase">
               <TrendingUp className="size-3" /> +12.5%
             </div>
           </div>

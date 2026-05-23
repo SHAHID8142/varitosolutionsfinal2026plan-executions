@@ -10,7 +10,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { categories } from "@/db/schema"
-import { asc, isNull } from "drizzle-orm"
+import { asc } from "drizzle-orm"
 import { requireAdmin, isAuthError, auditLog } from "@/lib/admin-auth"
 
 // ─────────────────────────────────────────────
@@ -41,7 +41,6 @@ export async function GET(request: Request) {
   const rows = await db
     .select()
     .from(categories)
-    .where(isNull(categories.deletedAt))
     .orderBy(asc(categories.sortOrder), asc(categories.name))
 
   return NextResponse.json({

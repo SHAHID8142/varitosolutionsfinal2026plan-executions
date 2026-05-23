@@ -110,7 +110,7 @@ function CategoryItem({ category, level = 0 }: { category: Category; level?: num
           </button>
         </div>
 
-        <div className="size-8 md:size-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-emerald-600 shrink-0">
+        <div className="size-8 md:size-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-primary shrink-0">
           <Folder className="size-4 md:size-5" />
         </div>
 
@@ -129,7 +129,7 @@ function CategoryItem({ category, level = 0 }: { category: Category; level?: num
         </div>
 
         <div className="flex items-center gap-0.5 md:gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
-          <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-emerald-50 hover:text-emerald-600" onClick={toggleActive}>
+          <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-primary/5 hover:text-primary" onClick={toggleActive}>
             {category.isActive ? <Eye className="size-3.5 md:size-4" /> : <EyeOff className="size-3.5 md:size-4" />}
           </Button>
           <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8 rounded-lg hover:bg-gray-100">

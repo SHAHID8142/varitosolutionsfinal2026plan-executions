@@ -75,9 +75,9 @@ export function BannerManager() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight flex items-center gap-3">
-            <ImageIcon className="text-emerald-600 size-6" /> Live Store Content
+            <ImageIcon className="text-primary size-6" /> Live Store Content
           </h2>
-          <Button size="sm" className="rounded-xl font-black gap-2 h-10 shadow-lg shadow-emerald-500/10">
+          <Button size="sm" className="rounded-xl font-black gap-2 h-10 shadow-lg shadow-primary/10">
             <Plus className="size-4" /> Add New Banner
           </Button>
         </div>
@@ -109,7 +109,7 @@ export function BannerManager() {
                     sizes="(max-width: 768px) 100vw, 256px"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-emerald-600/20">
+                  <div className="w-full h-full flex items-center justify-center text-primary/20">
                     <Zap className="size-12 fill-current" />
                   </div>
                 )}
@@ -135,7 +135,7 @@ export function BannerManager() {
                   <div className="flex flex-col items-end mr-4 hidden sm:flex">
                     <span className={cn(
                       "text-[10px] font-black uppercase tracking-widest",
-                      banner.status === "active" ? "text-emerald-600" : "text-gray-400"
+                      banner.status === "active" ? "text-primary" : "text-gray-400"
                     )}>
                       {banner.status}
                     </span>

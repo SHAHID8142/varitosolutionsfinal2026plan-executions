@@ -55,13 +55,13 @@ export function OrderAnalytics() {
           <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Fulfillment Rate</span>
           <span className="text-2xl font-black text-gray-900">88.5%</span>
           <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-emerald-500 w-[88.5%]" />
+            <div className="h-full bg-primary w-[88.5%]" />
           </div>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm flex flex-col gap-2">
           <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Avg. Delivery Time</span>
           <span className="text-2xl font-black text-gray-900">3.2 Days</span>
-          <span className="text-[10px] font-bold text-emerald-600 uppercase">-0.5 from last mo</span>
+          <span className="text-[10px] font-bold text-primary uppercase">-0.5 from last mo</span>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm flex flex-col gap-2">
           <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cancellation Rate</span>

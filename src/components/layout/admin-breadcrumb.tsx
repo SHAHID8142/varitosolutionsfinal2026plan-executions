@@ -29,7 +29,7 @@ export function AdminBreadcrumb() {
     <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 px-1 overflow-x-auto no-scrollbar py-1">
       <Link 
         href="/admin" 
-        className="flex items-center gap-1.5 hover:text-emerald-600 transition-colors shrink-0"
+        className="flex items-center gap-1.5 hover:text-primary transition-colors shrink-0"
       >
         <Home className="size-3.5" />
         <span>Admin</span>
@@ -56,7 +56,7 @@ export function AdminBreadcrumb() {
             ) : (
               <Link 
                 href={href} 
-                className="hover:text-emerald-600 transition-colors shrink-0"
+                className="hover:text-primary transition-colors shrink-0"
               >
                 {label}
               </Link>

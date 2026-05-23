@@ -96,7 +96,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
               className={cn(
                 "flex items-center gap-3 px-6 h-12 rounded-2xl transition-all duration-300",
                 isActive 
-                  ? "bg-emerald-600 text-white font-black shadow-lg shadow-emerald-200" 
+                  ? "bg-primary text-white font-black shadow-lg shadow-primary/20" 
                   : "text-gray-400 hover:bg-gray-50 hover:text-gray-600 font-bold"
               )}
             >
@@ -174,22 +174,22 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="flex flex-col gap-6 p-8 rounded-[32px] bg-emerald-50/50 border border-emerald-100">
-                    <h3 className="text-xs font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2">
+                  <div className="flex flex-col gap-6 p-8 rounded-[32px] bg-primary/5 border border-primary/20">
+                    <h3 className="text-xs font-black text-primary uppercase tracking-widest flex items-center gap-2">
                       <DollarSign className="size-4" /> Financials
                     </h3>
                     <div className="flex flex-col gap-6">
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Cost Price (BDT) *</label>
-                        <Input type="number" placeholder="2200" className="h-12 rounded-xl border-emerald-100 bg-white font-bold" required />
+                        <Input type="number" placeholder="2200" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Selling Price (BDT) *</label>
-                        <Input type="number" placeholder="3800" className="h-12 rounded-xl border-emerald-100 bg-white font-bold" required />
+                        <Input type="number" placeholder="3800" className="h-12 rounded-xl border-primary/20 bg-white font-bold" required />
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Sale Price (Optional)</label>
-                        <Input type="number" placeholder="3200" className="h-12 rounded-xl border-emerald-100 bg-white font-bold" />
+                        <Input type="number" placeholder="3200" className="h-12 rounded-xl border-primary/20 bg-white font-bold" />
                       </div>
                     </div>
                   </div>
@@ -256,13 +256,13 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Visible in store</span>
                 </div>
                 {/* Simplified Toggle Placeholder */}
-                <div className="w-12 h-6 bg-emerald-600 rounded-full relative cursor-pointer">
+                <div className="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
                   <div className="absolute right-1 top-1 size-4 bg-white rounded-full shadow-sm" />
                 </div>
               </div>
 
               <div className="flex flex-col gap-3">
-                <Button type="submit" loading={isLoading} className="h-16 rounded-[24px] font-black text-lg gap-3 shadow-xl shadow-emerald-500/20 w-full">
+                <Button type="submit" loading={isLoading} className="h-16 rounded-[24px] font-black text-lg gap-3 shadow-xl shadow-primary/20 w-full">
                   <Save className="size-6" /> {isEditing ? "Update Product" : "Save & Publish"}
                 </Button>
                 <Button 

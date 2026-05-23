@@ -30,9 +30,9 @@ export interface AamarPayInitiateParams {
   customerName: string
   customerEmail: string
   customerPhone: string
-  successUrl: string
-  failUrl: string
-  cancelUrl: string
+  successUrl?: string
+  failUrl?: string
+  cancelUrl?: string
 }
 
 export interface AamarPayWebhookPayload {
@@ -64,9 +64,9 @@ export async function initiateAamarPayPayment(
     cus_add1: "Bangladesh",
     cus_city: "Chattogram",
     cus_country: "Bangladesh",
-    success_url: params.successUrl,
-    fail_url: params.failUrl,
-    cancel_url: params.cancelUrl,
+    success_url: params.successUrl ?? `${process.env.NEXT_PUBLIC_APP_URL}/orders/success`,
+    fail_url: params.failUrl ?? `${process.env.NEXT_PUBLIC_APP_URL}/orders/failed`,
+    cancel_url: params.cancelUrl ?? `${process.env.NEXT_PUBLIC_APP_URL}/orders/cancelled`,
     desc: `Order #${params.orderId} — Varito Solutions`,
     type: "json",
   }

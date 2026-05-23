@@ -12,7 +12,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { products, orders, orderItems, coupons, couponUses, orderHistory } from "@/db/schema"
-import { and, eq, inArray, isNull, sql } from "drizzle-orm"
+import { and, count, eq, inArray, isNull, sql } from "drizzle-orm"
 import { getAuthUser } from "@/lib/auth"
 import { initiateAamarPayPayment } from "@/lib/aamarpay"
 import { sendOrderConfirmationEmail } from "@/lib/brevo"
@@ -62,10 +62,10 @@ const bodySchema = z.object({
 
 async function generateOrderNumber(): Promise<string> {
   const year = new Date().getFullYear()
-  const [{ value }] = await db.execute<{ value: number }>(
-    sql`SELECT nextval('order_number_seq') AS value`
-  )
-  return `VR-${year}-${String(value).padStart(5, "0")}`
+  // Count existing orders to generate sequential number
+  const [{ total }] = await db.select({ total: count() }).from(orders)
+  const seq = Number(total) + 1
+  return `VR-${year}-${String(seq).padStart(5, "0")}`
 }
 
 // ─────────────────────────────────────────────
@@ -296,7 +296,6 @@ export async function POST(request: Request) {
     try {
       paymentRedirectUrl = await initiateAamarPayPayment({
         orderId: String(order.id),
-        orderNumber: order.orderNumber,
         amount: total,
         customerName: address.name,
         customerPhone: address.phone,
@@ -311,13 +310,16 @@ export async function POST(request: Request) {
   }
 
   sendOrderConfirmationEmail({
-    to: `${address.phone}@varito.com.bd`,
     customerName: address.name,
+    customerPhone: address.phone,
     orderNumber: order.orderNumber,
     items: lineItems.map((l) => ({ name: l.name, qty: l.qty, price: l.unitPrice })),
-    total,
+    subtotal,
     deliveryCharge: DELIVERY_CHARGE,
+    codFee,
+    total,
     paymentMethod,
+    address: { district: address.district, thana: address.thana, area: address.area },
   }).catch(() => {})
 
   return NextResponse.json(

@@ -8,8 +8,8 @@
 
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { orderItems, products } from "@/db/schema"
-import { desc, eq, isNull, sql, sum } from "drizzle-orm"
+import { orderItems } from "@/db/schema"
+import { desc, sql, sum } from "drizzle-orm"
 import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 
 export async function GET(request: Request) {
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
       productId: orderItems.productId,
       name: orderItems.productName,
       totalQty: sql<number>`SUM(${orderItems.qty})`.as("total_qty"),
-      totalRevenue: sum(orderItems.subtotal).as("total_revenue"),
+      totalRevenue: sum(orderItems.total).as("total_revenue"),
     })
     .from(orderItems)
     .groupBy(orderItems.productId, orderItems.productName)

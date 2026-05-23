@@ -97,7 +97,7 @@ export function UserTable() {
                 <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="size-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <div className="size-10 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0">
                         <UserCircle className="size-5" />
                       </div>
                       <div className="flex flex-col">
@@ -109,7 +109,7 @@ export function UserTable() {
                   <td className="px-6 py-5">
                     <Badge variant="outline" className={cn(
                       "uppercase text-[8px] font-black tracking-widest px-2 h-5",
-                      user.role === "super_admin" && "border-emerald-200 text-emerald-600 bg-emerald-50",
+                      user.role === "super_admin" && "border-primary/30 text-primary bg-primary/5",
                       user.role === "manager" && "border-blue-200 text-blue-600 bg-blue-50",
                       user.role === "editor" && "border-purple-200 text-purple-600 bg-purple-50"
                     )}>
@@ -123,7 +123,7 @@ export function UserTable() {
                     <div className="flex items-center gap-2">
                       <div className={cn(
                         "size-2 rounded-full",
-                        user.status === "active" ? "bg-emerald-500 animate-pulse" : "bg-gray-300"
+                        user.status === "active" ? "bg-primary animate-pulse" : "bg-gray-300"
                       )} />
                       <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{user.status}</span>
                     </div>

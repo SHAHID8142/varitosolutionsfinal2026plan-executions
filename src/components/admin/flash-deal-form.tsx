@@ -101,7 +101,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
         <Card className="rounded-3xl border-gray-100 shadow-sm overflow-hidden">
           <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-8">
             <div className="flex items-center gap-3">
-              <div className="size-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <div className="size-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                 <Zap className="size-6" />
               </div>
               <div>
@@ -120,7 +120,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                 value={formData.productId} 
                 onValueChange={(v) => setFormData({ ...formData, productId: v || "" })}
               >
-                <SelectTrigger className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-emerald-500/20">
+                <SelectTrigger className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-primary/20">
                   <SelectValue placeholder="Choose a product for the flash deal" />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-gray-100">
@@ -146,7 +146,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                     value={formData.flashPrice}
                     onChange={(e) => setFormData({ ...formData, flashPrice: e.target.value })}
                     placeholder="0.00"
-                    className="h-14 pl-10 rounded-2xl border-gray-100 bg-gray-50/30 font-black focus:ring-emerald-500/20"
+                    className="h-14 pl-10 rounded-2xl border-gray-100 bg-gray-50/30 font-black focus:ring-primary/20"
                     required
                   />
                 </div>
@@ -166,7 +166,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                   value={formData.maxQty}
                   onChange={(e) => setFormData({ ...formData, maxQty: e.target.value })}
                   placeholder="Unlimited"
-                  className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-emerald-500/20"
+                  className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-primary/20"
                 />
                 <p className="text-xs text-gray-400 font-medium">Max units available for this deal.</p>
               </div>
@@ -183,7 +183,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                     type="datetime-local"
                     value={formData.startsAt}
                     onChange={(e) => setFormData({ ...formData, startsAt: e.target.value })}
-                    className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-emerald-500/20"
+                    className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-primary/20"
                     required
                   />
                 </div>
@@ -198,7 +198,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                     type="datetime-local"
                     value={formData.endsAt}
                     onChange={(e) => setFormData({ ...formData, endsAt: e.target.value })}
-                    className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-emerald-500/20"
+                    className="h-14 rounded-2xl border-gray-100 bg-gray-50/30 font-bold focus:ring-primary/20"
                     required
                   />
                 </div>
@@ -210,9 +210,9 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
 
       {/* Sidebar / Preview */}
       <div className="space-y-8">
-        <Card className="rounded-3xl border-emerald-100 shadow-xl shadow-emerald-500/5 bg-emerald-50/30 overflow-hidden">
-          <CardHeader className="bg-emerald-50 border-b border-emerald-100">
-            <CardTitle className="text-lg font-black uppercase tracking-tight text-emerald-800 flex items-center gap-2">
+        <Card className="rounded-3xl border-primary/20 shadow-xl shadow-primary/5 bg-primary/5 overflow-hidden">
+          <CardHeader className="bg-primary/5 border-b border-primary/20">
+            <CardTitle className="text-lg font-black uppercase tracking-tight text-primary flex items-center gap-2">
               <Zap className="size-5" /> Live Preview
             </CardTitle>
           </CardHeader>
@@ -220,7 +220,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
             <div className="space-y-6">
               {formData.productId ? (
                 <div className="space-y-4">
-                  <div className="aspect-square rounded-2xl bg-white border border-emerald-100 flex items-center justify-center text-emerald-200">
+                  <div className="aspect-square rounded-2xl bg-white border border-primary/20 flex items-center justify-center text-primary/30">
                     <Package size={64} strokeWidth={1} />
                   </div>
                   <div className="space-y-1">
@@ -232,18 +232,18 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
                   </div>
 
                   {formData.endsAt ? (
-                    <div className="pt-4 border-t border-emerald-100">
-                      <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-3 text-center">Deal Ends In</p>
+                    <div className="pt-4 border-t border-primary/20">
+                      <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 text-center">Deal Ends In</p>
                       <FlashDealCountdown targetDate={formData.endsAt} className="justify-center" />
                     </div>
                   ) : (
-                    <div className="h-20 flex items-center justify-center border-2 border-dashed border-emerald-200 rounded-2xl text-emerald-300 font-bold text-xs uppercase tracking-widest italic">
+                    <div className="h-20 flex items-center justify-center border-2 border-dashed border-primary/30 rounded-2xl text-primary/40 font-bold text-xs uppercase tracking-widest italic">
                       Set end time to preview
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="py-20 flex flex-col items-center justify-center text-emerald-300 gap-4 text-center">
+                <div className="py-20 flex flex-col items-center justify-center text-primary/40 gap-4 text-center">
                   <Package size={48} strokeWidth={1} />
                   <p className="text-sm font-bold uppercase tracking-widest leading-relaxed">
                     Select a product<br />to see preview
@@ -259,7 +259,7 @@ export function FlashDealForm({ initialData }: FlashDealFormProps) {
           <CardContent className="p-6 space-y-4">
             <Button 
               type="submit" 
-              className="w-full h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-emerald-500/20"
+              className="w-full h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-primary/20"
               loading={isLoading}
             >
               <Save className="mr-2 size-5" /> {initialData ? "Update Deal" : "Launch Deal"}

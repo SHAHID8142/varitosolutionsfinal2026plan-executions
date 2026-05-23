@@ -106,7 +106,7 @@ export function CouponTable() {
                 <tr key={coupon.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <div className="size-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center shrink-0">
                         <Ticket className="size-5" />
                       </div>
                       <div className="flex flex-col">
@@ -137,7 +137,7 @@ export function CouponTable() {
                         <div 
                           className={cn(
                             "h-full rounded-full transition-all duration-500",
-                            (coupon.usageCount / coupon.maxUsage) > 0.8 ? "bg-amber-500" : "bg-emerald-500"
+                            (coupon.usageCount / coupon.maxUsage) > 0.8 ? "bg-amber-500" : "bg-primary"
                           )} 
                           style={{ width: `${(coupon.usageCount / coupon.maxUsage) * 100}%` }} 
                         />
@@ -167,7 +167,7 @@ export function CouponTable() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl">
                           <DropdownMenuItem className="rounded-xl font-bold h-10 cursor-pointer">
-                            <CheckCircle2 className="mr-2 size-4 text-emerald-500" /> Activate
+                            <CheckCircle2 className="mr-2 size-4 text-primary" /> Activate
                           </DropdownMenuItem>
                           <DropdownMenuItem className="rounded-xl font-bold h-10 cursor-pointer">
                             <XCircle className="mr-2 size-4 text-red-500" /> Disable

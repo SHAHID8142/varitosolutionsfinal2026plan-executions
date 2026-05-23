@@ -10,7 +10,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { orders } from "@/db/schema"
-import { and, gte, isNull, lte, sql } from "drizzle-orm"
+import { and, gte, lte, sql } from "drizzle-orm"
 import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 
 const querySchema = z.object({
@@ -43,7 +43,7 @@ export async function GET(request: Request) {
       orderCount: sql<number>`COUNT(*)`.as("order_count"),
     })
     .from(orders)
-    .where(and(gte(orders.createdAt, from), lte(orders.createdAt, to), isNull(orders.deletedAt)))
+    .where(and(gte(orders.createdAt, from), lte(orders.createdAt, to)))
     .groupBy(sql`DATE(${orders.createdAt})`)
     .orderBy(sql`DATE(${orders.createdAt})`)
 

@@ -253,7 +253,7 @@ export function ProductsTable() {
                     <td className="px-4 md:px-6 py-4 md:py-5 text-right">
                       <div className="flex justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                         <Link href={`/admin/products/${prod.id}/edit`}>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-emerald-50 hover:text-emerald-600">
+                          <Button variant="ghost" size="icon" className="h-8 w-8 md:h-9 md:w-9 rounded-xl hover:bg-primary/5 hover:text-primary">
                             <Edit3 className="size-4" />
                           </Button>
                         </Link>

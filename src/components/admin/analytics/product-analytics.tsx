@@ -90,7 +90,7 @@ export function ProductAnalytics() {
             ))}
             <div className="p-8 rounded-[40px] bg-gray-900 text-white flex flex-col gap-4 relative overflow-hidden mt-4">
               <Package className="absolute -right-8 -bottom-8 size-32 text-white/5 rotate-12" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 relative z-10">Inventory Health</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 relative z-10">Inventory Health</span>
               <p className="text-sm font-bold relative z-10">85% of your catalog is in high-stock status.</p>
             </div>
           </div>

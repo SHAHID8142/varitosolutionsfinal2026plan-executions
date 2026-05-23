@@ -213,7 +213,7 @@ export function OrdersTable() {
           <DropdownMenuLabel key="label">Pending Confirmation</DropdownMenuLabel>,
           ...common,
           <DropdownMenuSeparator key="sep" />,
-          <DropdownMenuItem key="approve" onClick={() => toast.success("Order Approved")} className="rounded-xl font-bold h-10 cursor-pointer text-emerald-600 focus:bg-emerald-50">
+          <DropdownMenuItem key="approve" onClick={() => toast.success("Order Approved")} className="rounded-xl font-bold h-10 cursor-pointer text-primary focus:bg-primary/5">
             <CheckCircle2 className="mr-2 size-4" /> Approve Order
           </DropdownMenuItem>,
           <DropdownMenuItem key="cancel" className="rounded-xl font-bold h-10 cursor-pointer text-red-600 focus:bg-red-50">
@@ -252,7 +252,7 @@ export function OrdersTable() {
             <ExternalLink className="mr-2 size-4 text-purple-500" /> Track Courier
           </DropdownMenuItem>,
           <DropdownMenuSeparator key="sep" />,
-          <DropdownMenuItem key="deliver" className="rounded-xl font-bold h-10 cursor-pointer text-emerald-600">
+          <DropdownMenuItem key="deliver" className="rounded-xl font-bold h-10 cursor-pointer text-primary">
             <UserCheck className="mr-2 size-4" /> Mark Delivered
           </DropdownMenuItem>,
           <DropdownMenuItem key="fail" className="rounded-xl font-bold h-10 cursor-pointer text-orange-600">
@@ -311,10 +311,10 @@ export function OrdersTable() {
               <DropdownMenuContent align="end" className="w-64 p-3 rounded-[24px] shadow-2xl border-gray-100">
                 <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Sort By</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => setSortOrder("newest")} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
-                  Newest First {sortOrder === "newest" && <Check className="size-4 text-emerald-600" />}
+                  Newest First {sortOrder === "newest" && <Check className="size-4 text-primary" />}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortOrder("amount_desc")} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
-                  Highest Amount {sortOrder === "amount_desc" && <Check className="size-4 text-emerald-600" />}
+                  Highest Amount {sortOrder === "amount_desc" && <Check className="size-4 text-primary" />}
                 </DropdownMenuItem>
                 
                 <DropdownMenuSeparator className="my-2" />
@@ -322,7 +322,7 @@ export function OrdersTable() {
                 <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Payment Method</DropdownMenuLabel>
                 {["all", "COD", "bKash", "Nagad", "Card"].map(m => (
                   <DropdownMenuItem key={m} onClick={() => setPaymentFilter(m)} className="rounded-lg h-9 font-bold cursor-pointer justify-between">
-                    {m === "all" ? "All Methods" : m} {paymentFilter === m && <Check className="size-4 text-emerald-600" />}
+                    {m === "all" ? "All Methods" : m} {paymentFilter === m && <Check className="size-4 text-primary" />}
                   </DropdownMenuItem>
                 ))}
 
@@ -331,7 +331,7 @@ export function OrdersTable() {
                 <DropdownMenuLabel className="px-1 pb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Payment Status</DropdownMenuLabel>
                 {["all", "paid", "unpaid"].map(s => (
                   <DropdownMenuItem key={s} onClick={() => setPayStatusFilter(s)} className="rounded-lg h-9 font-bold cursor-pointer justify-between capitalize">
-                    {s === "all" ? "All Status" : s} {payStatusFilter === s && <Check className="size-4 text-emerald-600" />}
+                    {s === "all" ? "All Status" : s} {payStatusFilter === s && <Check className="size-4 text-primary" />}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

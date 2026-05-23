@@ -5,7 +5,7 @@
  *              Responsive: Hidden on mobile, fixed on desktop.
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 "use client"
@@ -90,13 +90,13 @@ export function AdminSidebarContent({
       {/* Header / Logo */}
       <div className="h-20 flex items-center px-6 border-b border-gray-50 shrink-0">
         <Link href="/admin" onClick={onClose} className="flex items-center gap-3 overflow-hidden">
-          <div className="size-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-emerald-200">
+          <div className="size-10 rounded-xl bg-primary flex items-center justify-center text-white shrink-0 shadow-lg shadow-primary/20">
             <Package2 className="size-6" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col animate-in fade-in slide-in-from-left-2 duration-300">
               <span className="text-lg font-black tracking-tight text-gray-900 leading-none">VARITO</span>
-              <span className="text-[10px] font-black text-emerald-600 tracking-[0.2em] uppercase">Admin Panel</span>
+              <span className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Admin Panel</span>
             </div>
           )}
         </Link>
@@ -104,7 +104,7 @@ export function AdminSidebarContent({
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 no-scrollbar">
-        <div className="px-3 space-y-1">
+        <div className="px-3 flex flex-col gap-1">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))
             const Icon = item.icon
@@ -115,14 +115,14 @@ export function AdminSidebarContent({
               <div
                 className={cn(
                   "flex items-center gap-3 px-3 h-12 rounded-xl transition-all duration-200 group relative",
-                  isActive 
-                    ? "bg-emerald-50 text-emerald-700 font-black shadow-sm" 
+                  isActive
+                    ? "bg-primary/10 text-primary font-black shadow-sm"
                     : "text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-bold"
                 )}
               >
                 <Icon className={cn(
                   "size-5 shrink-0",
-                  isActive ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-600"
+                  isActive ? "text-primary" : "text-gray-400 group-hover:text-gray-600"
                 )} />
                 
                 {!isCollapsed && (
@@ -187,9 +187,9 @@ export function AdminSidebarContent({
           </button>
         )}
 
-        <Button 
-          variant="ghost" 
-          className="justify-start gap-3 h-12 rounded-xl text-danger-500 hover:text-danger-600 hover:bg-red-50 px-3 font-bold"
+        <Button
+          variant="ghost"
+          className="justify-start gap-3 h-12 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 px-3 font-bold"
           onClick={() => window.location.href = "/"}
         >
           <LogOut className="size-5" />

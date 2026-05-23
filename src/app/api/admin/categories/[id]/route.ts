@@ -100,9 +100,9 @@ export async function DELETE(
     return NextResponse.json({ error: "Invalid category ID", code: "INVALID_ID" }, { status: 400 })
   }
 
+  // Categories have no deletedAt — hard delete (products keep their categoryId as null)
   const [deleted] = await db
-    .update(categories)
-    .set({ deletedAt: new Date(), updatedAt: new Date() })
+    .delete(categories)
     .where(eq(categories.id, categoryId))
     .returning({ id: categories.id, name: categories.name })
 

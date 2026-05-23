@@ -6,7 +6,7 @@
  * @props id | date | status | total | itemCount | thumbnail
  *
  * @owner    Gemini Design Agent
- * @updated  2026-05-22
+ * @updated  2026-05-23
  */
 
 import * as React from "react"

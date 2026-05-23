@@ -21,10 +21,6 @@ if (!process.env.DATABASE_URL) {
 
 const db = drizzle(neon(process.env.DATABASE_URL))
 
-// ─────────────────────────────────────────────
-// SEED DATA
-// ─────────────────────────────────────────────
-
 async function seed() {
   console.log("🌱 Seeding database...")
 
@@ -49,32 +45,13 @@ async function seed() {
     .returning({ id: categories.id })
     .onConflictDoNothing()
 
-  // Sub-categories
   if (sanitaryParent) {
     await db
       .insert(categories)
       .values([
-        {
-          name: "Luxury Sanitary",
-          nameBn: "লাক্সারি স্যানিটারি",
-          slug: "luxury-sanitary",
-          parentId: sanitaryParent.id,
-          sortOrder: 0,
-        },
-        {
-          name: "Budget Sanitary",
-          nameBn: "বাজেট স্যানিটারি",
-          slug: "budget-sanitary",
-          parentId: sanitaryParent.id,
-          sortOrder: 1,
-        },
-        {
-          name: "Bathroom Fittings",
-          nameBn: "বাথরুম ফিটিংস",
-          slug: "bathroom-fittings",
-          parentId: sanitaryParent.id,
-          sortOrder: 2,
-        },
+        { name: "Luxury Sanitary", nameBn: "লাক্সারি স্যানিটারি", slug: "luxury-sanitary", parentId: sanitaryParent.id, sortOrder: 0 },
+        { name: "Budget Sanitary", nameBn: "বাজেট স্যানিটারি", slug: "budget-sanitary", parentId: sanitaryParent.id, sortOrder: 1 },
+        { name: "Bathroom Fittings", nameBn: "বাথরুম ফিটিংস", slug: "bathroom-fittings", parentId: sanitaryParent.id, sortOrder: 2 },
       ])
       .onConflictDoNothing()
   }
@@ -83,20 +60,8 @@ async function seed() {
     await db
       .insert(categories)
       .values([
-        {
-          name: "Corrugated Boxes",
-          nameBn: "করগেটেড বাক্স",
-          slug: "corrugated-boxes",
-          parentId: packagingParent.id,
-          sortOrder: 0,
-        },
-        {
-          name: "Tape & Adhesives",
-          nameBn: "টেপ ও আঠালো",
-          slug: "tape-adhesives",
-          parentId: packagingParent.id,
-          sortOrder: 1,
-        },
+        { name: "Corrugated Boxes", nameBn: "করগেটেড বাক্স", slug: "corrugated-boxes", parentId: packagingParent.id, sortOrder: 0 },
+        { name: "Tape & Adhesives", nameBn: "টেপ ও আঠালো", slug: "tape-adhesives", parentId: packagingParent.id, sortOrder: 1 },
       ])
       .onConflictDoNothing()
   }
@@ -112,8 +77,7 @@ async function seed() {
         name: "Premium Ceramic Wall Tile 30x60",
         nameBn: "প্রিমিয়াম সিরামিক ওয়াল টাইল ৩০x৬০",
         slug: "premium-ceramic-wall-tile-30x60",
-        description:
-          "High-quality Italian ceramic wall tile. Perfect for bathroom and kitchen walls. Glossy finish, easy to clean.",
+        description: "High-quality Italian ceramic wall tile. Perfect for bathroom and kitchen walls.",
         price: "1200",
         salePrice: "999",
         costPrice: "700",
@@ -130,8 +94,7 @@ async function seed() {
         name: "Luxury Shower Panel Set",
         nameBn: "লাক্সারি শাওয়ার প্যানেল সেট",
         slug: "luxury-shower-panel-set",
-        description:
-          "Complete shower panel set with rainfall head, hand shower, and body jets. Stainless steel finish.",
+        description: "Complete shower panel set with rainfall head, hand shower, and body jets.",
         price: "25000",
         salePrice: "22000",
         costPrice: "14000",
@@ -148,7 +111,7 @@ async function seed() {
         name: "Standard PVC Pipe 1 inch",
         nameBn: "স্ট্যান্ডার্ড পিভিসি পাইপ ১ ইঞ্চি",
         slug: "standard-pvc-pipe-1-inch",
-        description: "High-grade PVC pipe for water supply and drainage. ISI marked, pressure rated.",
+        description: "High-grade PVC pipe for water supply and drainage.",
         price: "180",
         costPrice: "120",
         stock: 1000,
@@ -203,19 +166,21 @@ async function seed() {
     .values([
       {
         title: "Premium Sanitary Items",
-        titleBn: "প্রিমিয়াম স্যানিটারি আইটেম",
         subtitle: "Quality products for your home",
         image: "https://placehold.co/1920x600/png",
-        linkUrl: "/products?category=sanitary-items",
+        ctaText: "Shop Now",
+        ctaUrl: "/products?category=sanitary-items",
+        position: "hero",
         sortOrder: 0,
         isActive: true,
       },
       {
         title: "Packaging Solutions",
-        titleBn: "প্যাকেজিং সলিউশন",
         subtitle: "Best prices in Chattogram",
         image: "https://placehold.co/1920x600/png",
-        linkUrl: "/products?category=packaging-materials",
+        ctaText: "Explore",
+        ctaUrl: "/products?category=packaging-materials",
+        position: "hero",
         sortOrder: 1,
         isActive: true,
       },
@@ -229,18 +194,18 @@ async function seed() {
     .values([
       {
         code: "WELCOME10",
-        discountType: "percent",
-        discountValue: "10",
-        maxDiscountAmount: "500",
-        minOrderAmount: "1000",
-        maxUses: 500,
+        type: "percent",
+        value: "10",
+        maxDiscount: "500",
+        minOrder: "1000",
+        usageLimit: 500,
         isActive: true,
       },
       {
         code: "FLAT100",
-        discountType: "fixed",
-        discountValue: "100",
-        minOrderAmount: "2000",
+        type: "fixed",
+        value: "100",
+        minOrder: "2000",
         isActive: true,
       },
     ])

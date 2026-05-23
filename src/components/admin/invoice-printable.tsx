@@ -40,15 +40,15 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
     <div className="bg-white p-12 w-[210mm] min-h-[297mm] mx-auto text-gray-900 font-sans print:p-8 print:w-full print:shadow-none shadow-lg border border-gray-100">
       
       {/* Header */}
-      <div className="flex justify-between items-start border-b-2 border-emerald-600 pb-8 mb-8">
+      <div className="flex justify-between items-start border-b-2 border-primary pb-8 mb-8">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className="size-12 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+            <div className="size-12 rounded-xl bg-primary flex items-center justify-center text-white">
               <Package2 className="size-8" />
             </div>
             <div className="flex flex-col">
               <span className="text-3xl font-black tracking-tighter">VARITO</span>
-              <span className="text-[10px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Solutions</span>
+              <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase">Solutions</span>
             </div>
           </div>
           <div className="text-xs font-medium text-gray-500 max-w-xs leading-relaxed">
@@ -58,7 +58,7 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
         </div>
         
         <div className="flex flex-col items-end text-right gap-2">
-          <h1 className="text-4xl font-black text-emerald-600 uppercase tracking-tight">INVOICE</h1>
+          <h1 className="text-4xl font-black text-primary uppercase tracking-tight">INVOICE</h1>
           <div className="flex flex-col">
             <span className="text-sm font-black text-gray-900">#{order.id}</span>
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{order.date}</span>
@@ -69,7 +69,7 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
       {/* Bill To / Ship To */}
       <div className="grid grid-cols-2 gap-12 mb-12">
         <div className="flex flex-col gap-3">
-          <span className="text-xs font-black text-emerald-600 uppercase tracking-widest border-b border-emerald-100 pb-1 w-fit">Bill To / Ship To</span>
+          <span className="text-xs font-black text-primary uppercase tracking-widest border-b border-primary/20 pb-1 w-fit">Bill To / Ship To</span>
           <div className="flex flex-col">
             <span className="text-lg font-black text-gray-900">{order.customer.name}</span>
             <span className="text-sm font-medium text-gray-600 mt-1">{order.customer.address}</span>
@@ -77,7 +77,7 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
           </div>
         </div>
         <div className="flex flex-col gap-3 items-end text-right">
-          <span className="text-xs font-black text-emerald-600 uppercase tracking-widest border-b border-emerald-100 pb-1 w-fit">Payment Info</span>
+          <span className="text-xs font-black text-primary uppercase tracking-widest border-b border-primary/20 pb-1 w-fit">Payment Info</span>
           <div className="flex flex-col gap-1">
             <span className="text-sm font-bold text-gray-900">{order.paymentMethod}</span>
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Status: Unpaid (COD)</span>
@@ -101,7 +101,7 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
               <td className="px-4 py-5">
                 <div className="flex flex-col">
                   <span className="text-sm font-black text-gray-900">{item.name}</span>
-                  <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{item.sku}</span>
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{item.sku}</span>
                 </div>
               </td>
               <td className="px-4 py-5 text-sm font-bold text-gray-600 text-right">৳{item.price.toLocaleString()}</td>
@@ -129,7 +129,7 @@ export function InvoicePrintable({ order }: InvoicePrintableProps) {
               <span>৳{order.codFee.toLocaleString()}</span>
             </div>
           )}
-          <div className="flex justify-between text-2xl font-black text-emerald-600 uppercase tracking-tight border-t-2 border-emerald-600 pt-3 mt-2">
+          <div className="flex justify-between text-2xl font-black text-primary uppercase tracking-tight border-t-2 border-primary pt-3 mt-2">
             <span>Total</span>
             <span>৳{order.total.toLocaleString()}</span>
           </div>

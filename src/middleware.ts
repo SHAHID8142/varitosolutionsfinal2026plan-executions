@@ -1,9 +1,8 @@
 /**
  * @file middleware.ts
- * @description Next.js edge middleware for RBAC route protection.
- *              Protects /admin routes by verifying Supabase JWT.
- *              Admin role is re-checked server-side in each API route handler —
- *              middleware only gates access, not permission level.
+ * @description Next.js middleware for admin route protection.
+ *              Admin UI pages redirect unauthenticated users to /admin/login.
+ *              Admin API routes return 401 JSON — auth is re-verified in each handler.
  *
  * @owner    Claude Backend Agent
  * @updated  2026-05-23
@@ -11,33 +10,24 @@
 
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { createServerClient } from "@supabase/ssr"
+import { createClient } from "@supabase/supabase-js"
 
 // ─────────────────────────────────────────────
 // ROUTE MATCHERS
 // ─────────────────────────────────────────────
 
-/** Admin UI pages that require a valid Supabase session */
-const PROTECTED_ADMIN_PAGES = ["/admin"]
+/** Admin UI pages that require a valid session */
+const ADMIN_PAGES = "/admin"
 
-/** Admin API routes that require a valid Supabase session */
-const PROTECTED_ADMIN_API = ["/api/admin"]
+/** Public admin routes that bypass auth */
+const PUBLIC_ADMIN_ROUTES = ["/admin/login"]
 
-/** Public routes that bypass all auth checks */
-const PUBLIC_ROUTES = [
-  "/admin/login",
-  "/api/products",
-  "/api/categories",
-  "/api/auth",
-  "/api/payment/webhook",
-]
+function isPublic(pathname: string): boolean {
+  return PUBLIC_ADMIN_ROUTES.some((p) => pathname.startsWith(p))
+}
 
-function isProtected(pathname: string): boolean {
-  if (PUBLIC_ROUTES.some((p) => pathname.startsWith(p))) return false
-  return (
-    PROTECTED_ADMIN_PAGES.some((p) => pathname.startsWith(p)) ||
-    PROTECTED_ADMIN_API.some((p) => pathname.startsWith(p))
-  )
+function isAdminPage(pathname: string): boolean {
+  return pathname.startsWith(ADMIN_PAGES) && !pathname.startsWith("/api/admin")
 }
 
 // ─────────────────────────────────────────────
@@ -47,57 +37,46 @@ function isProtected(pathname: string): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (!isProtected(pathname)) {
+  // Only protect admin UI pages — API routes handle their own auth
+  if (!isAdminPage(pathname) || isPublic(pathname)) {
     return NextResponse.next()
   }
 
-  const response = NextResponse.next()
+  // Check for Supabase auth token in cookies (set by client-side auth)
+  const supabaseToken =
+    request.cookies.get("sb-access-token")?.value ??
+    request.cookies.get("supabase-auth-token")?.value
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options)
-          })
-        },
-      },
-    }
-  )
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    // API routes return 401 JSON; pages redirect to login
-    if (pathname.startsWith("/api/")) {
-      return NextResponse.json(
-        { error: "Authentication required", code: "UNAUTHENTICATED" },
-        { status: 401 }
-      )
-    }
-
+  if (!supabaseToken) {
     const loginUrl = new URL("/admin/login", request.url)
     loginUrl.searchParams.set("next", pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  return response
+  // Verify token against Supabase
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    )
+
+    const { data, error } = await supabase.auth.getUser(supabaseToken)
+    if (error || !data.user) {
+      const loginUrl = new URL("/admin/login", request.url)
+      loginUrl.searchParams.set("next", pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  } catch {
+    const loginUrl = new URL("/admin/login", request.url)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all paths except static files and Next.js internals.
-     * This middleware only acts on admin routes — all other paths
-     * pass through immediately via the isProtected() check above.
-     */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 }

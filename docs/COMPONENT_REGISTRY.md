@@ -63,6 +63,19 @@
 | `[x]` | ProductForm | `product-form.tsx` | Admin | Multi-step creation/edit form |
 | `[x]` | ImageUploader | `image-uploader.tsx` | Admin | Multi-image upload with R2 focus |
 | `[x]` | CategoryTree | `category-tree.tsx` | Admin | Hierarchical category manager |
+| `[x]` | FlashDealsTable | `flash-deals-table.tsx` | Admin | Timed promotion management |
+| `[x]` | FlashDealForm | `flash-deal-form.tsx` | Admin | Product promotion scheduler |
+| `[x]` | FlashDealCountdown | `flash-deal-countdown.tsx` | Display | Real-time deal timer |
+
+## SEO & Engagement Components (`src/components/shop/` & `src/components/ui/`)
+
+| Status | Component | File | Preview Section | Notes |
+|--------|-----------|------|----------------|-------|
+| `[x]` | ProductSchema | `product-schema.tsx` | SEO | JSON-LD for individual products |
+| `[x]` | CategorySchema | `category-schema.tsx` | SEO | JSON-LD for collection pages |
+| `[x]` | OrganizationSchema | `organization-schema.tsx` | SEO | JSON-LD for brand identification |
+| `[x]` | FacebookMessenger | `facebook-messenger.tsx` | Engagement | Floating chat widget |
+| `[x]` | PWAInstallPrompt | `pwa-install-prompt.tsx` | Engagement | Smart banner for mobile install |
 
 ## Admin Layout Components (`src/components/layout/`)
 

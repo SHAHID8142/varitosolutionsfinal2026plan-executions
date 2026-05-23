@@ -62,7 +62,7 @@ const STATUS_COLORS: Record<string, string> = {
   packing: "text-cyan-500 bg-cyan-50 border-cyan-100",
   shipping: "text-purple-500 bg-purple-50 border-purple-100",
   handover: "text-indigo-500 bg-indigo-50 border-indigo-100",
-  delivered: "text-emerald-500 bg-emerald-50 border-emerald-100",
+  delivered: "text-primary bg-primary/5 border-primary/20",
   not_received: "text-orange-500 bg-orange-50 border-orange-100",
   cancelled: "text-red-500 bg-red-50 border-red-100",
   returned: "text-gray-500 bg-gray-50 border-gray-100",
@@ -92,7 +92,7 @@ export function OrderTimeline({ events, className }: OrderTimelineProps) {
                 <Icon className="size-5" />
               </div>
               {!isLast && (
-                <div className="w-0.5 flex-1 bg-gray-100 my-1 group-hover:bg-emerald-100 transition-colors" />
+                <div className="w-0.5 flex-1 bg-gray-100 my-1 group-hover:bg-primary/10 transition-colors" />
               )}
             </div>
 

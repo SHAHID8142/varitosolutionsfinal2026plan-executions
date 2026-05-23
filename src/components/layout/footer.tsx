@@ -73,7 +73,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         
         {/* Newsletter Section */}
-        <div className="mb-16 p-8 md:p-12 rounded-[40px] bg-emerald-50 border border-emerald-100 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="mb-16 p-8 md:p-12 rounded-[40px] bg-primary/5 border border-primary/20 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="flex flex-col gap-2 max-w-lg text-center lg:text-left">
             <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight uppercase">Join our Newsletter</h3>
             <p className="text-gray-600 font-medium">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
@@ -109,9 +109,9 @@ export function Footer() {
               Delivering reliability to your doorstep across Bangladesh.
             </p>
             <div className="flex items-center gap-4">
-              <button onClick={() => handleSocialClick("Facebook")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Facebook"><FacebookIcon className="size-5" /></button>
-              <button onClick={() => handleSocialClick("Instagram")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Instagram"><InstagramIcon className="size-5" /></button>
-              <button onClick={() => handleSocialClick("YouTube")} className="text-gray-400 hover:text-primary transition-colors" aria-label="Youtube"><YoutubeIcon className="size-5" /></button>
+              <button onClick={() => handleSocialClick("Facebook")} className="p-2 rounded-full text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Facebook"><FacebookIcon className="size-5" /></button>
+              <button onClick={() => handleSocialClick("Instagram")} className="p-2 rounded-full text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Instagram"><InstagramIcon className="size-5" /></button>
+              <button onClick={() => handleSocialClick("YouTube")} className="p-2 rounded-full text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Youtube"><YoutubeIcon className="size-5" /></button>
             </div>
           </div>
 
