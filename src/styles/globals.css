@@ -58,6 +58,15 @@
   --color-nagad-bg: var(--nagad-bg);
   --color-nagad-text: var(--nagad-text);
 
+  /* Danger aliases — maps danger-* utility classes to the destructive color */
+  --color-danger-50:  #FEF2F2;
+  --color-danger-100: #FEE2E2;
+  --color-danger-200: #FECACA;
+  --color-danger-400: #F87171;
+  --color-danger-500: #EF4444;
+  --color-danger-600: #DC2626;
+  --color-danger-700: #B91C1C;
+
   /* Radius */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);

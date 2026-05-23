@@ -10,7 +10,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
-import { getAuthUser } from "@/lib/auth"
+import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 import { conversations } from "@/db/schema"
 import { eq } from "drizzle-orm"
 
@@ -35,24 +35,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const authUser = await getAuthUser(request)
-
-  if (!authUser?.dbUser) {
-    return NextResponse.json(
-      { error: "Unauthorized", code: "UNAUTHORIZED" },
-      { status: 401 }
-    )
-  }
-
-  const isStaff =
-    authUser.dbUser.role === "staff" || authUser.dbUser.role === "super_admin"
-
-  if (!isStaff) {
-    return NextResponse.json(
-      { error: "Forbidden", code: "FORBIDDEN" },
-      { status: 403 }
-    )
-  }
+  const admin = await requireAdmin(request)
+  if (isAuthError(admin)) return admin
 
   const { id } = await params
   const conversationId = parseInt(id, 10)
@@ -90,7 +74,7 @@ export async function PATCH(
   if (status === "closed") {
     // Record who closed it and when
     updateValues.closedAt = now
-    updateValues.closedBy = authUser.dbUser.id
+    updateValues.closedBy = admin.userId
   } else {
     // Re-opening or resolving — clear close metadata
     updateValues.closedAt = null

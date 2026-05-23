@@ -26,12 +26,17 @@ const serverEnvSchema = z.object({
   AAMARPAY_SIGNATURE_KEY: z.string().min(1),
   AAMARPAY_MODE: z.enum(["sandbox", "live"]),
   BREVO_API_KEY: z.string().min(1),
+  UPSTASH_REDIS_REST_URL: z.string().url("UPSTASH_REDIS_REST_URL must be a valid URL"),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
+  STEADFAST_API_KEY: z.string().min(1),
+  STEADFAST_API_SECRET: z.string().min(1),
 })
 
 const clientEnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
 })
 
 // ─────────────────────────────────────────────
@@ -57,4 +62,5 @@ export const clientEnv = clientEnvSchema.parse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
 })

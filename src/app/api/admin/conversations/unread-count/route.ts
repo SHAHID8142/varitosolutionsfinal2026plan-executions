@@ -9,9 +9,9 @@
 
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { getAuthUser } from "@/lib/auth"
+import { requireAdmin, isAuthError } from "@/lib/admin-auth"
 import { conversations } from "@/db/schema"
-import { eq, and, gt, sql } from "drizzle-orm"
+import { and, eq, gt, sql } from "drizzle-orm"
 
 // ─────────────────────────────────────────────
 // GET /api/admin/conversations/unread-count
@@ -22,24 +22,8 @@ import { eq, and, gt, sql } from "drizzle-orm"
  * Used to drive the sidebar Messages badge.
  */
 export async function GET(request: NextRequest) {
-  const authUser = await getAuthUser(request)
-
-  if (!authUser?.dbUser) {
-    return NextResponse.json(
-      { error: "Unauthorized", code: "UNAUTHORIZED" },
-      { status: 401 }
-    )
-  }
-
-  const isStaff =
-    authUser.dbUser.role === "staff" || authUser.dbUser.role === "super_admin"
-
-  if (!isStaff) {
-    return NextResponse.json(
-      { error: "Forbidden", code: "FORBIDDEN" },
-      { status: 403 }
-    )
-  }
+  const admin = await requireAdmin(request)
+  if (isAuthError(admin)) return admin
 
   // Sum the unreadStaff counter across all open conversations
   const [result] = await db

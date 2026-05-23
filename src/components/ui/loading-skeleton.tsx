@@ -79,3 +79,11 @@ export function PageSkeleton() {
 export function TextSkeleton({ className }: { className?: string }) {
   return <Skeleton className={cn("h-4 w-full", className)} />
 }
+
+/**
+ * Generic rectangular skeleton — use when no specific variant fits.
+ * Pass className to control dimensions (e.g. "h-32 rounded-2xl").
+ */
+export function LoadingSkeleton({ className }: { className?: string }) {
+  return <Skeleton className={cn("w-full", className)} />
+}

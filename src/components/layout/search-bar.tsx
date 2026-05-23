@@ -75,13 +75,20 @@ export function SearchBar({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "relative flex w-full items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 transition-all",
-        isFocused && "border-primary ring-2 ring-primary-100 bg-white",
+        "relative flex w-full items-center rounded-lg border border-gray-200 bg-gray-50 transition-all overflow-hidden",
+        isFocused && "border-primary ring-2 ring-primary/20 bg-white",
         className
       )}
     >
-      <Search className="size-5 text-gray-400 shrink-0" />
-      
+      {/* Search icon — left side, decorative on desktop, submit button on mobile */}
+      <button
+        type="submit"
+        aria-label="Search"
+        className="flex items-center justify-center size-10 shrink-0 text-gray-400 hover:text-primary transition-colors"
+      >
+        <Search className="size-5" />
+      </button>
+
       <input
         type="text"
         value={query}
@@ -89,22 +96,23 @@ export function SearchBar({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         placeholder={placeholder}
-        aria-label="Search"
-        className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-gray-400"
+        aria-label="Search products"
+        className="flex-1 min-w-0 bg-transparent py-2 pr-2 text-sm font-medium outline-none placeholder:text-gray-400"
       />
 
+      {/* Clear button — only when there is text */}
       {query && (
         <button
           type="button"
           onClick={handleClear}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="flex items-center justify-center size-8 mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors shrink-0"
           aria-label="Clear search"
         >
           <X className="size-4" />
         </button>
       )}
 
-      {/* Suggestions Dropdown (Placeholder for UI) */}
+      {/* Suggestions Dropdown */}
       {isFocused && query.length > 1 && (
         <div className="absolute top-full left-0 right-0 z-50 mt-2 rounded-xl border border-gray-100 bg-white p-2 shadow-lg animate-in fade-in zoom-in-95">
           <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-3 py-2">

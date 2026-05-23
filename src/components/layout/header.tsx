@@ -186,7 +186,7 @@ export function Header() {
               onClick={() => toast.info("You have no new notifications.")}
             >
               <Bell className="size-5" />
-              <span className="absolute top-2 right-2 size-2 bg-danger-500 rounded-full" />
+              <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full" />
             </Button>
 
             <Link href="/account" className="hidden lg:block">
