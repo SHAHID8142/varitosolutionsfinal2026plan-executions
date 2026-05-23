@@ -405,7 +405,10 @@ export default function ComponentPreviewPage() {
         <ComponentSection title="📋 Address & Forms">
           {renderResponsive(
             <div className="max-w-2xl">
-              <AddressForm />
+              <AddressForm
+                value={{ name: "", phone: "", district: "", thana: "", area: "", road: "", house: "", landmark: "" }}
+                onChange={() => {}}
+              />
             </div>
           )}
         </ComponentSection>

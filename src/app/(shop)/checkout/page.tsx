@@ -1,30 +1,40 @@
 /**
  * @file page.tsx
  * @path /checkout
- * @description Checkout page — address, payment method, coupon validation,
- *              and order placement. Coupon calls POST /api/coupons/validate.
+ * @description Checkout page — reads from CartContext, collects address, payment method,
+ *              validates coupon, and calls POST /api/orders to place the real order.
  *
- * @owner    Gemini Design Agent
- * @updated  2026-05-23
+ * @owner    Gemini Design Agent / Claude Backend Agent
+ * @updated  2026-05-24
  */
 
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
-import { ArrowLeft, ShieldCheck, Lock, CreditCard, Tag, X, CheckCircle2, Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { ArrowLeft, ShieldCheck, Lock, CreditCard, Tag, X, CheckCircle2, Loader2, ShoppingCart } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { BottomNav } from "@/components/layout/bottom-nav"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { AddressForm } from "@/components/shop/address-form"
+import { AddressForm, type AddressData } from "@/components/shop/address-form"
 import { PaymentMethodSelector } from "@/components/shop/payment-method-selector"
 import { OrderSummary } from "@/components/shop/order-summary"
+import { EmptyState } from "@/components/ui/empty-state"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { useCart } from "@/components/providers/cart-provider"
+
+// ─────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────
+
+const SHIPPING = 80
+const COD_FEE = 40
 
 // ─────────────────────────────────────────────
 // COUPON WIDGET
@@ -141,29 +151,129 @@ function CouponWidget({ subtotal, onApply, onRemove, applied }: CouponWidgetProp
 }
 
 // ─────────────────────────────────────────────
+// ADDRESS VALIDATION
+// ─────────────────────────────────────────────
+
+const PHONE_RE = /^01[3-9]\d{8}$/
+
+function validateAddress(addr: AddressData): Partial<Record<keyof AddressData, string>> {
+  const errs: Partial<Record<keyof AddressData, string>> = {}
+  if (!addr.name.trim()) errs.name = "Name is required"
+  if (!PHONE_RE.test(addr.phone.trim())) errs.phone = "Enter a valid Bangladesh phone number (01XXXXXXXXX)"
+  if (!addr.district) errs.district = "Select a district"
+  if (!addr.thana) errs.thana = "Select a thana"
+  if (!addr.area.trim()) errs.area = "Area is required"
+  return errs
+}
+
+// ─────────────────────────────────────────────
 // MAIN PAGE EXPORT
 // ─────────────────────────────────────────────
 
-// Hardcoded cart for now — will be replaced when cart state management is wired
-const MOCK_SUBTOTAL = 12450
+const EMPTY_ADDRESS: AddressData = {
+  name: "", phone: "", district: "", thana: "", area: "", road: "", house: "", landmark: "",
+}
 
-/** Checkout page with address form, payment selection, coupon validation, and order placement. */
+/** Checkout page — reads live cart, collects address, places real order via POST /api/orders. */
 export default function CheckoutPage() {
+  const router = useRouter()
+  const { items, subtotal, clearCart } = useCart()
+
+  const [address, setAddress] = React.useState<AddressData>(EMPTY_ADDRESS)
+  const [addrErrors, setAddrErrors] = React.useState<Partial<Record<keyof AddressData, string>>>({})
   const [paymentMethod, setPaymentMethod] = React.useState<"cod" | "bkash" | "nagad" | "card">("cod")
   const [isPlacingOrder, setIsPlacingOrder] = React.useState(false)
   const [appliedCoupon, setAppliedCoupon] = React.useState<AppliedCoupon | null>(null)
 
-  const codFee = paymentMethod === "cod" ? 40 : 0
+  const codFee = paymentMethod === "cod" ? COD_FEE : 0
   const discount = appliedCoupon?.discountAmount ?? 0
-  const shipping = 120
-  const total = MOCK_SUBTOTAL + shipping + codFee - discount
+  const total = subtotal + SHIPPING + codFee - discount
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
+    // Validate address first
+    const errors = validateAddress(address)
+    if (Object.keys(errors).length > 0) {
+      setAddrErrors(errors)
+      toast.error("Please fill in all required delivery fields.")
+      return
+    }
+    setAddrErrors({})
+
+    if (items.length === 0) {
+      toast.error("Your cart is empty.")
+      return
+    }
+
     setIsPlacingOrder(true)
-    // TODO: wire to POST /api/orders with real cart + address + payment data
-    setTimeout(() => {
-      window.location.href = "/order/VR-2026-00001"
-    }, 2000)
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({ productId: i.productId, qty: i.quantity })),
+          address: {
+            name: address.name.trim(),
+            phone: address.phone.trim(),
+            district: address.district,
+            thana: address.thana,
+            area: address.area.trim(),
+            road: address.road.trim() || undefined,
+            house: address.house.trim() || undefined,
+            landmark: address.landmark.trim() || undefined,
+          },
+          paymentMethod,
+          couponCode: appliedCoupon?.code || undefined,
+        }),
+      })
+
+      const json = await res.json()
+
+      if (!res.ok) {
+        toast.error(json.error ?? "Failed to place order. Please try again.")
+        return
+      }
+
+      // COD — order confirmed, redirect to order confirmation
+      if (paymentMethod === "cod") {
+        clearCart()
+        router.push(`/order/${json.data.orderNumber}`)
+        return
+      }
+
+      // Online payment — redirect to aamarPay payment URL
+      if (json.data.paymentUrl) {
+        clearCart()
+        window.location.href = json.data.paymentUrl
+        return
+      }
+
+      // Fallback
+      clearCart()
+      router.push(`/order/${json.data.orderNumber}`)
+    } catch {
+      toast.error("Network error. Please check your connection and try again.")
+    } finally {
+      setIsPlacingOrder(false)
+    }
+  }
+
+  // Empty cart — show empty state
+  if (items.length === 0 && !isPlacingOrder) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-50/50">
+        <Header />
+        <main className="flex-1 flex items-center justify-center p-8">
+          <EmptyState
+            icon={<ShoppingCart className="size-10" />}
+            title="Your cart is empty"
+            description="Add some products to your cart before checking out."
+            cta={<Link href="/products"><Button variant="primary" size="lg">Browse Products</Button></Link>}
+          />
+        </main>
+        <Footer />
+        <BottomNav />
+      </div>
+    )
   }
 
   return (
@@ -203,7 +313,7 @@ export default function CheckoutPage() {
                   <div className="size-8 rounded-full bg-primary text-white flex items-center justify-center font-black text-sm">1</div>
                   <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Delivery Address</h2>
                 </div>
-                <AddressForm />
+                <AddressForm value={address} onChange={setAddress} errors={addrErrors} />
               </section>
 
               {/* 2. Payment Method */}
@@ -229,7 +339,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                   <CouponWidget
-                    subtotal={MOCK_SUBTOTAL}
+                    subtotal={subtotal}
                     applied={appliedCoupon}
                     onApply={setAppliedCoupon}
                     onRemove={() => setAppliedCoupon(null)}
@@ -237,7 +347,7 @@ export default function CheckoutPage() {
                 </div>
               </section>
 
-              {/* Secure Checkout Note */}
+              {/* SSL note */}
               <div className="flex items-center gap-3 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
                 <ShieldCheck className="size-10 text-primary shrink-0" />
                 <div className="flex flex-col gap-0.5">
@@ -253,8 +363,8 @@ export default function CheckoutPage() {
             {/* RIGHT: Order Summary Sidebar */}
             <div className="lg:col-span-4 sticky top-32 flex flex-col gap-6">
               <OrderSummary
-                subtotal={MOCK_SUBTOTAL}
-                shipping={shipping}
+                subtotal={subtotal}
+                shipping={SHIPPING}
                 codFee={codFee}
                 discount={discount}
               />
@@ -281,23 +391,24 @@ export default function CheckoutPage() {
                 {paymentMethod !== "cod" && <CreditCard className="size-6" />}
               </Button>
 
+              {/* Cart items summary */}
               <div className="flex flex-col gap-6 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
-                <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">Order Details</h3>
-                <div className="flex flex-col gap-4">
-                  <div className="flex gap-3">
-                    <div className="size-12 rounded-lg bg-gray-50 border border-gray-100 shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-gray-900 line-clamp-1">Luxury Gold Faucet</span>
-                      <span className="text-[10px] text-gray-500 font-medium">Qty: 1 × ৳3,800</span>
+                <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">Order Items ({items.length})</h3>
+                <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+                  {items.map((item) => (
+                    <div key={item.productId} className="flex gap-3">
+                      <div className="size-12 rounded-lg bg-gray-50 border border-gray-100 shrink-0 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={item.image} alt={item.name} className="size-full object-cover" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs font-bold text-gray-900 line-clamp-1">{item.name}</span>
+                        <span className="text-[10px] text-gray-500 font-medium">
+                          Qty: {item.quantity} × ৳{(item.salePrice ?? item.price).toLocaleString()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="size-12 rounded-lg bg-gray-50 border border-gray-100 shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-gray-900 line-clamp-1">Heavy Duty Packaging Tape...</span>
-                      <span className="text-[10px] text-gray-500 font-medium">Qty: 2 × ৳720</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
                 <Link href="/cart" className="text-xs font-black text-primary uppercase tracking-wider text-center hover:underline">
                   Edit Cart Items

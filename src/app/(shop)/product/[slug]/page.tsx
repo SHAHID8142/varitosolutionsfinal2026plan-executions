@@ -45,6 +45,7 @@ import { ProductSchema } from "@/components/shop/product-schema"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { usePostHog } from "posthog-js/react"
+import { useCart } from "@/components/providers/cart-provider"
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -116,6 +117,7 @@ export default function ProductDetailPage() {
   const params = useParams()
   const slug = params.slug as string
   const posthog = usePostHog()
+  const { addItem } = useCart()
 
   const [product, setProduct] = React.useState<ApiProduct | null>(null)
   const [related, setRelated] = React.useState<RelatedProduct[]>([])
@@ -160,6 +162,17 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return
+    addItem(
+      {
+        productId: Number(product.id),
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        salePrice: product.salePrice ?? undefined,
+        image: product.images[0] ?? "/placeholder-product.jpg",
+      },
+      quantity
+    )
     posthog?.capture("product_added_to_cart", {
       product_id: product.id,
       product_name: product.name,

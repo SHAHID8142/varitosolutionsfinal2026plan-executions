@@ -10,8 +10,8 @@
 import { serverEnv } from "@/lib/env"
 
 const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email"
-const FROM_EMAIL = "noreply@varitosolutions.com"
-const FROM_NAME = "Varito Solutions"
+const FROM_EMAIL = serverEnv.BREVO_SENDER_EMAIL ?? "noreply@varitosolutions.com"
+const FROM_NAME = serverEnv.BREVO_SENDER_NAME ?? "Varito Solutions"
 
 // ─────────────────────────────────────────────
 // TYPES

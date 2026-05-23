@@ -1,22 +1,63 @@
 /**
  * @file api/orders/route.ts
- * @description Create a new order. Works for guests and authenticated users.
- *              Prices are always calculated server-side — never trust client.
+ * @description GET  /api/orders?phone=01XXXXXXXXX — list orders by customer phone (no auth required)
+ *              POST /api/orders — create a new order (guests and authenticated users)
+ *              Prices always calculated server-side — never trust client.
  *              COD fee: ৳40. Decrements stock on order creation.
  *
  * @owner    Claude Backend Agent
- * @updated  2026-05-23
+ * @updated  2026-05-24
  */
 
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { products, orders, orderItems, coupons, couponUses, orderHistory } from "@/db/schema"
-import { and, count, eq, inArray, isNull, sql } from "drizzle-orm"
+import { and, count, desc, eq, inArray, isNull, sql } from "drizzle-orm"
 import { getAuthUser } from "@/lib/auth"
 import { initiateAamarPayPayment } from "@/lib/aamarpay"
 import { sendOrderConfirmationEmail } from "@/lib/brevo"
-import { orderRatelimit, getClientIp } from "@/lib/ratelimit"
+import { orderRatelimit, publicApiRatelimit, getClientIp } from "@/lib/ratelimit"
+
+// ─────────────────────────────────────────────
+// GET /api/orders?phone=01XXXXXXXXX
+// ─────────────────────────────────────────────
+
+const PHONE_RE = /^01[3-9]\d{8}$/
+
+/** Returns up to 20 most recent orders for a given customer phone number. */
+export async function GET(request: Request) {
+  const ip = getClientIp(request)
+  const { success } = await publicApiRatelimit.limit(ip)
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests", code: "RATE_LIMITED" }, { status: 429 })
+  }
+
+  const { searchParams } = new URL(request.url)
+  const phone = searchParams.get("phone")?.trim()
+
+  if (!phone || !PHONE_RE.test(phone)) {
+    return NextResponse.json(
+      { error: "A valid Bangladesh phone number is required (01XXXXXXXXX)", code: "VALIDATION_ERROR" },
+      { status: 400 }
+    )
+  }
+
+  const rows = await db
+    .select({
+      orderNumber: orders.orderNumber,
+      status: orders.status,
+      paymentStatus: orders.paymentStatus,
+      total: orders.total,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .where(eq(orders.customerPhone, phone))
+    .orderBy(desc(orders.createdAt))
+    .limit(20)
+
+  return NextResponse.json({ data: rows })
+}
 
 // ─────────────────────────────────────────────
 // CONSTANTS

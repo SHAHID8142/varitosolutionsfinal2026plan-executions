@@ -5,6 +5,7 @@ import { PostHogProvider } from "./posthog-provider";
 import { PostHogPageView } from "./posthog-pageview";
 import { FacebookMessenger } from "@/components/ui/facebook-messenger";
 import { PWAInstallPrompt } from "@/components/ui/pwa-install-prompt";
+import { CartProvider } from "@/components/providers/cart-provider";
 import "./../styles/globals.css";
 
 export const viewport: Viewport = {
@@ -66,11 +67,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <PostHogProvider>
-          <PostHogPageView />
-          {children}
-          <Toaster />
-          <FacebookMessenger />
-          <PWAInstallPrompt />
+          <CartProvider>
+            <PostHogPageView />
+            {children}
+            <Toaster />
+            <FacebookMessenger />
+            <PWAInstallPrompt />
+          </CartProvider>
         </PostHogProvider>
       </body>
     </html>
