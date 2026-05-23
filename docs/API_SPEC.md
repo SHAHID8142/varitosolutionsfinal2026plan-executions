@@ -254,7 +254,7 @@ Verify OTP and return session.
 
 ## Public Routes — Content
 
-### `[ ]` GET /api/banners
+### `[READY]` GET /api/banners
 Get active banners for the homepage. Public, no auth.
 
 **Query params:**
@@ -284,7 +284,7 @@ type Banner = {
 
 ---
 
-### `[ ]` GET /api/flash-deal
+### `[READY]` GET /api/flash-deal
 Get the currently active flash deal. Public, no auth.
 
 **Response:**
@@ -311,7 +311,7 @@ type FlashDeal = {
 
 ---
 
-### `[ ]` POST /api/coupons/validate
+### `[READY]` POST /api/coupons/validate
 Validate a coupon code and return the discount amount. Public, no auth required.
 
 **Request:**
@@ -356,7 +356,7 @@ Role check reads from **database only** — never from JWT claims.
 
 ### Dashboard
 
-### `[ ]` GET /api/admin/dashboard/stats
+### `[READY]` GET /api/admin/dashboard/stats
 At-a-glance business summary. Both roles.
 
 **Response:**
@@ -379,7 +379,7 @@ At-a-glance business summary. Both roles.
 
 ### Orders
 
-### `[ ]` GET /api/admin/orders
+### `[READY]` GET /api/admin/orders
 List all orders with filters and pagination. Both roles.
 
 **Query params:**
@@ -420,7 +420,7 @@ type OrderSummary = {
 
 ---
 
-### `[ ]` GET /api/admin/orders/[id]
+### `[READY]` GET /api/admin/orders/[id]
 Full order detail. Both roles.
 
 **Response:**
@@ -455,7 +455,7 @@ Full order detail. Both roles.
 
 ---
 
-### `[ ]` PATCH /api/admin/orders/[id]/status
+### `[READY]` PATCH /api/admin/orders/[id]/status
 Update order status and optionally add a note. Both roles.
 
 **Request:**
@@ -469,7 +469,7 @@ Update order status and optionally add a note. Both roles.
 
 ---
 
-### `[ ]` PATCH /api/admin/orders/[id]/payment
+### `[READY]` PATCH /api/admin/orders/[id]/payment
 Mark a COD order as paid/collected. Both roles.
 
 **Request:**
@@ -481,14 +481,14 @@ Mark a COD order as paid/collected. Both roles.
 
 ---
 
-### `[ ]` PATCH /api/admin/orders/[id]/notes
+### `[READY]` PATCH /api/admin/orders/[id]/notes
 Update internal admin notes (never visible to customer). Both roles.
 
 **Request:** `{ adminNotes: string }`
 
 ---
 
-### `[ ]` POST /api/admin/orders/[id]/courier
+### `[READY]` POST /api/admin/orders/[id]/courier
 Book shipment with a courier. Both roles.
 
 **Request:**
@@ -516,7 +516,7 @@ Book shipment with a courier. Both roles.
 
 ---
 
-### `[ ]` POST /api/admin/orders/[id]/refund
+### `[READY]` POST /api/admin/orders/[id]/refund
 Initiate refund via aamarPay. **Super Admin only.**
 
 **Request:** `{ reason: string; amount?: number }` (omit amount = full refund)
@@ -525,7 +525,7 @@ Initiate refund via aamarPay. **Super Admin only.**
 
 ---
 
-### `[ ]` GET /api/admin/orders/export
+### `[READY]` GET /api/admin/orders/export
 Export orders as CSV. **Super Admin only.**
 
 **Query:** `dateFrom`, `dateTo`, `status` (same as list endpoint)
@@ -538,7 +538,7 @@ Export orders as CSV. **Super Admin only.**
 
 ### Products
 
-### `[ ]` GET /api/admin/products
+### `[READY]` GET /api/admin/products
 List all products including `cost_price`. Both roles.
 
 **Query params:** `category`, `search`, `stockStatus` (`in_stock|low|out`), `isActive`, `isDeleted`, `cursor`, `limit`, `sort`
@@ -549,7 +549,7 @@ List all products including `cost_price`. Both roles.
 
 ---
 
-### `[ ]` POST /api/admin/products
+### `[READY]` POST /api/admin/products
 Create product. Both roles.
 
 **Request:**
@@ -577,12 +577,12 @@ Create product. Both roles.
 
 ---
 
-### `[ ]` GET /api/admin/products/[id]
+### `[READY]` GET /api/admin/products/[id]
 Get single product with all fields. Both roles.
 
 ---
 
-### `[ ]` PATCH /api/admin/products/[id]
+### `[READY]` PATCH /api/admin/products/[id]
 Partial update. Only send fields that changed. Both roles.
 
 **Restricted fields (Super Admin only):** `costPrice`, `isFeatured`
@@ -590,17 +590,17 @@ Partial update. Only send fields that changed. Both roles.
 
 ---
 
-### `[ ]` DELETE /api/admin/products/[id]
+### `[READY]` DELETE /api/admin/products/[id]
 Soft delete (sets `deleted_at`). **Super Admin only.**
 
 ---
 
-### `[ ]` PATCH /api/admin/products/[id]/restore
+### `[READY]` PATCH /api/admin/products/[id]/restore
 Restore soft-deleted product. **Super Admin only.**
 
 ---
 
-### `[ ]` PATCH /api/admin/products/[id]/stock
+### `[READY]` PATCH /api/admin/products/[id]/stock
 Quick stock adjustment. Both roles. Appends to `inventory_log`.
 
 **Request:**
@@ -618,7 +618,7 @@ Quick stock adjustment. Both roles. Appends to `inventory_log`.
 
 ### Upload
 
-### `[ ]` POST /api/admin/upload
+### `[READY]` POST /api/admin/upload
 Upload image to Cloudflare R2. Both roles.
 
 **Request:** `multipart/form-data` with `file` field  
@@ -630,7 +630,7 @@ Upload image to Cloudflare R2. Both roles.
 
 ### Categories
 
-### `[ ]` GET /api/admin/categories
+### `[READY]` GET /api/admin/categories
 Full category tree including inactive and product counts. Both roles.
 
 **Response:**
@@ -651,18 +651,18 @@ type AdminCategory = {
 }
 ```
 
-### `[ ]` POST /api/admin/categories
+### `[READY]` POST /api/admin/categories
 Create category. Both roles.
 
 **Request:** `{ name: string; nameBn?: string; slug: string; parentId?: number; image?: string; sortOrder?: number; isFeatured?: boolean }`
 
-### `[ ]` PATCH /api/admin/categories/[id]
+### `[READY]` PATCH /api/admin/categories/[id]
 Update category. Both roles. Partial update.
 
-### `[ ]` DELETE /api/admin/categories/[id]
+### `[READY]` DELETE /api/admin/categories/[id]
 Deactivate category (`is_active = false`). **Does not delete if it has products.** Returns `409` if products exist.
 
-### `[ ]` PATCH /api/admin/categories/reorder
+### `[READY]` PATCH /api/admin/categories/reorder
 Bulk update `sort_order`. Both roles.
 
 **Request:** `{ items: { id: number; sortOrder: number }[] }`
@@ -671,7 +671,7 @@ Bulk update `sort_order`. Both roles.
 
 ### Customers
 
-### `[ ]` GET /api/admin/customers
+### `[READY]` GET /api/admin/customers
 List customers. Both roles.
 
 **Query:** `search` (phone or name), `status` (`active|banned`), `dateFrom`, `dateTo`, `cursor`, `limit`
@@ -689,19 +689,19 @@ List customers. Both roles.
 }
 ```
 
-### `[ ]` GET /api/admin/customers/[id]
+### `[READY]` GET /api/admin/customers/[id]
 Customer detail + full order history. Both roles.
 
 **Response:** Customer profile + `orders: OrderSummary[]` + `addresses: Address[]`
 
-### `[ ]` PATCH /api/admin/customers/[id]/ban
+### `[READY]` PATCH /api/admin/customers/[id]/ban
 Ban customer. **Super Admin only.**
 
 **Request:** `{ reason: string }`
 
 **Side effects:** Sets `is_banned = true`, `banned_at`, `ban_reason`, `banned_by`. Logs to `audit_log`.
 
-### `[ ]` PATCH /api/admin/customers/[id]/unban
+### `[READY]` PATCH /api/admin/customers/[id]/unban
 Unban customer. **Super Admin only.**
 
 **Side effects:** Sets `is_banned = false`, clears `ban_reason`. Logs to `audit_log`.
@@ -712,29 +712,29 @@ Unban customer. **Super Admin only.**
 
 All analytics routes: Both roles. All query `dateFrom`/`dateTo` or a `period` param.
 
-### `[ ]` GET /api/admin/analytics/revenue
+### `[READY]` GET /api/admin/analytics/revenue
 See `docs/ANALYTICS.md §4` for full response shape.
 
-### `[ ]` GET /api/admin/analytics/orders
+### `[READY]` GET /api/admin/analytics/orders
 See `docs/ANALYTICS.md §4` for full response shape.
 
-### `[ ]` GET /api/admin/analytics/products
+### `[READY]` GET /api/admin/analytics/products
 **Query:** `period` = `7d` | `30d` | `90d`. See `docs/ANALYTICS.md §4`.
 
-### `[ ]` GET /api/admin/analytics/customers
+### `[READY]` GET /api/admin/analytics/customers
 See `docs/ANALYTICS.md §4` for full response shape.
 
-### `[ ]` GET /api/admin/analytics/inventory
+### `[READY]` GET /api/admin/analytics/inventory
 Includes `totalStockValue` (cost_price × stock). **Super Admin only for this field**.
 
 ---
 
 ### Banners & Content
 
-### `[ ]` GET /api/admin/banners
+### `[READY]` GET /api/admin/banners
 All banners including inactive. Both roles.
 
-### `[ ]` POST /api/admin/banners
+### `[READY]` POST /api/admin/banners
 Create banner. Both roles.
 
 **Request:**
@@ -749,13 +749,13 @@ Create banner. Both roles.
 }
 ```
 
-### `[ ]` PATCH /api/admin/banners/[id]
+### `[READY]` PATCH /api/admin/banners/[id]
 Update banner. Both roles. Partial update.
 
-### `[ ]` DELETE /api/admin/banners/[id]
+### `[READY]` DELETE /api/admin/banners/[id]
 Hard delete banner. Both roles.
 
-### `[ ]` PATCH /api/admin/banners/reorder
+### `[READY]` PATCH /api/admin/banners/reorder
 Bulk sort_order update. Both roles.
 
 **Request:** `{ items: { id: number; sortOrder: number }[] }`
@@ -764,10 +764,10 @@ Bulk sort_order update. Both roles.
 
 ### Flash Deals
 
-### `[ ]` GET /api/admin/flash-deals
+### `[READY]` GET /api/admin/flash-deals
 List all flash deals (including past). Both roles.
 
-### `[ ]` POST /api/admin/flash-deals
+### `[READY]` POST /api/admin/flash-deals
 Create flash deal. Both roles.
 
 **Request:**
@@ -783,17 +783,17 @@ Create flash deal. Both roles.
 
 **Validation:** Only one deal can be active (overlapping time range returns `409`).
 
-### `[ ]` PATCH /api/admin/flash-deals/[id]
+### `[READY]` PATCH /api/admin/flash-deals/[id]
 Update deal. Both roles. Can deactivate early by setting `isActive = false`.
 
 ---
 
 ### Coupons (Super Admin only)
 
-### `[ ]` GET /api/admin/coupons
+### `[READY]` GET /api/admin/coupons
 List coupons with `usedCount` and usage percentage. **Super Admin only.**
 
-### `[ ]` POST /api/admin/coupons
+### `[READY]` POST /api/admin/coupons
 Create coupon. **Super Admin only.**
 
 **Request:**
@@ -811,41 +811,41 @@ Create coupon. **Super Admin only.**
 }
 ```
 
-### `[ ]` PATCH /api/admin/coupons/[id]
+### `[READY]` PATCH /api/admin/coupons/[id]
 Update coupon (cannot change `used_count`). **Super Admin only.**
 
-### `[ ]` DELETE /api/admin/coupons/[id]
+### `[READY]` DELETE /api/admin/coupons/[id]
 Deactivate coupon (`is_active = false`). Does not delete. **Super Admin only.**
 
 ---
 
 ### Inventory
 
-### `[ ]` GET /api/admin/inventory
+### `[READY]` GET /api/admin/inventory
 Stock levels for all products. Both roles.
 
 **Query:** `search`, `stockStatus` (`in_stock|low|out`), `category`, `cursor`, `limit`
 
-### `[ ]` POST /api/admin/inventory/adjust
+### `[READY]` POST /api/admin/inventory/adjust
 Manual stock adjustment. Appends to `inventory_log`. Both roles.
 
 **Request:** `{ productId: number; type: "manual_add"|"manual_subtract"|"correction"; quantity: number; reason: string }`
 
 > This calls the same logic as `PATCH /api/admin/products/[id]/stock` — use either.
 
-### `[ ]` GET /api/admin/inventory/log
+### `[READY]` GET /api/admin/inventory/log
 Full stock adjustment history. Both roles.
 
 **Query:** `productId`, `type`, `dateFrom`, `dateTo`, `cursor`, `limit`
 
-### `[ ]` GET /api/admin/inventory/export
+### `[READY]` GET /api/admin/inventory/export
 CSV export. **Super Admin only.**
 
 ---
 
 ### Settings (Super Admin only)
 
-### `[ ]` GET /api/admin/settings
+### `[READY]` GET /api/admin/settings
 Returns all settings as a typed key-value object. **Super Admin only.**
 
 **Response:**
@@ -875,7 +875,7 @@ Returns all settings as a typed key-value object. **Super Admin only.**
 }
 ```
 
-### `[ ]` PATCH /api/admin/settings
+### `[READY]` PATCH /api/admin/settings
 Partial update. Only send changed keys. **Super Admin only.**
 
 **Side effects:** Before/after logged to `audit_log` for every changed key.
@@ -884,7 +884,7 @@ Partial update. Only send changed keys. **Super Admin only.**
 
 ### Admin Users (Super Admin only)
 
-### `[ ]` GET /api/admin/users
+### `[READY]` GET /api/admin/users
 List all admin users (role != 'customer'). **Super Admin only.**
 
 **Response:**
@@ -898,14 +898,14 @@ List all admin users (role != 'customer'). **Super Admin only.**
 }
 ```
 
-### `[ ]` POST /api/admin/users
+### `[READY]` POST /api/admin/users
 Create admin account. **Super Admin only.**
 
 **Request:** `{ phone: string; name: string; role: "staff" | "super_admin" }`
 
 **Side effects:** Creates Supabase Auth user, creates row in `users` table with role. Logs to `audit_log`.
 
-### `[ ]` PATCH /api/admin/users/[id]
+### `[READY]` PATCH /api/admin/users/[id]
 Update role or deactivate. **Super Admin only.**
 
 **Request:** `{ role?: "staff" | "super_admin"; isActive?: boolean }`
@@ -916,7 +916,7 @@ Update role or deactivate. **Super Admin only.**
 
 ### Audit Log (Super Admin only)
 
-### `[ ]` GET /api/admin/audit-log
+### `[READY]` GET /api/admin/audit-log
 Paginated audit entries. **Super Admin only.**
 
 **Query:** `adminId`, `action`, `entityType`, `entityId`, `dateFrom`, `dateTo`, `cursor`, `limit`

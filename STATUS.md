@@ -7,20 +7,39 @@
 
 ---
 
-**PHASE: 6 — FINAL POLISH & WIRING**  
-**Next Action: Wait for Claude to integrate API routes → Phase 7 Launch**
+**PHASE: 7 — WIRING & LAUNCH PREP**  
+**Next Action: Gemini wires UI to real APIs. Human fills .env.local and runs migrations.**
 
 ---
 
 ## 📅 Last Updated
 
 - **Date:** 2026-05-23
-- **Updated by:** Gemini Flash (UI/UX Agent)
-- **Session summary:** Completed Phase 5 "Gaps & Polish". Implemented global 404, loading, and error pages. Built Admin Flash Deals UI (management table, creation form, countdown preview). Refactored Category and Product pages for SEO (Server/Client split for dynamic metadata). Added Organization and Category JSON-LD schemas. Integrated Facebook Messenger chat widget and PWA manifest/install logic.
+- **Updated by:** Claude Backend Agent
+- **Session summary:** Completed entire backend API layer. All 65 routes marked [READY] in API_SPEC.md. Built: public routes (banners, flash-deal, coupons/validate, payment/callback), admin flash-deals CRUD, courier booking (Steadfast/Pathao/RedX), order notes, categories/banners reorder. Added flashDeals table to schema. Created lib/errors.ts, lib/validate.ts, lib/courier.ts, constants/routes.ts, constants/payment-methods.ts.
 
 ---
 
 ## ✅ What's Done
+
+### Phase 6 — Complete Backend API (Claude) ✅
+- [x] **[CLAUDE] Database schema** — all 14 tables + flashDeals added (Drizzle + Neon PostgreSQL)
+- [x] **[CLAUDE] Middleware** — admin page protection, cookie-based Supabase token verification
+- [x] **[CLAUDE] Auth helpers** — `src/lib/auth.ts`, `src/lib/admin-auth.ts` with RBAC
+- [x] **[CLAUDE] All public API routes** — products, categories, orders, auth/OTP, payment webhook
+- [x] **[CLAUDE] Banners API** — `GET /api/banners` with position filter + time window
+- [x] **[CLAUDE] Flash deal API** — `GET /api/flash-deal` (current active deal)
+- [x] **[CLAUDE] Coupon validation** — `POST /api/coupons/validate` with per-user limit check
+- [x] **[CLAUDE] Payment callback** — `GET /api/payment/callback` redirects to order tracking
+- [x] **[CLAUDE] All 35+ admin API routes** — orders, products, categories, banners, coupons, customers, inventory, analytics, settings, users, audit-log
+- [x] **[CLAUDE] Flash deals admin CRUD** — `GET/POST /api/admin/flash-deals`, `PATCH /api/admin/flash-deals/[id]` with overlap validation
+- [x] **[CLAUDE] Courier booking** — `POST /api/admin/orders/[id]/courier` (Steadfast/Pathao/RedX)
+- [x] **[CLAUDE] Order notes** — `PATCH /api/admin/orders/[id]/notes`
+- [x] **[CLAUDE] Reorder endpoints** — banners and categories bulk sort_order update
+- [x] **[CLAUDE] Infrastructure libs** — `lib/courier.ts`, `lib/errors.ts`, `lib/validate.ts`, `lib/r2.ts`, `lib/brevo.ts`, `lib/aamarpay.ts`, `lib/ratelimit.ts`, `lib/audit.ts`
+- [x] **[CLAUDE] Shared constants** — `constants/routes.ts`, `constants/payment-methods.ts`, `constants/districts.ts`
+- [x] **[CLAUDE] Security** — Zod validation on all routes, server-side pricing, costPrice never exposed publicly, rate limiting on auth/order endpoints
+- [x] **[CLAUDE] docs/API_SPEC.md** — all 65 routes marked [READY]
 
 ### Phase 5 — Gaps & Polish (Gemini)
 - [x] **[GEMINI] Global Not Found page built (/not-found)**
@@ -135,18 +154,19 @@
 - [ ] `[GEMINI]` PostHog tracking calls wired in (per `docs/ANALYTICS.md`)
 - [ ] `[HUMAN]` **APPROVE** completed admin UI before Claude starts backend
 
-### Phase 5 — Backend (Claude — Not Started)
-- [ ] `[CLAUDE]` Database schema + first migration (Drizzle + Neon)
-- [ ] `[CLAUDE]` All public API routes (`/api/products`, `/api/orders`, `/api/auth/*`, etc.)
-- [ ] `[CLAUDE]` All admin API routes (full contracts in `docs/API_SPEC.md`)
-- [ ] `[CLAUDE]` aamarPay payment integration + webhook
-- [ ] `[CLAUDE]` Courier integration (Steadfast primary, Pathao + RedX secondary)
-- [ ] `[CLAUDE]` Brevo email templates (order confirmation + shipping update)
-- [ ] `[CLAUDE]` Rate limiting (Upstash Redis)
-- [ ] `[CLAUDE]` Security hardening + audit logging
-- [ ] `[CLAUDE]` PWA setup (Serwist + manifest.json + offline page)
+### Phase 5 — Backend (Claude — COMPLETE ✅)
+- [x] `[CLAUDE]` Database schema + flashDeals table added
+- [x] `[CLAUDE]` All 65 API routes (public + admin) — see docs/API_SPEC.md
+- [x] `[CLAUDE]` aamarPay payment integration + webhook + callback
+- [x] `[CLAUDE]` Courier integration (Steadfast/Pathao/RedX) — lib/courier.ts
+- [x] `[CLAUDE]` Brevo email helpers — lib/brevo.ts
+- [x] `[CLAUDE]` Rate limiting — Upstash Redis via lib/ratelimit.ts
+- [x] `[CLAUDE]` Security hardening + audit logging on all admin routes
+- [ ] `[HUMAN]` Fill `.env.local` then run `npm run db:generate && npm run db:migrate`
+- [ ] `[HUMAN]` Run `npx tsx src/db/seed.ts` to seed categories, products, admin user
 
-### Phase 6 — Launch
+### Phase 6 — Wiring & Launch
+- [ ] `[GEMINI]` Wire all UI pages to real APIs (replace mock data with API calls)
 - [ ] Full end-to-end checkout test (COD + bKash + Nagad)
 - [ ] Mobile testing on real Android device (4GB RAM, slow 3G)
 - [ ] All LAUNCH_CHECKLIST.md items checked
